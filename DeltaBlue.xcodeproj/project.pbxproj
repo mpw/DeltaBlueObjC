@@ -1,0 +1,538 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1F0257FA08513593009B864E /* MPWConstraintVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F0257F808513593009B864E /* MPWConstraintVariable.h */; };
+		1F0257FB08513594009B864E /* MPWConstraintVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F0257F908513593009B864E /* MPWConstraintVariable.m */; };
+		1F0259320851365B009B864E /* MPWFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F0259310851365B009B864E /* MPWFoundation.framework */; };
+		1F02596508513686009B864E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F02596408513686009B864E /* Foundation.framework */; };
+		1F02597A0851392A009B864E /* MPWConstraintSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F0259780851392A009B864E /* MPWConstraintSet.h */; };
+		1F02597B0851392A009B864E /* MPWConstraintSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F0259790851392A009B864E /* MPWConstraintSet.m */; };
+		1F0348D3092E0BA00005C5FD /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F0348D2092E0BA00005C5FD /* Info.plist */; };
+		1F427BC308550B40006D9616 /* MPWConstraintFormula.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F427BC108550B40006D9616 /* MPWConstraintFormula.h */; };
+		1F427BC408550B40006D9616 /* MPWConstraintFormula.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F427BC208550B40006D9616 /* MPWConstraintFormula.m */; };
+		1F5243AB19501D7600BE7469 /* ObjectiveSmalltalk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F5243AA19501D7600BE7469 /* ObjectiveSmalltalk.framework */; };
+		1FF8EB4B0854A580006606C2 /* MPWSimpleConstraintSolver.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FF8EB490854A580006606C2 /* MPWSimpleConstraintSolver.h */; };
+		1FF8EB4C0854A580006606C2 /* MPWSimpleConstraintSolver.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FF8EB4A0854A580006606C2 /* MPWSimpleConstraintSolver.m */; };
+		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1F656E5A19501A7A0041DFC7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FDD9B0C0933DC5F009FB489 /* MPWFoundation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F4FC66910F7F6AC00376799;
+			remoteInfo = MPWFoundationTouch;
+		};
+		1F656E5C19501A7A0041DFC7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FDD9B0C0933DC5F009FB489 /* MPWFoundation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F840DA5193F505700589595;
+			remoteInfo = MPWFoundation;
+		};
+		1F656E5E19501A7A0041DFC7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FDD9B0C0933DC5F009FB489 /* MPWFoundation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F840DAF193F505700589595;
+			remoteInfo = MPWFoundationTests;
+		};
+		1F96E4FA09B62D900063D669 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FDD9B0C0933DC5F009FB489 /* MPWFoundation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1FF8FE2F09B49D0200652476;
+			remoteInfo = "MPWFoundation (Framework) (Upgraded)";
+		};
+		1F96E4FD09B62D900063D669 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FDD9B120933DC6F009FB489 /* MPWTalk.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F5E508F09B4B754000298D9;
+			remoteInfo = "MPWTalk (Framework) (Upgraded)";
+		};
+		1FDD9B160933DC6F009FB489 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FDD9B120933DC6F009FB489 /* MPWTalk.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F5A74ACF00F0A61B015ADD82;
+			remoteInfo = "MPWTalk (Framework)";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1F0257F808513593009B864E /* MPWConstraintVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPWConstraintVariable.h; sourceTree = "<group>"; };
+		1F0257F908513593009B864E /* MPWConstraintVariable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPWConstraintVariable.m; sourceTree = "<group>"; };
+		1F0259310851365B009B864E /* MPWFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MPWFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F02596408513686009B864E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		1F0259780851392A009B864E /* MPWConstraintSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPWConstraintSet.h; sourceTree = "<group>"; };
+		1F0259790851392A009B864E /* MPWConstraintSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPWConstraintSet.m; sourceTree = "<group>"; };
+		1F0348D2092E0BA00005C5FD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1F427BC108550B40006D9616 /* MPWConstraintFormula.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPWConstraintFormula.h; sourceTree = "<group>"; };
+		1F427BC208550B40006D9616 /* MPWConstraintFormula.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPWConstraintFormula.m; sourceTree = "<group>"; };
+		1F5243AA19501D7600BE7469 /* ObjectiveSmalltalk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectiveSmalltalk.framework; path = ../../Build/Release/ObjectiveSmalltalk.framework; sourceTree = "<group>"; };
+		1FDD9B0C0933DC5F009FB489 /* MPWFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MPWFoundation.xcodeproj; path = ../MPWFoundation/MPWFoundation.xcodeproj; sourceTree = SOURCE_ROOT; };
+		1FDD9B120933DC6F009FB489 /* MPWTalk.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MPWTalk.xcodeproj; path = ../MPWTalk/MPWTalk.xcodeproj; sourceTree = SOURCE_ROOT; };
+		1FF8EB430854A539006606C2 /* MPWTalk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MPWTalk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1FF8EB490854A580006606C2 /* MPWSimpleConstraintSolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPWSimpleConstraintSolver.h; sourceTree = "<group>"; };
+		1FF8EB4A0854A580006606C2 /* MPWSimpleConstraintSolver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPWSimpleConstraintSolver.m; sourceTree = "<group>"; };
+		32DBCF5E0370ADEE00C91783 /* DeltaBlue_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeltaBlue_Prefix.pch; sourceTree = "<group>"; };
+		8DC2EF5B0486A6940098B216 /* DeltaBlue.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DeltaBlue.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8DC2EF560486A6940098B216 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F5243AB19501D7600BE7469 /* ObjectiveSmalltalk.framework in Frameworks */,
+				1F0259320851365B009B864E /* MPWFoundation.framework in Frameworks */,
+				1F02596508513686009B864E /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		034768DFFF38A50411DB9C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8DC2EF5B0486A6940098B216 /* DeltaBlue.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0867D691FE84028FC02AAC07 /* DeltaBlue */ = {
+			isa = PBXGroup;
+			children = (
+				1F5243AA19501D7600BE7469 /* ObjectiveSmalltalk.framework */,
+				08FB77AEFE84172EC02AAC07 /* Classes */,
+				32C88DFF0371C24200C91783 /* Other Sources */,
+				089C1665FE841158C02AAC07 /* Resources */,
+				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				034768DFFF38A50411DB9C8B /* Products */,
+			);
+			name = DeltaBlue;
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1FDD9B0B0933DC38009FB489 /* Dependencies */,
+				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
+				1058C7B2FEA5585E11CA2CBB /* Other Frameworks */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C1665FE841158C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1F0348D2092E0BA00005C5FD /* Info.plist */,
+				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AEFE84172EC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				1F0257F808513593009B864E /* MPWConstraintVariable.h */,
+				1F0257F908513593009B864E /* MPWConstraintVariable.m */,
+				1F0259780851392A009B864E /* MPWConstraintSet.h */,
+				1F0259790851392A009B864E /* MPWConstraintSet.m */,
+				1FF8EB490854A580006606C2 /* MPWSimpleConstraintSolver.h */,
+				1FF8EB4A0854A580006606C2 /* MPWSimpleConstraintSolver.m */,
+				1F427BC108550B40006D9616 /* MPWConstraintFormula.h */,
+				1F427BC208550B40006D9616 /* MPWConstraintFormula.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1FF8EB430854A539006606C2 /* MPWTalk.framework */,
+				1F02596408513686009B864E /* Foundation.framework */,
+				1F0259310851365B009B864E /* MPWFoundation.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7B2FEA5585E11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		1FDD9B0B0933DC38009FB489 /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				1FDD9B0C0933DC5F009FB489 /* MPWFoundation.xcodeproj */,
+				1FDD9B120933DC6F009FB489 /* MPWTalk.xcodeproj */,
+			);
+			name = Dependencies;
+			sourceTree = "<group>";
+		};
+		1FDD9B0D0933DC5F009FB489 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1F96E4FB09B62D900063D669 /* MPWFoundation.framework */,
+				1F656E5B19501A7A0041DFC7 /* libMPWFoundationTouch.a */,
+				1F656E5D19501A7A0041DFC7 /* MPWFoundation.framework */,
+				1F656E5F19501A7A0041DFC7 /* MPWFoundationTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1FDD9B130933DC6F009FB489 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1F96E4FE09B62D900063D669 /* MPWTalk.framework */,
+				1FDD9B170933DC6F009FB489 /* MPWTalk.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32C88DFF0371C24200C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32DBCF5E0370ADEE00C91783 /* DeltaBlue_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8DC2EF500486A6940098B216 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F0257FA08513593009B864E /* MPWConstraintVariable.h in Headers */,
+				1F02597A0851392A009B864E /* MPWConstraintSet.h in Headers */,
+				1FF8EB4B0854A580006606C2 /* MPWSimpleConstraintSolver.h in Headers */,
+				1F427BC308550B40006D9616 /* MPWConstraintFormula.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8DC2EF4F0486A6940098B216 /* DeltaBlue */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1F427BB508550A0A006D9616 /* Build configuration list for PBXNativeTarget "DeltaBlue" */;
+			buildPhases = (
+				8DC2EF500486A6940098B216 /* Headers */,
+				8DC2EF520486A6940098B216 /* Resources */,
+				8DC2EF540486A6940098B216 /* Sources */,
+				8DC2EF560486A6940098B216 /* Frameworks */,
+				1F025968085136A8009B864E /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DeltaBlue;
+			productInstallPath = "$(HOME)/Library/Frameworks";
+			productName = DeltaBlue;
+			productReference = 8DC2EF5B0486A6940098B216 /* DeltaBlue.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0867D690FE84028FC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+			};
+			buildConfigurationList = 1F427BB908550A0A006D9616 /* Build configuration list for PBXProject "DeltaBlue" */;
+			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 0867D691FE84028FC02AAC07 /* DeltaBlue */;
+			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 1FDD9B0D0933DC5F009FB489 /* Products */;
+					ProjectRef = 1FDD9B0C0933DC5F009FB489 /* MPWFoundation.xcodeproj */;
+				},
+				{
+					ProductGroup = 1FDD9B130933DC6F009FB489 /* Products */;
+					ProjectRef = 1FDD9B120933DC6F009FB489 /* MPWTalk.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				8DC2EF4F0486A6940098B216 /* DeltaBlue */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		1F656E5B19501A7A0041DFC7 /* libMPWFoundationTouch.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libMPWFoundationTouch.a;
+			remoteRef = 1F656E5A19501A7A0041DFC7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1F656E5D19501A7A0041DFC7 /* MPWFoundation.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = MPWFoundation.framework;
+			remoteRef = 1F656E5C19501A7A0041DFC7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1F656E5F19501A7A0041DFC7 /* MPWFoundationTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MPWFoundationTests.xctest;
+			remoteRef = 1F656E5E19501A7A0041DFC7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1F96E4FB09B62D900063D669 /* MPWFoundation.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = MPWFoundation.framework;
+			remoteRef = 1F96E4FA09B62D900063D669 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1F96E4FE09B62D900063D669 /* MPWTalk.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = MPWTalk.framework;
+			remoteRef = 1F96E4FD09B62D900063D669 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1FDD9B170933DC6F009FB489 /* MPWTalk.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = MPWTalk.framework;
+			remoteRef = 1FDD9B160933DC6F009FB489 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8DC2EF520486A6940098B216 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
+				1F0348D3092E0BA00005C5FD /* Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1F025968085136A8009B864E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/testlogger DeltaBlue\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8DC2EF540486A6940098B216 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F0257FB08513594009B864E /* MPWConstraintVariable.m in Sources */,
+				1F02597B0851392A009B864E /* MPWConstraintSet.m in Sources */,
+				1FF8EB4C0854A580006606C2 /* MPWSimpleConstraintSolver.m in Sources */,
+				1F427BC408550B40006D9616 /* MPWConstraintFormula.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C1666FE841158C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C1667FE841158C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1F427BB608550A0A006D9616 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/marcel/programming/Build/Release,
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = DeltaBlue_Prefix.pch;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
+				PREBINDING = NO;
+				PRODUCT_NAME = DeltaBlue;
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = framework;
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		1F427BB708550A0A006D9616 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				COPY_PHASE_STRIP = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(BUILT_PRODUCTS_DIR)",
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = DeltaBlue_Prefix.pch;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
+				PREBINDING = NO;
+				PRODUCT_NAME = DeltaBlue;
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = framework;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		1F427BB808550A0A006D9616 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/marcel/programming/Build/Release,
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = DeltaBlue_Prefix.pch;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
+				PREBINDING = NO;
+				PRODUCT_NAME = DeltaBlue;
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Default;
+		};
+		1F427BBA08550A0A006D9616 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Development;
+		};
+		1F427BBB08550A0A006D9616 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Release;
+		};
+		1F427BBC08550A0A006D9616 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1F427BB508550A0A006D9616 /* Build configuration list for PBXNativeTarget "DeltaBlue" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1F427BB608550A0A006D9616 /* Development */,
+				1F427BB708550A0A006D9616 /* Release */,
+				1F427BB808550A0A006D9616 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		1F427BB908550A0A006D9616 /* Build configuration list for PBXProject "DeltaBlue" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1F427BBA08550A0A006D9616 /* Development */,
+				1F427BBB08550A0A006D9616 /* Release */,
+				1F427BBC08550A0A006D9616 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+}
