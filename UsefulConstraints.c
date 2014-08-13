@@ -45,7 +45,7 @@ int strength;
 
 /****** Equals Constraint ******/
 
-void EqualsC_Execute(Constraint);
+static void EqualsC_Execute(Constraint);
 static void EqualsC_Execute(c)
 register Constraint c;
 {
@@ -77,7 +77,7 @@ int strength;
 
 /******** Add Constraint *******/
 
-void AddC_Execute(Constraint);
+static void AddC_Execute(Constraint);
 static void AddC_Execute(c)
 register Constraint c;
 {
@@ -114,7 +114,7 @@ int strength;
 
 /******** Multiply Constraint *******/
 
-void MultiplyC_Execute(Constraint);
+static void MultiplyC_Execute(Constraint);
 static void MultiplyC_Execute(c)
 register Constraint c;
 {
@@ -151,7 +151,7 @@ int strength;
 
 /******** ScaleOffset Constraint *******/
 
-void ScaleOffsetC_Execute(Constraint);
+static void ScaleOffsetC_Execute(Constraint);
 static void ScaleOffsetC_Execute(c)
 register Constraint c;
 {

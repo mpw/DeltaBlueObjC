@@ -5,7 +5,9 @@
 
 ****************************************************************************/
 
-typedef enum {false, true} Boolean;
+#include <stdbool.h>
+
+// typedef enum {false, true} Boolean;
 typedef	void (*Proc)();
 typedef	void * Element;
 

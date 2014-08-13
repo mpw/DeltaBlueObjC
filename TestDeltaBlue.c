@@ -11,15 +11,15 @@
 ****************************************************************************/
 
 long MillisecondClock(void);
-void Start(void);
-void Finish(long*);
-void Assign(Variable, long);
-void Change(Variable, long);
-void Benchmark(int);
-void ProjectionTest(int);
-void TempertureConverter(void);
-void TreeTest(int);
-Variable MakeTree(int);
+static void Start(void);
+static void Finish(long*);
+static void Assign(Variable, long);
+static void Change(Variable, long);
+static void Benchmark(int);
+static void ProjectionTest(int);
+static void TempertureConverter(void);
+static void TreeTest(int);
+static Variable MakeTree(int);
 
 /***************************************************************************
 
@@ -29,26 +29,6 @@ Variable MakeTree(int);
 
 static long startTime;
 
-#if 0  MACINTOSH	/***** Macintosh Timer *****/
-
-#include <console.h>
-extern long Ticks : 0x16A;
-
-long MillisecondClock()
-{
-    return (Ticks * 1000) / 60;
-}
-
-/*
-#include <console.h>
-#include <profile.h>
-long MillisecondClock()
-{
-    return (VIA_ticks() * 128) / 100000;
-}
-*/
-
-#else			/***** Unix Timer *****/
 
 #include <sys/time.h>
 long MillisecondClock()
@@ -60,7 +40,6 @@ long MillisecondClock()
     return (v.tv_sec * 1000) + (v.tv_usec / 1000);
 }
 
-#endif
 
 static void Start()
 {

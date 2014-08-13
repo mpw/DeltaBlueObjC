@@ -14,7 +14,7 @@
 
 /******* Private *******/
 
-void Error(char*);
+static void Error(char*);
 static void Error(errorString)
 char* errorString;
 {
@@ -22,14 +22,14 @@ char* errorString;
     exit(-1);
 }
 
-void Execute(Constraint);
+static void Execute(Constraint);
 static void Execute(c)
 Constraint c;
 {
     c->execute(c);
 }
 
-void Noop(Constraint);
+static void Noop(Constraint);
 static void Noop(c)
 Constraint c;
 {
@@ -93,8 +93,14 @@ void Variable_Print(v)
 Variable v;
 {
     printf(
-	"%s(%s,%ld)",
-	v->name, StrengthString(v->walkStrength), v->value);
+           "%s(%s,%ld)",
+           v->name, StrengthString(v->walkStrength), v->value);
+}
+
+long Variable_Value(v)
+Variable v;
+{
+    return v->value;
 }
 
 /******* Constraints *******/

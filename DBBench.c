@@ -13,16 +13,18 @@
 
 ****************************************************************************/
 
-long Milliseconds(void);
-void Start(void);
-void Finish(long*);
-void Assign(Variable, long);
-void Change(Variable, long);
-void Benchmark(int);
-void ProjectionTest(int);
-void TempertureConverter(void);
-void TreeTest(int);
-Variable MakeTree(int);
+
+static long Milliseconds(void);
+static void Start(void);
+static void Finish(long*);
+static void Assign(Variable, long);
+static void Change(Variable, long);
+static void Benchmark(int);
+static void ProjectionTest(int);
+static void TempertureConverter(void);
+static void TreeTest(int);
+static Variable MakeTree(int);
+
 
 /***************************************************************************
 

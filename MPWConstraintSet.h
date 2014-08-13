@@ -14,6 +14,6 @@
 	NSMutableArray *todo1,*todo2,*hot;
 }
 
--addVariable:aVariable;
+-(void)addVariable:aVariable;
 
 @end

@@ -8,13 +8,14 @@
 
 #import "MPWConstraintSet.h"
 #import "MPWConstraintVariable.h"
+#import <MPWFoundation/AccessorMacros.h>
 
 @implementation MPWConstraintSet
 
-objectAccessor( NSMutableArray* , todo1, setTodo1 )
-objectAccessor( NSMutableArray* , todo2, setTodo2 )
-objectAccessor( NSMutableArray* , hot, setHot )
-objectAccessor( NSMutableArray* , variables, setVariables )
+objectAccessor( NSMutableArray , todo1, setTodo1 )
+objectAccessor( NSMutableArray , todo2, setTodo2 )
+objectAccessor( NSMutableArray , hot, setHot )
+objectAccessor( NSMutableArray , variables, setVariables )
 
 -init
 {
@@ -29,7 +30,7 @@ objectAccessor( NSMutableArray* , variables, setVariables )
 
 -(void)addVariable:newVariable
 {
-	[variables addObjects:newVariable];
+	[variables addObject:newVariable];
 }
 
 -(void)dealloc
@@ -40,5 +41,6 @@ objectAccessor( NSMutableArray* , variables, setVariables )
 	[variables release];
 	[super dealloc];
 }
+
 
 @end

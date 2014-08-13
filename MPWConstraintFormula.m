@@ -7,7 +7,8 @@
 //
 
 #import "MPWConstraintFormula.h"
-
+#import <ObjectiveSmalltalk/MPWExpression.h>
+#import <MPWFoundation/AccessorMacros.h>
 
 
 @implementation MPWConstraintFormula
@@ -34,8 +35,13 @@ idAccessor( compiled, setCompiled )
 -evaluateIn:anEvaluator
 {
 	id value = [compiled evaluateIn:anEvaluator];
-	[anEvaluator markChanged:[compiled variablesWritten]];
+//	[anEvaluator markChanged:[compiled variablesWritten]];
 	return value;
+}
+
+-variablesWritten
+{
+    return [compiled variablesWritten];
 }
 
 -sourceVariables

@@ -19,9 +19,9 @@
 #include "List.h"
 
 /* Private Prototypes */
-void Error(char*);
-void Grow(List);
-void MakeRoom(List);
+static void Error(char*);
+static void Grow(List);
+static void MakeRoom(List);
 
 /****** Create and Destruction ******/
 

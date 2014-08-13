@@ -7,13 +7,16 @@
 //
 
 #import <MPWFoundation/MPWFoundation.h>
-#import <ObjectiveSmalltalk/MPWStCompiler.h>
 
-@interface MPWSimpleConstraintSolver : MPWStCompiler {
+@class MPWStCompiler;
+
+@interface MPWSimpleConstraintSolver : NSObject {
 	NSMutableArray* formulae;
 	NSMutableSet *changedVariables;
+    MPWStCompiler *compiler;
 }
 
 +solver;
+-(void)markChanged:(NSSet*)newChanged;
 
 @end

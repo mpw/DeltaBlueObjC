@@ -11,13 +11,13 @@ typedef struct {
   void *	determinedBy; /* Constraint */
   long		mark;
   char		walkStrength;
-  Boolean	stay;
+  bool      stay;
   char		name[10];
 } *Variable, VariableStruct;
 
 typedef struct {
   Proc		execute;
-  Boolean	inputFlag;
+  bool      inputFlag;
   char		strength;
   char		whichMethod;
   char		methodCount;
@@ -31,6 +31,7 @@ typedef struct {
   Variable	Variable_CreateConstant(char *, long);
   void		Variable_Destroy(Variable);
   void		Variable_Print(Variable);
+  long      Variable_Value(Variable v);
 
 /* Constraints */
   Constraint	Constraint_Create(int, int);

@@ -15,25 +15,25 @@
 
 #define OUT_VAR(c)	(c->variables[c->methodOuts[c->whichMethod]])
 
-void		FreeVariable(Variable);
-void		AddIfSatisfiedInput(Constraint);
-void		CollectSatisfiedInputs(Variable);
-List		MakePlan(void);
-void		IncrementalAdd(Constraint);
-void		AddAtStrength(Constraint);
-void		IncrementalRemove(Constraint);
-Boolean		AddPropagate(Constraint);
-void		CollectUnsatisfied(Constraint);
-void		RemovePropagateFrom(Variable);
-Constraint	Satisfy(Constraint);
-int		ChooseMethod(Constraint);
-void		Recalculate(Constraint);
-int		OutputWalkStrength(Constraint);
-Boolean		ConstantOutput(Constraint);
-Boolean		InputsKnown(Constraint);
-void		NewMark(void);
-void		Error(char *);
-Constraint	NextDownstreamConstraint(List, Variable);
+static void		FreeVariable(Variable);
+static void		AddIfSatisfiedInput(Constraint);
+static void		CollectSatisfiedInputs(Variable);
+static List		MakePlan(void);
+static void		IncrementalAdd(Constraint);
+static void		AddAtStrength(Constraint);
+static void		IncrementalRemove(Constraint);
+static bool		AddPropagate(Constraint);
+static void		CollectUnsatisfied(Constraint);
+static void		RemovePropagateFrom(Variable);
+static Constraint	Satisfy(Constraint);
+static int		ChooseMethod(Constraint);
+static void		Recalculate(Constraint);
+static int		OutputWalkStrength(Constraint);
+static bool		ConstantOutput(Constraint);
+static bool		InputsKnown(Constraint);
+static void		NewMark(void);
+static void		Error(char *);
+static Constraint	NextDownstreamConstraint(List, Variable);
 
 /******* DeltaBlue Globals *******/
 
@@ -196,7 +196,7 @@ static List MakePlan()
     return plan;
 }
 
-static Boolean InputsKnown(c)
+static bool InputsKnown(c)
 register Constraint c;
 {
     register int	outIndex, i;
@@ -283,7 +283,7 @@ register Constraint c;
     return best;
 }
 
-static Boolean AddPropagate(c)
+static bool AddPropagate(c)
 register Constraint c;
 {
     register Constraint	nextC;
@@ -391,7 +391,7 @@ register Constraint c;
     return minStrength;
 }
 
-static Boolean ConstantOutput(c)
+static bool ConstantOutput(c)
 register Constraint c;
 {
     register int outIndex, i;
