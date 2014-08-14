@@ -11,22 +11,22 @@
 #import "List.h"
 #import "Constraints.h"
 
+@class DBVariable;
+
 @interface DBSolver : NSObject
 {
     long currentMark;
     List unsatisfied;	/* used to collect unsatisfied downstream constraints */
     int strength;		/* used to add unsatisfied constraints in strength order */
 
-    List allVariables;
+    NSMutableArray * allVariables;
     List hot;	/* used to collect "hot" constraints */
     List todo1; /* used by AddPropagate */
     List todo2; /* used by RemovePropagate */
-    
-
 }
 
 +(instancetype)solver;
--(void)addVariable:(Variable)v;
+-(void)addVariable:(DBVariable*)v;
 -(void)addConstraint:(Constraint)c;
 -(List)extractPlanFromConstraint:(Constraint)c;
 

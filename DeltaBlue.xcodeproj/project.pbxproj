@@ -49,7 +49,6 @@
 		1F427BC208550B40006D9616 /* MPWConstraintFormula.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPWConstraintFormula.m; sourceTree = "<group>"; };
 		1F5243AA19501D7600BE7469 /* ObjectiveSmalltalk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectiveSmalltalk.framework; path = ../../Build/Release/ObjectiveSmalltalk.framework; sourceTree = "<group>"; };
 		1F73B7F2199BB6700065F690 /* Constraints.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constraints.m; sourceTree = "<group>"; };
-		1F73B7F3199BB6700065F690 /* DeltaBlue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeltaBlue.m; sourceTree = "<group>"; };
 		1F73B7F4199BB6700065F690 /* List.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = List.m; sourceTree = "<group>"; };
 		1F73B7F5199BB6700065F690 /* UsefulConstraints.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = UsefulConstraints.c; sourceTree = "<group>"; };
 		1F73B7FA199BB79D0065F690 /* DeltaBlueTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeltaBlueTests.h; sourceTree = "<group>"; };
@@ -177,7 +176,6 @@
 				1F73B7FF199BBAF00065F690 /* DeltaBlue.h */,
 				1F73B801199BBAF00065F690 /* UsefulConstraints.h */,
 				1F73B7F2199BB6700065F690 /* Constraints.m */,
-				1F73B7F3199BB6700065F690 /* DeltaBlue.m */,
 				1F73B800199BBAF00065F690 /* List.h */,
 				1F73B7F4199BB6700065F690 /* List.m */,
 				1F73B7F5199BB6700065F690 /* UsefulConstraints.c */,

@@ -20,6 +20,7 @@
     self=[super init];
     if ( self ) {
         variable=Variable_CreateConstant( (char*)[name UTF8String], value);
+        [[DBSolver solver] addVariable:self];
     }
     return self;
 }
@@ -29,6 +30,7 @@
     self=[super init];
     if ( self ) {
         variable=Variable_Create( [name UTF8String], value);
+        [[DBSolver solver] addVariable:self];
     }
     return self;
 }

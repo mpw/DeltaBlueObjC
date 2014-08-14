@@ -57,7 +57,6 @@ long initialValue;
     strncpy(new->name, name, 10);
     new->name[9] = 0;
         
-    [[DBSolver solver] addVariable:new];
 
     return new;
 }
@@ -78,7 +77,6 @@ long value;
     new->stay = true;
     strncpy(new->name, name, 10);
     new->name[9] = 0;
-    [[DBSolver solver] addVariable:new];
     return new;
 }
 

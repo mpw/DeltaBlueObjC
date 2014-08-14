@@ -8,6 +8,7 @@
 
 #import "DBSolver.h"
 #import <objc/runtime.h>
+#import "DBVariable.h"
 
 #define OUT_VAR(c)	(c->variables[c->methodOuts[c->whichMethod]])
 
@@ -38,7 +39,7 @@
      List_RemoveAll(allVariables);
      currentMark = 0;
      */
-    allVariables = List_Create(100000);
+    allVariables=[NSMutableArray array];
     hot = List_Create(100000);
     todo1 = List_Create(100000);
     todo2 = List_Create(100000);
@@ -72,13 +73,15 @@ Variable v;
 
 /******** Public: Variables and Constraints *******/
 
--(void)addVariable:(Variable)v
+-(void)addVariable:(DBVariable*)v
 {
-    List_Add(allVariables, v);
+    [allVariables addObject:v];
 }
 
--(void)destroyVariable:(Variable)v
+
+-(void)destroyVariable:(DBVariable*)var
 {
+    Variable v=[var variable];
     Constraint c;
     
     c = (Constraint) List_RemoveFirst(v->constraints);
@@ -86,7 +89,7 @@ Variable v;
         [self destroyConstraint:c];
         c = (Constraint) List_RemoveFirst(v->constraints);
     }
-    List_Remove(allVariables, v);
+    [allVariables removeObject:var];
     Variable_Destroy(v);
 }
 
@@ -133,9 +136,18 @@ Variable v;
     }
 }
 
-
--(void)collectSatisfiedInputs:(Variable)v
+-(void)withArray:(NSArray*)aList do:(SEL)selector
 {
+    for ( id obj in aList) {
+        [self performSelector:selector withObject:obj];
+    }
+}
+
+
+
+-(void)collectSatisfiedInputs:(DBVariable*)var
+{
+    Variable v=[var variable];
     [self withList:v->constraints do:@selector(addIfSatisfiedInput:)];
 }
 
@@ -143,7 +155,9 @@ Variable v;
 {
     if (hot == NULL) hot = List_Create(128);
     List_RemoveAll(hot);
-    [self withList:allVariables do:@selector(collectSatisfiedInputs:)];
+    
+    
+    [self withArray:allVariables do:@selector(collectSatisfiedInputs:)];
 //    List_Do(allVariables, CollectSatisfiedInputs);
     return [self makePlan];
 }
