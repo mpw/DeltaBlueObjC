@@ -46,7 +46,7 @@
     return variable;
 }
 
--(List)constraints
+-(NSMutableArray*)constraints
 {
     return variable->constraints;
 }

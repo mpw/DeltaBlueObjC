@@ -41,12 +41,15 @@
     [celcius print]; printf(" = ");
     [fahrenheit print]; printf("\n\n");
     
-    printf("After adding constraints:\n  ");
 
+    printf("will add c1:\n  ");
     multC1 = [celcius multiplyBy:nine into:t1 strength:S_required];
+    printf("c1\n");
     multC2 = [t2 multiplyBy:five into:t1 strength:S_required];
+    printf("c2\n");
     addC=[t2 add:thirtyTwo into:fahrenheit strength:S_required];
-    
+    printf("After adding constraints:\n  ");
+   
     
     [celcius assign:0];
     INTEXPECT([celcius value], 0, @"celcius for celcius 0");

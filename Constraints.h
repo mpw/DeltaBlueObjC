@@ -5,9 +5,12 @@
 
 ****************************************************************************/
 
+#import <Foundation/Foundation.h>
+
+
 typedef struct {
   long		value;
-  List		constraints;
+  NSMutableArray *		constraints;
   void *	determinedBy; /* Constraint */
   long		mark;
   char		walkStrength;

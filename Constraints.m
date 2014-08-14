@@ -49,7 +49,9 @@ long initialValue;
     new = (Variable) malloc(sizeof(VariableStruct));
     if (new == NULL) Error("out of memory");
     new->value = initialValue;
-    new->constraints = List_Create(2);
+    new->constraints = [NSMutableArray new];
+
+
     new->determinedBy = NULL;
     new->mark = 0;
     new->walkStrength = S_weakest;
@@ -70,7 +72,7 @@ long value;
     new = (Variable) malloc(sizeof(VariableStruct));
     if (new == NULL) Error("out of memory");
     new->value = value;
-    new->constraints = List_Create(0);
+    new->constraints = [NSMutableArray new];
     new->determinedBy = NULL;
     new->mark = 0;
     new->walkStrength = S_required;
@@ -86,7 +88,8 @@ Variable v;
     if (v->constraints == NULL) {
 	Error("bad VariableStruct; already freed?");
     }
-    List_Destroy(v->constraints);
+    [v->constraints release];
+
     v->constraints = NULL;
     free(v);
 }

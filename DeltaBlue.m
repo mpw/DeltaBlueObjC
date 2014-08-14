@@ -294,18 +294,18 @@ register Constraint c;
 {
     register Constraint	nextC;
     register Variable	out;
-
+    
     List_RemoveAll(todo1);
     nextC = c;
     while (nextC != NULL) {
-	out = OUT_VAR(nextC);
-	if (out->mark == currentMark) {
-	    /* remove the cycle-causing constraint */
-	    IncrementalRemove(c);
-	    return false;
-	}
-	Recalculate(nextC);
-	nextC = NextDownstreamConstraint(todo1, out);
+        out = OUT_VAR(nextC);
+        if (out->mark == currentMark) {
+            /* remove the cycle-causing constraint */
+            IncrementalRemove(c);
+            return false;
+        }
+        Recalculate(nextC);
+        nextC = NextDownstreamConstraint(todo1, out);
     }
     return true;
 }
@@ -435,18 +435,18 @@ Variable variable;
     register Constraint *lastPtr = (Constraint *) &(allC->slots[allC->last]);
     register Constraint determiningC = variable->determinedBy;
     Constraint first = NULL;
-
+    
     for ( ; nextPtr <= lastPtr; nextPtr++) {
-    	if ((*nextPtr != determiningC) && SATISFIED(*nextPtr)) {
-    	    if (first == NULL) {
-		first = *nextPtr;
-    	    } else {
-		List_Add(todo, *nextPtr);
-    	    }
-	}
+        if ((*nextPtr != determiningC) && SATISFIED(*nextPtr)) {
+            if (first == NULL) {
+                first = *nextPtr;
+            } else {
+                List_Add(todo, *nextPtr);
+            }
+        }
     }
     if (first == NULL) {
-    	first = (Constraint) List_RemoveFirst(todo);
+        first = (Constraint) List_RemoveFirst(todo);
     }
     return first;
 }

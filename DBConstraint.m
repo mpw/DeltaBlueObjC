@@ -30,5 +30,14 @@
     return constraint;
 }
 
+-(NSUInteger)hash
+{
+    return (NSUInteger)constraint;
+}
+
+-(BOOL)isEqual:(id)object
+{
+    return constraint == [object constraint];
+}
 
 @end

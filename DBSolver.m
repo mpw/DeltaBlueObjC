@@ -9,6 +9,7 @@
 #import "DBSolver.h"
 #import <objc/runtime.h>
 #import "DBVariable.h"
+#import "DBConstraint.h"
 
 #define OUT_VAR(c)	(c->variables[c->methodOuts[c->whichMethod]])
 
@@ -54,6 +55,8 @@
 }
 
 /* this is used when we know we are going to throw away all variables */
+#if 0
+
 static void FreeVariable(v)
 Variable v;
 {
@@ -70,6 +73,7 @@ Variable v;
     }
     Variable_Destroy(v);
 }
+#endif
 
 /******** Public: Variables and Constraints *******/
 
@@ -82,34 +86,41 @@ Variable v;
 -(void)destroyVariable:(DBVariable*)var
 {
 
-    [self withList:[var constraints] do:@selector(destroyConstraint:)];
+    [self withArray:[var constraints] do:@selector(destroyConstraint:)];
     [allVariables removeObject:var];
 //    Variable_Destroy(v);
 }
 
--(void)addConstraint:(Constraint)c
+-(void)addConstraint:(Constraint)newConstraint
 {
+    NSLog(@"addConstraint: %p",newConstraint);
     register int i;
     
-    for (i = c->varCount - 1; i >= 0; i--) {
-        List_Add((c->variables[i])->constraints, (Element) c);
+    //  add constraint to all variables
+    DBConstraint *c=[DBConstraint constraintWithCConstraint:newConstraint];
+    for (i = newConstraint->varCount - 1; i >= 0; i--) {
+        [newConstraint->variables[i]->constraints addObject:c];
+        
     }
-    c->whichMethod = NO_METHOD;
-    [self incrementalAdd:c];
+    newConstraint->whichMethod = NO_METHOD;
+    
+    [self incrementalAdd:newConstraint];
 }
 
--(void)destroyConstraint:(Constraint)c
+
+-(void)destroyConstraint:(DBConstraint*)c
 {
     register int i;
+    Constraint oldConstraint=[c constraint];
     
-    if (SATISFIED(c)) {
-        [self incrementalRemove:c];
+    if (SATISFIED(oldConstraint)) {
+        [self incrementalRemove:oldConstraint];
     }
-    
-    for (i = c->varCount - 1; i >= 0; i--) {
-        List_Remove((c->variables[i])->constraints, (Element) c);
+    for (i = oldConstraint->varCount - 1; i >= 0; i--) {
+        [(oldConstraint->variables[i])->constraints removeObject:c];
+//        List_Remove((c->variables[i])->constraints, (Element) c);
     }
-    Constraint_Destroy(c);
+    Constraint_Destroy(oldConstraint);
 }
 
 /******** Public: Plan Extraction *******/
@@ -121,6 +132,13 @@ Variable v;
         List_Add(hot, c);
     }
 }
+
+-(void)addIfSatisfiedInputObj:(DBConstraint*)c
+{
+    [self addIfSatisfiedInput:[c constraint]];
+}
+
+
 
 -(void)withList:(List)aList do:(SEL)selector
 {
@@ -141,7 +159,7 @@ Variable v;
 
 -(void)collectSatisfiedInputs:(DBVariable*)var
 {
-    [self withList:[var constraints] do:@selector(addIfSatisfiedInput:)];
+    [self withArray:[var constraints] do:@selector(addIfSatisfiedInputObj:)];
 }
 
 -(List)extractPlan
@@ -218,7 +236,8 @@ Variable v;
 
 -(void)incrementalAdd:(Constraint)c
 {
-    register Constraint overridden;
+    NSLog(@"incrementalAdd: %p",c);
+    Constraint overridden=NULL;
     
     [self newMark];
     overridden = [self satisfy:c];
@@ -229,6 +248,7 @@ Variable v;
 
 -(Constraint)satisfy:(Constraint)c
 {
+    NSLog(@"satisfy: %p",c);
     register int	outIndex, i;
     register Constraint	overridden;
     register Variable	out;
@@ -238,6 +258,7 @@ Variable v;
         /* mark inputs to allow cycle detection in AddPropagate */
         outIndex = c->methodOuts[c->whichMethod];
         for (i = c->varCount - 1; i >= 0; i--) {
+            NSLog(@"variable[%d]",i);
             if (i != outIndex) {
                 c->variables[i]->mark = currentMark;
             }
@@ -280,19 +301,22 @@ Variable v;
 
 -(bool)addPropagate:(Constraint)c
 {
-    register Constraint	nextC;
-    register Variable	out;
+    NSLog(@"addPropagate: %p",c);
+    Constraint	nextC;
+    Variable	out;
     
     List_RemoveAll(todo1);
     nextC = c;
     while (nextC != NULL) {
+        NSLog(@"nextC: %p",nextC);
         out = OUT_VAR(nextC);
         if (out->mark == currentMark) {
             /* remove the cycle-causing constraint */
+            NSLog(@"remove: %p",c);
             [self incrementalRemove:c];
             return false;
         }
-        [self recalculate:c];
+        [self recalculate:nextC];
         nextC=[self nextDownstreamConstraintFrom:todo1 variable:out];
     }
     return true;
@@ -308,20 +332,30 @@ Variable v;
     }
 }
 
--(void)collectUnsatisfied:(Constraint)c
+-(void)collectUnsatisfied:(DBConstraint*)constr
 {
+    Constraint c=[constr constraint];
     if (!SATISFIED(c)) List_Add(unsatisfied, c);
 }
 
 -(void)incrementalRemove:(Constraint)c
 {
+    NSLog(@"remove %p",c);
+    
     Variable out;
     register int i;
     
     out = OUT_VAR(c);
     c->whichMethod = NO_METHOD;
+    
+    DBConstraint *objConstraint=[DBConstraint constraintWithCConstraint:c];
+
+    
+    
     for (i = c->varCount - 1; i >= 0; i--) {
-        List_Remove((c->variables[i])->constraints, (Element) c);
+        [(c->variables[i])->constraints removeObject:objConstraint];
+        
+        
     }
     unsatisfied = List_Create(8);
     [self removePropagateFrom:out];
@@ -343,7 +377,7 @@ Variable v;
     v->stay = true;
     while (true) {
         
-        [self withList:v->constraints do:@selector(collectUnsatisfied:)];
+        [self withArray:v->constraints do:@selector(collectUnsatisfied:)];
 
         
 //        List_Do(v->constraints, CollectUnsatisfied);
@@ -362,6 +396,7 @@ Variable v;
 
 -(void)recalculate:(Constraint)c
 {
+    NSLog(@"recalculate: %p",c);
     register Variable out;
     
     out = OUT_VAR(c);
@@ -417,25 +452,32 @@ char *s;
 
 -(Constraint)nextDownstreamConstraintFrom:(List)todo variable:(Variable)variable
 {
-    List allC = variable->constraints;
-    register Constraint *nextPtr = (Constraint *) &(allC->slots[allC->first]);
-    register Constraint *lastPtr = (Constraint *) &(allC->slots[allC->last]);
-    register Constraint determiningC = variable->determinedBy;
-    Constraint first = NULL;
+    NSArray * allC = variable->constraints;
+
     
-    for ( ; nextPtr <= lastPtr; nextPtr++) {
-        if ((*nextPtr != determiningC) && SATISFIED(*nextPtr)) {
-            if (first == NULL) {
-                first = *nextPtr;
+    Constraint determiningC = variable->determinedBy;
+    DBConstraint *first = nil;
+    
+    NSLog(@"all constraints: %@",allC);
+    for ( DBConstraint *cur in allC) {
+        NSLog(@"cur constraint: %p",cur);
+        Constraint curConstraint=[cur constraint];
+        if ( curConstraint != determiningC &&
+             SATISFIED(curConstraint)) {
+            if ( !first ) {
+                first=cur;
             } else {
-                List_Add(todo, *nextPtr);
+                List_Add(todo, curConstraint);
             }
         }
     }
-    if (first == NULL) {
-        first = (Constraint) List_RemoveFirst(todo);
+    Constraint firstConstraint = [first constraint];
+    
+    if (firstConstraint == NULL) {
+        firstConstraint = (Constraint) List_RemoveFirst(todo);
+        NSLog(@"remove first: %p",firstConstraint);
     }
-    return first;
+    return firstConstraint;
 }
 
 void AddConstraint( Constraint c)
@@ -445,7 +487,7 @@ void AddConstraint( Constraint c)
 
 void DestroyConstraint( Constraint c)
 {
-    [[DBSolver solver] destroyConstraint:c];
+    [[DBSolver solver] destroyConstraint:[DBConstraint constraintWithCConstraint:c]];
 }
 
 @end

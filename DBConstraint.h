@@ -17,5 +17,6 @@
 }
 
 +(instancetype)constraintWithCConstraint:(Constraint)aCConstraint;
+-(Constraint)constraint;
 
 @end
