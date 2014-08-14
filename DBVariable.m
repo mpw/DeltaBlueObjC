@@ -46,6 +46,11 @@
     return variable;
 }
 
+-(List)constraints
+{
+    return variable->constraints;
+}
+
 -(long)value
 {
     return variable->value;

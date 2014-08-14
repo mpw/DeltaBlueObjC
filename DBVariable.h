@@ -31,4 +31,6 @@
 -(long)value;
 -(void)assign:(long)newValue;
 
+-(List)constraints;
+
 @end

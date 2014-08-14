@@ -81,16 +81,10 @@ Variable v;
 
 -(void)destroyVariable:(DBVariable*)var
 {
-    Variable v=[var variable];
-    Constraint c;
-    
-    c = (Constraint) List_RemoveFirst(v->constraints);
-    while (c != NULL) {
-        [self destroyConstraint:c];
-        c = (Constraint) List_RemoveFirst(v->constraints);
-    }
+
+    [self withList:[var constraints] do:@selector(destroyConstraint:)];
     [allVariables removeObject:var];
-    Variable_Destroy(v);
+//    Variable_Destroy(v);
 }
 
 -(void)addConstraint:(Constraint)c
@@ -147,8 +141,7 @@ Variable v;
 
 -(void)collectSatisfiedInputs:(DBVariable*)var
 {
-    Variable v=[var variable];
-    [self withList:v->constraints do:@selector(addIfSatisfiedInput:)];
+    [self withList:[var constraints] do:@selector(addIfSatisfiedInput:)];
 }
 
 -(List)extractPlan
@@ -158,7 +151,6 @@ Variable v;
     
     
     [self withArray:allVariables do:@selector(collectSatisfiedInputs:)];
-//    List_Do(allVariables, CollectSatisfiedInputs);
     return [self makePlan];
 }
 
