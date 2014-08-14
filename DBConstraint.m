@@ -10,9 +10,25 @@
 
 @implementation DBConstraint
 
-+(instancetype)constraintWithCConstraint:(Constraint*)aCConstraint;
++(instancetype)constraintWithCConstraint:(Constraint)aCConstraint;
 {
-    return nil;
+    return [[[self alloc] initWithCConstraint:aCConstraint] autorelease];
 }
+
+
+-initWithCConstraint:(Constraint)aCConstraint
+{
+    if ( self=[super init] ) {
+        constraint=aCConstraint;
+    }
+    return self;
+}
+
+
+-(Constraint)constraint
+{
+    return constraint;
+}
+
 
 @end

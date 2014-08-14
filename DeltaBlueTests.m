@@ -21,33 +21,14 @@
 
 @implementation DeltaBlueTests
 
-/* This is how to assign to constrained variables. */
-static void Assign(v, newValue)
-Variable v;
-long newValue;
-{
-    Constraint	editC;
-    long 	msecs;
-    List	plan;
-    
-    editC = EditC(v, S_required);
-    if (SATISFIED(editC)) {
-        v->value = newValue;
-        plan = ExtractPlanFromConstraint(editC);
-        ExecutePlan(plan);
-        List_Destroy(plan);
-    }
-    DestroyConstraint(editC);
-}
 
 
 +(void)testTemperatureConverter
 {
     DBVariable *celcius, *fahrenheit, *t1, *t2, *nine, *five, *thirtyTwo;
-//    Variable celcius, fahrenheit, t1, t2, nine, five, thirtyTwo;
     DBConstraint *addC, *multC1, *multC2;
-    
-    InitDeltaBlue();
+
+
     celcius = [DBVariable variableWithName:@"C" value:0];
     fahrenheit = [DBVariable variableWithName:@"F" value:0];
     t1 = [DBVariable variableWithName:@"t1" value:1];
@@ -63,20 +44,9 @@ long newValue;
     printf("After adding constraints:\n  ");
 
     multC1 = [celcius multiplyBy:nine into:t1 strength:S_required];
-//    multC1 = MultiplyC(celcius, nine, t1, S_required);
-    multC1 = [t2 multiplyBy:five into:t1 strength:S_required];
-//    multC2 = MultiplyC(t2, five, t1, S_required);
+    multC2 = [t2 multiplyBy:five into:t1 strength:S_required];
     addC=[t2 add:thirtyTwo into:fahrenheit strength:S_required];
     
-//    addC = AddC(t2, thirtyTwo, fahrenheit, S_required);
-    
-    
-    
-//    Constraint_Print(multC1); printf("  ");
-//    Constraint_Print(multC2); printf("  ");
-//    Constraint_Print(addC); printf("  ");
-//    Variable_Print(celcius); printf(" = ");
-//    Variable_Print(fahrenheit); printf("\n\n");
     
     [celcius assign:0];
     INTEXPECT([celcius value], 0, @"celcius for celcius 0");

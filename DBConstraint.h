@@ -12,7 +12,10 @@
 #include "Constraints.h"
 
 @interface DBConstraint : NSObject
+{
+    Constraint constraint;
+}
 
-+(instancetype)constraintWithCConstraint:(Constraint*)aCConstraint;
++(instancetype)constraintWithCConstraint:(Constraint)aCConstraint;
 
 @end

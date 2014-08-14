@@ -10,6 +10,7 @@
 #import "UsefulConstraints.h"
 #import "DBConstraint.h"
 #import "DeltaBlue.h"
+#import "DBSolver.h"
 
 @implementation DBVariable
 
@@ -18,7 +19,7 @@
 {
     self=[super init];
     if ( self ) {
-        variable=Variable_CreateConstant( [name UTF8String], value);
+        variable=Variable_CreateConstant( (char*)[name UTF8String], value);
     }
     return self;
 }
@@ -52,13 +53,12 @@
 {
     Variable v=[self variable];
     Constraint	editC;
-    long 	msecs;
     List	plan;
     
     editC = EditC(v, S_required);
     if (SATISFIED(editC)) {
         v->value = newValue;
-        plan = ExtractPlanFromConstraint(editC);
+        plan=[[DBSolver solver] extractPlanFromConstraint:editC];
         ExecutePlan(plan);
         List_Destroy(plan);
     }
@@ -73,7 +73,6 @@
 
 -(DBConstraint*)multiplyBy:(DBVariable*)other into:(DBVariable*)result strength:(int)strength
 {
-    
     return [DBConstraint constraintWithCConstraint:MultiplyC([self variable], [other variable], [result variable], strength)];
 }
 

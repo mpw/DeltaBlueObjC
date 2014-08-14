@@ -1,0 +1,36 @@
+//
+//  DBSolver.h
+//  DeltaBlue
+//
+//  Created by Marcel Weiher on 8/13/14.
+//
+//
+
+#import <Foundation/Foundation.h>
+
+#import "List.h"
+#import "Constraints.h"
+
+@interface DBSolver : NSObject
+{
+    long currentMark;
+    List unsatisfied;	/* used to collect unsatisfied downstream constraints */
+    int strength;		/* used to add unsatisfied constraints in strength order */
+
+    List allVariables;
+    List hot;	/* used to collect "hot" constraints */
+    List todo1; /* used by AddPropagate */
+    List todo2; /* used by RemovePropagate */
+    
+
+}
+
++(instancetype)solver;
+-(void)addVariable:(Variable)v;
+-(void)addConstraint:(Constraint)c;
+-(List)extractPlanFromConstraint:(Constraint)c;
+
+void AddConstraint( Constraint c);
+void DestroyConstraint( Constraint c);
+
+@end

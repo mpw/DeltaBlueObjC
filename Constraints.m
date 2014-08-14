@@ -12,6 +12,8 @@
 #include "Constraints.h"
 #include "DeltaBlue.h"
 
+#import "DBSolver.h"
+
 /******* Private *******/
 
 static void Error(char*);
@@ -54,7 +56,9 @@ long initialValue;
     new->stay = true;
     strncpy(new->name, name, 10);
     new->name[9] = 0;
-    AddVariable(new);
+        
+    [[DBSolver solver] addVariable:new];
+
     return new;
 }
 
@@ -74,7 +78,7 @@ long value;
     new->stay = true;
     strncpy(new->name, name, 10);
     new->name[9] = 0;
-    AddVariable(new);
+    [[DBSolver solver] addVariable:new];
     return new;
 }
 

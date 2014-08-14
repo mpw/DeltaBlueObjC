@@ -7,9 +7,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "List.h"
-#include "Constraints.h"
-#include "DeltaBlue.h"
+#import "List.h"
+#import "Constraints.h"
+#import "DeltaBlue.h"
+#import "List.h"
+
+#import <Foundation/Foundation.h>
+
+
 
 /******* Private Macros and Prototypes *******/
 
@@ -47,7 +52,7 @@ static List todo2 = NULL; /* used by RemovePropagate */
 
 void InitDeltaBlue(void)
 {
-    Variable v;
+//    Variable v;
 
 /*
     if (allVariables == NULL) allVariables = List_Create(128);
@@ -139,6 +144,7 @@ Constraint c;
 	List_Add(hot, c);
     }
 }
+
 
 static void CollectSatisfiedInputs(v)
 Variable v;
