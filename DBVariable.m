@@ -14,13 +14,14 @@
 
 @implementation DBVariable
 
+scalarAccessor(id, solver,setSolver)
+
 
 -initConstantWithName:(NSString*)name value:(long)value
 {
     self=[super init];
     if ( self ) {
         variable=Variable_CreateConstant( (char*)[name UTF8String], value);
-        [[DBSolver solver] addVariable:self];
     }
     return self;
 }
@@ -29,8 +30,7 @@
 {
     self=[super init];
     if ( self ) {
-        variable=Variable_Create( [name UTF8String], value);
-        [[DBSolver solver] addVariable:self];
+        variable=Variable_Create( (char*)[name UTF8String], value);
     }
     return self;
 }
@@ -62,10 +62,10 @@
     Constraint	editC;
     List	plan;
     
-    editC = EditC(v, S_required);
+    editC = EditC(v, S_required,solver);
     if (SATISFIED(editC)) {
         v->value = newValue;
-        plan=[[DBSolver solver] extractPlanFromConstraint:editC];
+        plan=[solver extractPlanFromConstraint:editC];
         ExecutePlan(plan);
         List_Destroy(plan);
     }
@@ -80,13 +80,13 @@
 
 -(DBConstraint*)multiplyBy:(DBVariable*)other into:(DBVariable*)result strength:(int)strength
 {
-    return [DBConstraint constraintWithCConstraint:MultiplyC([self variable], [other variable], [result variable], strength)];
+    return [DBConstraint constraintWithCConstraint:MultiplyC([self variable], [other variable], [result variable], strength, solver)];
 }
 
 
 -(DBConstraint*)add:(DBVariable*)other into:(DBVariable*)result strength:(int)strength
 {
-    return [DBConstraint constraintWithCConstraint:AddC([self variable], [other variable], [result variable], strength)];
+    return [DBConstraint constraintWithCConstraint:AddC([self variable], [other variable], [result variable], strength, solver)];
 }
 
 

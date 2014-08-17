@@ -11,7 +11,7 @@
 #import <MPWFoundation/MPWFoundation.h>
 #import "DBVariable.h"
 #import "DBConstraint.h"
-
+#import "DBSolver.h"
 
 #include "List.h"
 #include "Constraints.h"
@@ -27,15 +27,15 @@
 {
     DBVariable *celcius, *fahrenheit, *t1, *t2, *nine, *five, *thirtyTwo;
     DBConstraint *addC, *multC1, *multC2;
+    DBSolver *solver=[DBSolver new];
 
-
-    celcius = [DBVariable variableWithName:@"C" value:0];
-    fahrenheit = [DBVariable variableWithName:@"F" value:0];
-    t1 = [DBVariable variableWithName:@"t1" value:1];
-    t2 = [DBVariable variableWithName:@"t2" value:1];
-    nine = [[[DBVariable alloc] initConstantWithName:@"*const*" value: 9] autorelease];
-    five = [[[DBVariable alloc] initConstantWithName:@"*const*" value: 5] autorelease];
-    thirtyTwo = [[[DBVariable alloc] initConstantWithName:@"*const*" value: 32] autorelease];
+    celcius = [solver variableWithName:@"C" value:0];
+    fahrenheit = [solver variableWithName:@"F" value:0];
+    t1 = [solver variableWithName:@"t1" value:1];
+    t2 = [solver variableWithName:@"t2" value:1];
+    nine = [solver constantWithName:@"*const*" value: 9];
+    five = [solver constantWithName:@"*const*" value: 5];
+    thirtyTwo = [solver constantWithName:@"*const*" value: 32];
     
     printf("Before adding constraints:\n  ");
     [celcius print]; printf(" = ");
@@ -75,7 +75,6 @@
     INTEXPECT([celcius value], 21, @"celcius for fahrenheit 70");
     INTEXPECT([fahrenheit value], 70, @"fahrenheit for fahrenheit 70");
     
-
 }
 
 +testSelectors

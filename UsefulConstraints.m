@@ -6,10 +6,12 @@
 ****************************************************************************/
  
 #include <stdio.h>
-#include "List.h"
-#include "Constraints.h"
-#include "DeltaBlue.h"
-#include "UsefulConstraints.h"
+#import "List.h"
+#import "Constraints.h"
+//#import "DeltaBlue.h"
+#import "UsefulConstraints.h"
+
+#import "DBSolver.h"
 
 /* macro to reference a constraint variable value */
 #define var(i) ((c->variables[i])->value)
@@ -30,16 +32,14 @@ int strength;
 
 /******* Edit Constraint *******/
 
-Constraint EditC(v, strength)
-Variable v;
-int strength;
+Constraint EditC(Variable v, int strength, DBSolver *solver)
 {
     Constraint new = Constraint_Create(1, strength);
     new->inputFlag = true;
     new->variables[0] = v;
     new->methodCount = 1;
     new->methodOuts[0] = 0;
-    AddConstraint(new);
+    [solver addConstraint:new];
     return new;
 };
 
@@ -95,9 +95,7 @@ register Constraint c;
     }
 }
 
-Constraint AddC(a, b, sum, strength)
-Variable a, b, sum;
-int strength;
+Constraint AddC(Variable a, Variable b, Variable sum, int strength, DBSolver *solver)
 {
     Constraint new = Constraint_Create(3, strength);
     new->execute = AddC_Execute;
@@ -108,7 +106,7 @@ int strength;
     new->methodOuts[0] = 2;
     new->methodOuts[1] = 1;
     new->methodOuts[2] = 0;
-    AddConstraint(new);
+    [solver addConstraint:new];
     return new;
 };
 
@@ -132,9 +130,7 @@ register Constraint c;
     }
 }
 
-Constraint MultiplyC(a, b, prod, strength)
-Variable a, b, prod;
-int strength;
+Constraint MultiplyC(Variable a, Variable b, Variable prod, int strength, DBSolver *solver)
 {
     Constraint new = Constraint_Create(3, strength);
     new->execute = MultiplyC_Execute;
@@ -145,7 +141,9 @@ int strength;
     new->methodOuts[0] = 2;
     new->methodOuts[1] = 1;
     new->methodOuts[2] = 0;
-    AddConstraint(new);
+    NSLog(@"solver: %@",solver);
+    [solver addConstraint:new];
+
     return new;
 };
 

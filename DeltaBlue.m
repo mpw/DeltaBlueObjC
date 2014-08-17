@@ -332,16 +332,16 @@ Constraint c;
 {
     Variable out;
     register int i;
-
+    
     out = OUT_VAR(c);
     c->whichMethod = NO_METHOD;
     for (i = c->varCount - 1; i >= 0; i--) {
-	List_Remove((c->variables[i])->constraints, (Element) c);
+        List_Remove((c->variables[i])->constraints, (Element) c);
     }
     unsatisfied = List_Create(8);
     RemovePropagateFrom(out);
     for (strength = S_required; strength <= S_weakest; strength++) {
-	List_Do(unsatisfied, AddAtStrength);
+        List_Do(unsatisfied, AddAtStrength);
     }
     List_Destroy(unsatisfied);
 }

@@ -11,13 +11,15 @@
 #import "List.h"
 #import "Constraints.h"
 
-@class DBConstraint;
+@class DBConstraint,DBSolver;
 
 @interface DBVariable : NSObject
 {
     Variable variable;
+    DBSolver *solver;
 }
 
+idAccessor_h(solver,setSolver)
 
 +variableWithName:(NSString*)name value:(long)value;
 -initWithName:(NSString*)name value:(long)value;
