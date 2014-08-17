@@ -26,7 +26,7 @@ typedef struct {
   char		methodCount;
   char		varCount;
   char		methodOuts[7];
-  Variable	variables[1];
+  Variable	variables[0];
   NSMutableArray *objvariables;
 } *Constraint, ConstraintStruct;
 

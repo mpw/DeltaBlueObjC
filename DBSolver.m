@@ -7,7 +7,7 @@
 //
 
 #import "DBSolver.h"
-#import <objc/runtime.h>
+#import <objc/message.h>
 #import "DBVariable.h"
 #import "DBConstraint.h"
 
