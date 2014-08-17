@@ -21,17 +21,17 @@
 
 idAccessor_h(solver,setSolver)
 
-+variableWithName:(NSString*)name value:(long)value;
--initWithName:(NSString*)name value:(long)value;
--initConstantWithName:(NSString*)name value:(long)value;
++variableWithName:(NSString*)name intValue:(long)value;
+-initWithName:(NSString*)name intValue:(long)value;
+-initConstantWithName:(NSString*)name intValue:(long)value;
 -(Variable)variable;
 -(void)print;
 -(DBConstraint*)multiplyBy:(DBVariable*)other into:(DBVariable*)result strength:(int)strength;
 
 -(DBConstraint*)add:(DBVariable*)other into:(DBVariable*)result strength:(int)strength;
 
--(long)value;
--(void)assign:(long)newValue;
+-(long)intValue;
+-(void)assignInt:(long)newValue;
 
 -(NSMutableArray*)constraints;
 

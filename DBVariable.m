@@ -17,7 +17,7 @@
 scalarAccessor(id, solver,setSolver)
 
 
--initConstantWithName:(NSString*)name value:(long)value
+-initConstantWithName:(NSString*)name intValue:(long)value
 {
     self=[super init];
     if ( self ) {
@@ -26,7 +26,7 @@ scalarAccessor(id, solver,setSolver)
     return self;
 }
 
--initWithName:(NSString*)name value:(long)value
+-initWithName:(NSString*)name intValue:(long)value
 {
     self=[super init];
     if ( self ) {
@@ -36,9 +36,9 @@ scalarAccessor(id, solver,setSolver)
 }
 
 
-+variableWithName:(NSString*)name value:(long)value
++variableWithName:(NSString*)name intValue:(long)value
 {
-    return [[[self alloc] initWithName:name value:value] autorelease];
+    return [[[self alloc] initWithName:name intValue:value] autorelease];
 }
 
 -(Variable)variable
@@ -51,12 +51,12 @@ scalarAccessor(id, solver,setSolver)
     return variable->constraints;
 }
 
--(long)value
+-(long)intValue
 {
     return variable->value;
 }
 
--(void)assign:(long)newValue
+-(void)assignInt:(long)newValue
 {
     Variable v=[self variable];
     Constraint	editC;

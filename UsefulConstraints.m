@@ -18,15 +18,13 @@
 
 /******* Stay Constraint *******/
 
-Constraint StayC(v, strength)
-Variable v;
-int strength;
+Constraint StayC(Variable v, int strength, DBSolver *solver)
 {
     Constraint new = Constraint_Create(1, strength);
     new->variables[0] = v;
     new->methodCount = 1;
     new->methodOuts[0] = 0;
-    AddConstraint(new);
+    [solver addConstraint:new];
     return new;
 };
 
@@ -60,9 +58,7 @@ register Constraint c;
     }
 }
 
-Constraint EqualsC(a, b, strength)
-Variable a, b;
-int strength;
+Constraint EqualsC(Variable a, Variable b,int strength, DBSolver *solver)
 {
     Constraint new = Constraint_Create(2, strength);
     new->execute = EqualsC_Execute;
@@ -71,15 +67,13 @@ int strength;
     new->methodCount = 2;
     new->methodOuts[0] = 0;
     new->methodOuts[1] = 1;
-    AddConstraint(new);
+    [solver addConstraint:new];
     return new;
 };
 
 /******** Add Constraint *******/
 
-static void AddC_Execute(Constraint);
-static void AddC_Execute(c)
-register Constraint c;
+static void AddC_Execute(Constraint c)
 {
     /* a + b = sum */
     switch (c->whichMethod) {
@@ -112,9 +106,7 @@ Constraint AddC(Variable a, Variable b, Variable sum, int strength, DBSolver *so
 
 /******** Multiply Constraint *******/
 
-static void MultiplyC_Execute(Constraint);
-static void MultiplyC_Execute(c)
-register Constraint c;
+static void MultiplyC_Execute(Constraint c)
 {
     /* a * b = prod */
     switch (c->whichMethod) {
@@ -141,7 +133,6 @@ Constraint MultiplyC(Variable a, Variable b, Variable prod, int strength, DBSolv
     new->methodOuts[0] = 2;
     new->methodOuts[1] = 1;
     new->methodOuts[2] = 0;
-    NSLog(@"solver: %@",solver);
     [solver addConstraint:new];
 
     return new;
@@ -164,9 +155,7 @@ register Constraint c;
     }
 }
 
-Constraint ScaleOffsetC(src, scale, offset, dest, strength)
-Variable src, scale, offset, dest;
-int strength;
+Constraint ScaleOffsetC(Variable src,Variable scale,Variable offset,Variable dest, int strength, DBSolver *solver)
 {
     Constraint new = Constraint_Create(4, strength);
     new->execute = ScaleOffsetC_Execute;
@@ -177,6 +166,6 @@ int strength;
     new->methodCount = 2;
     new->methodOuts[0] = 3;
     new->methodOuts[1] = 0;
-    AddConstraint(new);
+    [solver addConstraint:new];
     return new;
 };

@@ -29,8 +29,8 @@
 -(void)addVariable:(DBVariable*)v;
 -(void)addConstraint:(Constraint)c;
 -(List)extractPlanFromConstraint:(Constraint)c;
--(DBVariable*)variableWithName:(NSString*)name value:(long)value;
--(DBVariable*)constantWithName:(NSString*)name value:(long)value;
+-(DBVariable*)variableWithName:(NSString*)name intValue:(long)value;
+-(DBVariable*)constantWithName:(NSString*)name intValue:(long)value;
 
 void AddConstraint( Constraint c);
 void DestroyConstraint( Constraint c);

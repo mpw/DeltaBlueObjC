@@ -95,7 +95,7 @@ Variable v;
 -(void)addConstraint:(Constraint)newConstraint
 {
 //    NSLog(@"addConstraint: %p",newConstraint);
-    register int i;
+    int i;
     
     //  add constraint to all variables
     DBConstraint *c=[DBConstraint constraintWithCConstraint:newConstraint];
@@ -486,27 +486,22 @@ char *s;
     return firstConstraint;
 }
 
-void AddConstraint( Constraint c)
-{
-    [[DBSolver solver] addConstraint:c];
-}
-
 void DestroyConstraint( Constraint c)
 {
     [[DBSolver solver] destroyConstraint:[DBConstraint constraintWithCConstraint:c]];
 }
 
 
--(DBVariable*)variableWithName:(NSString*)name value:(long)value
+-(DBVariable*)variableWithName:(NSString*)name intValue:(long)value
 {
-    DBVariable *v=[DBVariable variableWithName:name value:value];
+    DBVariable *v=[DBVariable variableWithName:name intValue:value];
     [self addVariable:v];
     return v;
 }
 
--(DBVariable*)constantWithName:(NSString*)name value:(long)value
+-(DBVariable*)constantWithName:(NSString*)name intValue:(long)value
 {
-    DBVariable *v=[[[DBVariable alloc]  initConstantWithName:name value:value] autorelease];
+    DBVariable *v=[[[DBVariable alloc]  initConstantWithName:name intValue:value] autorelease];
     [self addVariable:v];
     return v;
 }
