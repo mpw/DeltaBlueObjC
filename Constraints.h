@@ -43,7 +43,7 @@ typedef struct {
   void		Constraint_Print(Constraint);
 
 /* Miscellaneous */
-  void		ExecutePlan(List);
+  void ExecutePlan(NSArray *plan);
   char* 	StrengthString(int);
 
 /* Strength Constants */

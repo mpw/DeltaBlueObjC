@@ -36,4 +36,10 @@ idAccessor_h(solver,setSolver)
 
 -(NSMutableArray*)constraints;
 
+-(void)addConstraint:(DBConstraint*)newConstraint;
+-(void)removeConstraint:(DBConstraint*)oldConstraint;
+-(BOOL)isKnownWithMark:(long)mark;
+
+longAccessor_h(mark , setMark )
+
 @end

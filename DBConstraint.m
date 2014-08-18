@@ -7,6 +7,7 @@
 //
 
 #import "DBConstraint.h"
+#define SATISFIED(c)	((c)->whichMethod != NO_METHOD)
 
 @implementation DBConstraint
 
@@ -38,6 +39,16 @@
 -(BOOL)isEqual:(id)object
 {
     return constraint == [object constraint];
+}
+
+-(BOOL)isSatisfiedInput
+{
+    return (constraint->inputFlag && SATISFIED(constraint));
+}
+
+-(DBVariable*)outputVariable
+{
+    return (constraint->variables[constraint->methodOuts[constraint->whichMethod]]);
 }
 
 @end

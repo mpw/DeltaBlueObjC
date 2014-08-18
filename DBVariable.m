@@ -51,6 +51,26 @@ scalarAccessor(id, solver,setSolver)
     return variable->constraints;
 }
 
+-(void)addConstraint:(DBConstraint*)newConstraint
+{
+    [[self constraints] addObject:newConstraint];
+}
+
+
+-(BOOL)isKnownWithMark:(long)mark
+{
+    return
+            variable->mark == mark ||
+            variable->stay ||
+    variable->determinedBy == nil;
+    
+}
+
+-(void)removeConstraint:(DBConstraint*)oldConstraint
+{
+    [[self constraints] removeObject:oldConstraint];
+}
+
 -(long)intValue
 {
     return variable->value;
@@ -65,14 +85,13 @@ scalarAccessor(id, solver,setSolver)
 {
     Variable v=[self variable];
     Constraint	editC;
-    List	plan;
+    NSArray*	plan;
     
     editC = EditC(self, S_required,solver);
     if (SATISFIED(editC)) {
         v->value = newValue;
-        plan=[solver extractPlanFromConstraint:editC];
+        plan=[solver extractPlanFromConstraint:[DBConstraint constraintWithCConstraint:editC]];
         ExecutePlan(plan);
-        List_Destroy(plan);
     }
     DestroyConstraint(editC);
 }
@@ -100,6 +119,11 @@ scalarAccessor(id, solver,setSolver)
     return [DBConstraint constraintWithCConstraint:AddC(self, other, result, strength, solver)];
 }
 
+-(long)mark { return variable->mark; }
+
+-(void)setMark:(long)newVar {
+    variable->mark=newVar;
+}
 
 
 @end

@@ -18,5 +18,6 @@
 
 +(instancetype)constraintWithCConstraint:(Constraint)aCConstraint;
 -(Constraint)constraint;
-
+-(BOOL)isSatisfiedInput;
+-(DBVariable*)outputVariable;
 @end

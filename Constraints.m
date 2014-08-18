@@ -13,6 +13,7 @@
 #import "DeltaBlue.h"
 
 #import "DBVariable.h"
+#import "DBConstraint.h"
 #import "DBSolver.h"
 
 /******* Private *******/
@@ -192,8 +193,10 @@ int strength;
     }
 }
 
-void ExecutePlan(list)
-List list;
+void ExecutePlan(NSArray *plan)
 {
-    List_Do(list, Execute);
+    for (DBConstraint *c in plan) {
+        Execute( [c constraint]);
+    }
+
 }
