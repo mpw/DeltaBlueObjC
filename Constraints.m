@@ -42,15 +42,12 @@ Constraint c;
 
 /******* Variables *******/
 
-Variable Variable_Create(name, initialValue)
-char *name;
-long initialValue;
+Variable Variable_Create( char *name)
 {
     register Variable new;
 
     new = (Variable) malloc(sizeof(VariableStruct));
     if (new == NULL) Error("out of memory");
-    new->value = initialValue;
     new->constraints = [NSMutableArray new];
 
 
@@ -65,15 +62,12 @@ long initialValue;
     return new;
 }
 
-Variable Variable_CreateConstant(name, value)
-char *name;
-long value;
+Variable Variable_CreateConstant(char *name)
 {
     register Variable new;
 
     new = (Variable) malloc(sizeof(VariableStruct));
     if (new == NULL) Error("out of memory");
-    new->value = value;
     new->constraints = [NSMutableArray new];
     new->determinedBy = NULL;
     new->mark = 0;
@@ -94,20 +88,6 @@ Variable v;
 
     v->constraints = NULL;
     free(v);
-}
-
-void Variable_Print(v)
-Variable v;
-{
-    printf(
-           "%s(%s,%ld)",
-           v->name, StrengthString(v->walkStrength), v->value);
-}
-
-long Variable_Value(v)
-Variable v;
-{
-    return v->value;
 }
 
 /******* Constraints *******/
@@ -152,7 +132,8 @@ Constraint c;
     if (!SATISFIED(c)) {
 	printf("Unsatisfied(");
 	for (i = 0; i < c->varCount; i++) {
-	    Variable_Print([c->variables[i] variable]);
+        printf("%s",[[c->variables[i] description] UTF8String]);
+        
 	    printf(" ");
 	}
 	printf(")");
@@ -161,12 +142,12 @@ Constraint c;
 	printf("Satisfied(");
 	for (i = 0; i < c->varCount; i++) {
 	    if (i != outIndex) {
-		Variable_Print([c->variables[i] variable]);
+            printf("%s",[[c->variables[i] description] UTF8String]);
 		printf(" ");
 	    }
 	}
 	printf("-> ");
-	Variable_Print([c->variables[outIndex] variable]);
+        printf("%s",[[c->variables[outIndex] description] UTF8String]);
 	printf(")");
     }
     printf("\n");

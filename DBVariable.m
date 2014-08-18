@@ -16,21 +16,26 @@
 
 scalarAccessor(id, solver,setSolver)
 
+idAccessor(value, _setValue )
 
--initConstantWithName:(NSString*)name intValue:(long)value
+
+-initConstantWithName:(NSString*)name intValue:(long)newValue
 {
     self=[super init];
     if ( self ) {
-        variable=Variable_CreateConstant( (char*)[name UTF8String], value);
+        variable=Variable_CreateConstant( (char*)[name UTF8String]);
+        [self _setIntValue:newValue];
     }
     return self;
 }
 
--initWithName:(NSString*)name intValue:(long)value
+-initWithName:(NSString*)name intValue:(long)newValue
 {
     self=[super init];
     if ( self ) {
-        variable=Variable_Create( (char*)[name UTF8String], value);
+        variable=Variable_Create( (char*)[name UTF8String]);
+        [self _setIntValue:newValue];
+
     }
     return self;
 }
@@ -73,23 +78,27 @@ scalarAccessor(id, solver,setSolver)
 
 -(long)intValue
 {
-    return variable->value;
+    return [value longValue];
 }
 
 -(void)_setIntValue:(long)newValue
 {
-    variable->value=newValue;
+    [self _setValue:@(newValue)];
 }
 
 -(void)assignInt:(long)newValue
 {
-    Variable v=[self variable];
+    [self setValue:@(newValue)];
+}
+
+-(void)setValue:(id)newVar
+{
     Constraint	editC;
     NSArray*	plan;
     
     editC = EditC(self, S_required,solver);
     if (SATISFIED(editC)) {
-        v->value = newValue;
+        [self _setValue:newVar];
         plan=[solver extractPlanFromConstraint:[DBConstraint constraintWithCConstraint:editC]];
         ExecutePlan(plan);
     }
@@ -98,9 +107,9 @@ scalarAccessor(id, solver,setSolver)
 
 
 
--(void)print
+-(NSString*)description
 {
-    Variable_Print(variable);
+    return [NSString stringWithFormat:@"%s = %@",variable->name,value];
 }
 
 -(DBConstraint*)multiplyBy:(DBVariable*)other into:(DBVariable*)result strength:(int)strength

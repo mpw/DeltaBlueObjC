@@ -37,8 +37,7 @@
     five = [solver constantWithName:@"*const*" intValue: 5];
     thirtyTwo = [solver constantWithName:@"*const*" intValue: 32];
     
-    [celcius print]; printf(" = ");
-    [fahrenheit print]; printf("\n\n");
+    NSLog(@"%@ = %@",celcius,fahrenheit);
     
 
     multC1 = [celcius multiplyBy:nine into:t1 strength:S_required];

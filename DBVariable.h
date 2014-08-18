@@ -6,7 +6,7 @@
 //
 //
 
-#import <Foundation/Foundation.h>
+#import <MPWFoundation/MPWFoundation.h>
 
 #import "List.h"
 #import "Constraints.h"
@@ -17,15 +17,18 @@
 {
     Variable variable;
     DBSolver *solver;
+    id       value;
 }
 
 idAccessor_h(solver,setSolver)
+idAccessor_h(value, setValue )
+-(void)_setValue:(id)newValue;
 
 +variableWithName:(NSString*)name intValue:(long)value;
 -initWithName:(NSString*)name intValue:(long)value;
 -initConstantWithName:(NSString*)name intValue:(long)value;
 -(Variable)variable;
--(void)print;
+
 -(DBConstraint*)multiplyBy:(DBVariable*)other into:(DBVariable*)result strength:(int)strength;
 -(DBConstraint*)divideBy:(DBVariable*)other into:(DBVariable*)result strength:(int)strength;
 -(DBConstraint*)add:(DBVariable*)other into:(DBVariable*)result strength:(int)strength;

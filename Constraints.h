@@ -10,7 +10,7 @@
 @class DBVariable;
 
 typedef struct {
-  long		value;
+//  long		value;
   NSMutableArray *		constraints;
   void *	determinedBy; /* Constraint */
   long		mark;
@@ -31,11 +31,9 @@ typedef struct {
 } *Constraint, ConstraintStruct;
 
 /* Variables */
-  Variable	Variable_Create(char *, long);
-  Variable	Variable_CreateConstant(char *, long);
+  Variable	Variable_Create(char *);
+  Variable	Variable_CreateConstant(char *);
   void		Variable_Destroy(Variable);
-  void		Variable_Print(Variable);
-  long      Variable_Value(Variable v);
 
 /* Constraints */
   Constraint	Constraint_Create(int, int);
