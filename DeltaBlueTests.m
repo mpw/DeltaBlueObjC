@@ -42,7 +42,6 @@
     
 
     multC1 = [celcius multiplyBy:nine into:t1 strength:S_required];
-    
     divC = [t1 divideBy:five into:t2 strength:S_required];
     addC=[t2 add:thirtyTwo into:fahrenheit strength:S_required];
     

@@ -100,7 +100,7 @@ Variable v;
     //  add constraint to all variables
     DBConstraint *c=[DBConstraint constraintWithCConstraint:newConstraint];
     for (i = newConstraint->varCount - 1; i >= 0; i--) {
-        [newConstraint->variables[i]->constraints addObject:c];
+        [[newConstraint->variables[i] variable]->constraints addObject:c];
         
     }
     newConstraint->whichMethod = NO_METHOD;
@@ -118,7 +118,7 @@ Variable v;
         [self incrementalRemoveObj:c];
     }
     for (i = oldConstraint->varCount - 1; i >= 0; i--) {
-        [(oldConstraint->variables[i])->constraints removeObject:c];
+        [[oldConstraint->variables[i] variable]->constraints removeObject:c];
 //        List_Remove((c->variables[i])->constraints, (Element) c);
     }
     Constraint_Destroy(oldConstraint);
@@ -202,7 +202,7 @@ Variable v;
     plan = List_Create(50000);
     nextC = (Constraint) List_RemoveFirst(hot);
     while (nextC != NULL) {
-        out = OUT_VAR(nextC);
+        out = [OUT_VAR(nextC) variable];
         if ((out->mark != currentMark) && [self inputsKnown:nextC]) {
             List_Add(plan, nextC);
             out->mark = currentMark;
@@ -222,7 +222,7 @@ Variable v;
     outIndex = c->methodOuts[c->whichMethod];
     for (i = c->varCount - 1; i >= 0; i--) {
         if (i != outIndex) {
-            in = c->variables[i];
+            in = [c->variables[i] variable];
             if ((in->mark != currentMark) &&
                 (!in->stay) &&
                 (in->determinedBy != NULL)) {
@@ -261,10 +261,10 @@ Variable v;
         for (i = c->varCount - 1; i >= 0; i--) {
 //            NSLog(@"variable[%d]",i);
             if (i != outIndex) {
-                c->variables[i]->mark = currentMark;
+                [c->variables[i] variable]->mark = currentMark;
             }
         }
-        out = c->variables[outIndex];
+        out = [c->variables[outIndex] variable];
         overridden = (Constraint) out->determinedBy;
         if (overridden != NULL) overridden->whichMethod = NO_METHOD;
         out->determinedBy = c;
@@ -291,7 +291,7 @@ Variable v;
     best = NO_METHOD;
     bestOutStrength = c->strength;
     for (m = c->methodCount - 1; m >= 0; m--) {
-        mOut = c->variables[c->methodOuts[m]];
+        mOut = [c->variables[c->methodOuts[m]] variable];
         if ((mOut->mark != currentMark) &&
             (Weaker(mOut->walkStrength, bestOutStrength))) {
             best = m;
@@ -311,7 +311,7 @@ Variable v;
     nextC = c;
     while (nextC != NULL) {
 //        NSLog(@"nextC: %p",nextC);
-        out = OUT_VAR(nextC);
+        out = [OUT_VAR(nextC) variable];
         if (out->mark == currentMark) {
             /* remove the cycle-causing constraint */
 //            NSLog(@"remove: %p",c);
@@ -353,14 +353,14 @@ Variable v;
     register int i;
     Constraint c=[objConstraint constraint];
     
-    out = OUT_VAR(c);
+    out = [OUT_VAR(c) variable];
     c->whichMethod = NO_METHOD;
     
     
     
     
     for (i = c->varCount - 1; i >= 0; i--) {
-        [(c->variables[i])->constraints removeObject:objConstraint];
+        [[c->variables[i] variable]->constraints removeObject:objConstraint];
         
         
     }
@@ -394,7 +394,7 @@ Variable v;
             break;
         } else {
             [self recalculate:nextC];
-            v = OUT_VAR(nextC);
+            v = [OUT_VAR(nextC) variable];
         }
     }
 }
@@ -406,7 +406,7 @@ Variable v;
 //    NSLog(@"recalculate: %p",c);
     register Variable out;
     
-    out = OUT_VAR(c);
+    out = [OUT_VAR(c) variable];
     out->walkStrength = [self outputWalkStrength:c];
     out->stay = [self constantOutput:c];
     if (out->stay) c->execute(c);
@@ -421,8 +421,8 @@ Variable v;
     for (m = c->methodCount - 1; m >= 0; m--) {
         mOutIndex = c->methodOuts[m];
         if ((mOutIndex != outIndex) &&
-            (Weaker(c->variables[mOutIndex]->walkStrength, minStrength))) {
-            minStrength = c->variables[mOutIndex]->walkStrength;
+            (Weaker([c->variables[mOutIndex] variable]->walkStrength, minStrength))) {
+            minStrength = [c->variables[mOutIndex] variable]->walkStrength;
         }
     }
     return minStrength;
@@ -436,7 +436,7 @@ Variable v;
     outIndex = c->methodOuts[c->whichMethod];
     for (i = c->varCount - 1; i >= 0; i--) {
         if (i != outIndex) {
-            if (!c->variables[i]->stay) return false;
+            if (![c->variables[i] variable]->stay) return false;
         }
     }
     return true;

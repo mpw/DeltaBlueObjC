@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 
+@class DBVariable;
 
 typedef struct {
   long		value;
@@ -26,8 +27,7 @@ typedef struct {
   char		methodCount;
   char		varCount;
   char		methodOuts[7];
-  Variable	variables[0];
-  NSMutableArray *objvariables;
+  DBVariable	*variables[0];
 } *Constraint, ConstraintStruct;
 
 /* Variables */

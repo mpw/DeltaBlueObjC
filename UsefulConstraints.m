@@ -10,15 +10,16 @@
 #import "Constraints.h"
 //#import "DeltaBlue.h"
 #import "UsefulConstraints.h"
+#import "DBVariable.h"
 
 #import "DBSolver.h"
 
 /* macro to reference a constraint variable value */
-#define var(i) ((c->variables[i])->value)
+#define var(i) (c->variables[i])
 
 /******* Stay Constraint *******/
 
-Constraint StayC(Variable v, int strength, DBSolver *solver)
+Constraint StayC(DBVariable *v, int strength, DBSolver *solver)
 {
     Constraint new = Constraint_Create(1, strength);
     new->variables[0] = v;
@@ -30,7 +31,7 @@ Constraint StayC(Variable v, int strength, DBSolver *solver)
 
 /******* Edit Constraint *******/
 
-Constraint EditC(Variable v, int strength, DBSolver *solver)
+Constraint EditC(DBVariable * v, int strength, DBSolver *solver)
 {
     Constraint new = Constraint_Create(1, strength);
     new->inputFlag = true;
@@ -43,22 +44,20 @@ Constraint EditC(Variable v, int strength, DBSolver *solver)
 
 /****** Equals Constraint ******/
 
-static void EqualsC_Execute(Constraint);
-static void EqualsC_Execute(c)
-register Constraint c;
+static void EqualsC_Execute(Constraint c )
 {
     /* a = b */
    switch (c->whichMethod) {
     case 0:
-	var(0) = var(1);
+           [var(0) _setIntValue:[var(1) intValue]];
 	break;
     case 1:
-	var(1) = var(0);
+           [var(1) _setIntValue:[var(0) intValue]];
 	break;
     }
 }
 
-Constraint EqualsC(Variable a, Variable b,int strength, DBSolver *solver)
+Constraint EqualsC(DBVariable *a, DBVariable *b,int strength, DBSolver *solver)
 {
     Constraint new = Constraint_Create(2, strength);
     new->execute = EqualsC_Execute;
@@ -77,19 +76,19 @@ static void AddC_Execute(Constraint c)
 {
     /* a + b = sum */
     switch (c->whichMethod) {
-    case 0:
-	var(2) = var(0) + var(1);
-	break;
-    case 1:
-	var(1) = var(2) - var(0);
-	break;
-    case 2:
-	var(0) = var(2) - var(1);
-	break;
+        case 0:
+            [var(2) _setIntValue:[var(0) intValue]+[var(1) intValue]];
+            break;
+        case 1:
+            [var(1) _setIntValue:[var(2) intValue]-[var(0) intValue]];
+            break;
+        case 2:
+            [var(0) _setIntValue:[var(2) intValue]-[var(1) intValue]];
+            break;
     }
 }
 
-Constraint AddC(Variable a, Variable b, Variable sum, int strength, DBSolver *solver)
+Constraint AddC(DBVariable *a, DBVariable *b, DBVariable *sum, int strength, DBSolver *solver)
 {
     Constraint new = Constraint_Create(3, strength);
     new->execute = AddC_Execute;
@@ -111,18 +110,18 @@ static void MultiplyC_Execute(Constraint c)
     /* a * b = prod */
     switch (c->whichMethod) {
         case 0:
-            var(0) = var(1) * var(2);
+            [var(0) _setIntValue:[var(1) intValue]*[var(2) intValue]];
             break;
         case 1:
-            var(1) = var(0) / var(2);
+            [var(1) _setIntValue:[var(0) intValue]/[var(2) intValue]];
             break;
         case 2:
-            var(2) = var(0) / var(1);
+            [var(2) _setIntValue:[var(0) intValue]/[var(1) intValue]];
             break;
     }
 }
 
-Constraint MultiplyC(Variable a, Variable b, Variable prod, int strength, DBSolver *solver)
+Constraint MultiplyC(DBVariable *a, DBVariable * b, DBVariable * prod, int strength, DBSolver *solver)
 {
     Constraint new = Constraint_Create(3, strength);
     new->execute = MultiplyC_Execute;
@@ -146,18 +145,18 @@ static void DivideC_Execute(Constraint c)
     /* a * b = prod */
     switch (c->whichMethod) {
         case 0:
-            var(0) = var(1) / var(2);
+            [var(0) _setIntValue:[var(1) intValue]/[var(2) intValue]];
             break;
         case 1:
-            var(1) = var(0) * var(2);
+            [var(1) _setIntValue:[var(0) intValue]*[var(2) intValue]];
             break;
         case 2:
-            var(2) = var(0) * var(1);
+            [var(2) _setIntValue:[var(0) intValue]*[var(1) intValue]];
             break;
     }
 }
 
-Constraint DivideC(Variable a, Variable b, Variable result, int strength, DBSolver *solver)
+Constraint DivideC(DBVariable * a, DBVariable * b, DBVariable * result, int strength, DBSolver *solver)
 {
     Constraint new = Constraint_Create(3, strength);
     new->execute = DivideC_Execute;
@@ -178,22 +177,20 @@ Constraint DivideC(Variable a, Variable b, Variable result, int strength, DBSolv
 
 /******** ScaleOffset Constraint *******/
 
-static void ScaleOffsetC_Execute(Constraint);
-static void ScaleOffsetC_Execute(c)
-register Constraint c;
+static void ScaleOffsetC_Execute(Constraint c)
 {
     /* (src * scale) + offset = dest */
     switch (c->whichMethod) {
-    case 0:
-	var(3) = (var(0) * var(1)) + var(2);
-	break;
-    case 1:
-	var(0) = (var(3) - var(2)) / var(1);
-	break;
+        case 0:
+            [var(3) _setIntValue:[var(0) intValue]*[var(1) intValue]+[var(2) intValue]];
+            break;
+        case 1:
+            [var(0) _setIntValue:([var(3) intValue]-[var(2) intValue])/[var(1) intValue]];
+            break;
     }
 }
 
-Constraint ScaleOffsetC(Variable src,Variable scale,Variable offset,Variable dest, int strength, DBSolver *solver)
+Constraint ScaleOffsetC(DBVariable * src, DBVariable * scale, DBVariable * offset, DBVariable * dest, int strength, DBSolver *solver)
 {
     Constraint new = Constraint_Create(4, strength);
     new->execute = ScaleOffsetC_Execute;

@@ -31,6 +31,7 @@ idAccessor_h(solver,setSolver)
 -(DBConstraint*)add:(DBVariable*)other into:(DBVariable*)result strength:(int)strength;
 
 -(long)intValue;
+-(void)_setIntValue:(long)newValue;
 -(void)assignInt:(long)newValue;
 
 -(NSMutableArray*)constraints;

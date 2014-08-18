@@ -56,13 +56,18 @@ scalarAccessor(id, solver,setSolver)
     return variable->value;
 }
 
+-(void)_setIntValue:(long)newValue
+{
+    variable->value=newValue;
+}
+
 -(void)assignInt:(long)newValue
 {
     Variable v=[self variable];
     Constraint	editC;
     List	plan;
     
-    editC = EditC(v, S_required,solver);
+    editC = EditC(self, S_required,solver);
     if (SATISFIED(editC)) {
         v->value = newValue;
         plan=[solver extractPlanFromConstraint:editC];
@@ -73,6 +78,7 @@ scalarAccessor(id, solver,setSolver)
 }
 
 
+
 -(void)print
 {
     Variable_Print(variable);
@@ -80,18 +86,18 @@ scalarAccessor(id, solver,setSolver)
 
 -(DBConstraint*)multiplyBy:(DBVariable*)other into:(DBVariable*)result strength:(int)strength
 {
-    return [DBConstraint constraintWithCConstraint:MultiplyC([self variable], [other variable], [result variable], strength, solver)];
+    return [DBConstraint constraintWithCConstraint:MultiplyC(self, other, result, strength, solver)];
 }
 
 -(DBConstraint*)divideBy:(DBVariable*)other into:(DBVariable*)result strength:(int)strength
 {
-    return [DBConstraint constraintWithCConstraint:DivideC([self variable], [other variable], [result variable], strength, solver)];
+    return [DBConstraint constraintWithCConstraint:DivideC(self, other, result, strength, solver)];
 }
 
 
 -(DBConstraint*)add:(DBVariable*)other into:(DBVariable*)result strength:(int)strength
 {
-    return [DBConstraint constraintWithCConstraint:AddC([self variable], [other variable], [result variable], strength, solver)];
+    return [DBConstraint constraintWithCConstraint:AddC(self, other, result, strength, solver)];
 }
 
 

@@ -6,15 +6,15 @@
 
 ****************************************************************************/
 
-@class DBSolver;
+@class DBSolver,DBVariable;
 
-Constraint StayC(Variable v, int,DBSolver *solver);				/* keep v constant */
-Constraint EditC(Variable v, int strength, DBSolver *solver);
-Constraint EqualsC(Variable a, Variable b,int strength, DBSolver *solver);  // a == b
-Constraint AddC(Variable a, Variable b, Variable sum, int, DBSolver *solver);	// a + b = sum
-Constraint MultiplyC(Variable a, Variable b, Variable prod, int, DBSolver *solver);	// a * b = prod
-Constraint DivideC(Variable a, Variable b, Variable result, int strength, DBSolver *solver);  // result = a / b
+Constraint StayC(DBVariable *v, int strength, DBSolver *solver);	/* keep v constant */
+Constraint EditC(DBVariable *v, int strength, DBSolver *solver);
+Constraint EqualsC(DBVariable *a, DBVariable *b,int strength, DBSolver *solver);  // a == b
+Constraint AddC(DBVariable *a, DBVariable *b, DBVariable *sum, int, DBSolver *solver);	// a + b = sum
+Constraint MultiplyC(DBVariable *a, DBVariable * b, DBVariable * prod, int strength, DBSolver *solver);	// a * b = prod
+Constraint DivideC(DBVariable * a, DBVariable * b, DBVariable * result, int strength, DBSolver *solver);  // result = a / b
 
-Constraint ScaleOffsetC(Variable src, Variable scale, Variable offset, Variable dest, int, DBSolver *solver);
+Constraint ScaleOffsetC(DBVariable * src, DBVariable * scale, DBVariable * offset, DBVariable * dest, int strength, DBSolver *solver);
 								/* (src * scale) + offset = dest*/
 

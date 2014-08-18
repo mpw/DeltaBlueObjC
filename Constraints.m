@@ -5,13 +5,14 @@
 
 ****************************************************************************/
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "List.h"
-#include "Constraints.h"
-#include "DeltaBlue.h"
+#import <stdio.h>
+#import <stdlib.h>
+#import <string.h>
+#import "List.h"
+#import "Constraints.h"
+#import "DeltaBlue.h"
 
+#import "DBVariable.h"
 #import "DBSolver.h"
 
 /******* Private *******/
@@ -150,7 +151,7 @@ Constraint c;
     if (!SATISFIED(c)) {
 	printf("Unsatisfied(");
 	for (i = 0; i < c->varCount; i++) {
-	    Variable_Print(c->variables[i]);
+	    Variable_Print([c->variables[i] variable]);
 	    printf(" ");
 	}
 	printf(")");
@@ -159,12 +160,12 @@ Constraint c;
 	printf("Satisfied(");
 	for (i = 0; i < c->varCount; i++) {
 	    if (i != outIndex) {
-		Variable_Print(c->variables[i]);
+		Variable_Print([c->variables[i] variable]);
 		printf(" ");
 	    }
 	}
 	printf("-> ");
-	Variable_Print(c->variables[outIndex]);
+	Variable_Print([c->variables[outIndex] variable]);
 	printf(")");
     }
     printf("\n");
