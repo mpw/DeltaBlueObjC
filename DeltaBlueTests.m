@@ -26,7 +26,7 @@
 +(void)testTemperatureConverter
 {
     DBVariable *celcius, *fahrenheit, *t1, *t2, *nine, *five, *thirtyTwo;
-    DBConstraint *addC, *multC1, *multC2;
+    DBConstraint *addC, *multC1, *divC;
     DBSolver *solver=[DBSolver new];
 
     celcius = [solver variableWithName:@"C" intValue:0];
@@ -42,7 +42,8 @@
     
 
     multC1 = [celcius multiplyBy:nine into:t1 strength:S_required];
-    multC2 = [t2 multiplyBy:five into:t1 strength:S_required];
+    
+    divC = [t1 divideBy:five into:t2 strength:S_required];
     addC=[t2 add:thirtyTwo into:fahrenheit strength:S_required];
     
     [celcius assignInt:0];

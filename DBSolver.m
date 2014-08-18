@@ -275,9 +275,10 @@ Variable v;
         out->mark = currentMark;
         return overridden;
     } else {
-        if (c->strength == S_required) {
-            Error("Could not satisfy a required constraint");
-        }
+        NSAssert(c->strength != S_required, @"required constraint not satisfied");
+//        if (c->strength == S_required) {
+//            Error("Could not satisfy a required constraint");
+//        }
         return NULL;
     }
 }
@@ -443,11 +444,11 @@ Variable v;
 
 /******* Private: Miscellaneous *******/
 
-static void Error(s)
-char *s;
+static void Error(char *s)
 {
-    printf("DeltaBlue.c error: %s.\n", s);
-    exit(-1);
+    @throw [NSException exceptionWithName:@(s)  reason:@(s) userInfo:@{}];
+//    printf("DeltaBlue.c error: %s.\n", s);
+//    exit(-1);
 }
 
 -(void)newMark

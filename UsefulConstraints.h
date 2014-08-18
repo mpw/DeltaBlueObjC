@@ -13,6 +13,8 @@ Constraint EditC(Variable v, int strength, DBSolver *solver);
 Constraint EqualsC(Variable a, Variable b,int strength, DBSolver *solver);  // a == b
 Constraint AddC(Variable a, Variable b, Variable sum, int, DBSolver *solver);	// a + b = sum
 Constraint MultiplyC(Variable a, Variable b, Variable prod, int, DBSolver *solver);	// a * b = prod
+Constraint DivideC(Variable a, Variable b, Variable result, int strength, DBSolver *solver);  // result = a / b
+
 Constraint ScaleOffsetC(Variable src, Variable scale, Variable offset, Variable dest, int, DBSolver *solver);
 								/* (src * scale) + offset = dest*/
 

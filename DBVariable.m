@@ -83,6 +83,11 @@ scalarAccessor(id, solver,setSolver)
     return [DBConstraint constraintWithCConstraint:MultiplyC([self variable], [other variable], [result variable], strength, solver)];
 }
 
+-(DBConstraint*)divideBy:(DBVariable*)other into:(DBVariable*)result strength:(int)strength
+{
+    return [DBConstraint constraintWithCConstraint:DivideC([self variable], [other variable], [result variable], strength, solver)];
+}
+
 
 -(DBConstraint*)add:(DBVariable*)other into:(DBVariable*)result strength:(int)strength
 {

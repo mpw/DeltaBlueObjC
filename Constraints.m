@@ -110,8 +110,7 @@ Variable v;
 
 /******* Constraints *******/
 
-Constraint Constraint_Create(variableCount, strength)
-int variableCount, strength;
+Constraint Constraint_Create(int variableCount, int strength)
 {
     register Constraint new;
     int i;

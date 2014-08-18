@@ -110,15 +110,15 @@ static void MultiplyC_Execute(Constraint c)
 {
     /* a * b = prod */
     switch (c->whichMethod) {
-    case 0:
-	var(2) = var(0) * var(1);
-	break;
-    case 1:
-	var(1) = var(2) / var(0);
-	break;
-    case 2:
-	var(0) = var(2) / var(1);
-	break;
+        case 0:
+            var(0) = var(1) * var(2);
+            break;
+        case 1:
+            var(1) = var(0) / var(2);
+            break;
+        case 2:
+            var(2) = var(0) / var(1);
+            break;
     }
 }
 
@@ -126,17 +126,55 @@ Constraint MultiplyC(Variable a, Variable b, Variable prod, int strength, DBSolv
 {
     Constraint new = Constraint_Create(3, strength);
     new->execute = MultiplyC_Execute;
-    new->variables[0] = a;
-    new->variables[1] = b;
-    new->variables[2] = prod;
+    new->variables[0] = prod;
+    new->variables[1] = a;
+    new->variables[2] = b;
+    
     new->methodCount = 3;
-    new->methodOuts[0] = 2;
+    new->methodOuts[0] = 0;
     new->methodOuts[1] = 1;
-    new->methodOuts[2] = 0;
+    new->methodOuts[2] = 2;
+    
     [solver addConstraint:new];
-
+    
     return new;
 };
+
+
+static void DivideC_Execute(Constraint c)
+{
+    /* a * b = prod */
+    switch (c->whichMethod) {
+        case 0:
+            var(0) = var(1) / var(2);
+            break;
+        case 1:
+            var(1) = var(0) * var(2);
+            break;
+        case 2:
+            var(2) = var(0) * var(1);
+            break;
+    }
+}
+
+Constraint DivideC(Variable a, Variable b, Variable result, int strength, DBSolver *solver)
+{
+    Constraint new = Constraint_Create(3, strength);
+    new->execute = DivideC_Execute;
+    new->variables[0] = result;
+    new->variables[1] = a;
+    new->variables[2] = b;
+    
+    new->methodCount = 3;
+    new->methodOuts[0] = 0;
+    new->methodOuts[1] = 1;
+    new->methodOuts[2] = 2;
+    
+    [solver addConstraint:new];
+    
+    return new;
+};
+
 
 /******** ScaleOffset Constraint *******/
 

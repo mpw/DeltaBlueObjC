@@ -27,7 +27,7 @@ idAccessor_h(solver,setSolver)
 -(Variable)variable;
 -(void)print;
 -(DBConstraint*)multiplyBy:(DBVariable*)other into:(DBVariable*)result strength:(int)strength;
-
+-(DBConstraint*)divideBy:(DBVariable*)other into:(DBVariable*)result strength:(int)strength;
 -(DBConstraint*)add:(DBVariable*)other into:(DBVariable*)result strength:(int)strength;
 
 -(long)intValue;
