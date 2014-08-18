@@ -53,10 +53,10 @@
      List_RemoveAll(allVariables);
      currentMark = 0;
      */
-    allVariables=[NSMutableArray array];
-    hot = [NSMutableArray array];
-    todo1 = [NSMutableArray array];
-    todo2 = [NSMutableArray array];
+    allVariables=[NSMutableArray new];
+    hot = [NSMutableArray new];
+    todo1 = [NSMutableArray new];
+    todo2 = [NSMutableArray new];
     currentMark = 0;
 }
 

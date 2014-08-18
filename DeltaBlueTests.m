@@ -67,10 +67,81 @@
     
 }
 
+#define var(i) (c->variables[i])
+
+
+static void concat_Execute(Constraint c)
+{
+    /* (src * scale) + offset = dest */
+    NSLog(@"satisfy concat: %@ %@ %@ method: %d",var(0),var(1),var(2),c->whichMethod);
+    switch (c->whichMethod) {
+        case 0:
+            [var(0) _setValue:[[var(1) value  ]stringByAppendingString:[var(2) value]]];
+            break;
+        case 1:
+            [var(1) _setValue:[[var(0) value] substringFromIndex:[[var(2) value] length]]];
+            
+            break;
+        case 2:
+            [var(2) _setValue:[[var(0) value] substringToIndex:[[var(1) value] length]]];
+            break;
+    }
+}
+
+static Constraint create_Concat(DBVariable * prefix, DBVariable * suffix, DBVariable * combined, int strength, DBSolver *solver)
+{
+    Constraint new = Constraint_Create(3, strength);
+    new->execute = concat_Execute;
+    new->variables[0] = combined;
+    new->variables[1] = prefix;
+    new->variables[2] = suffix;
+    new->methodCount = 1;
+    new->methodOuts[0] = 0;
+    new->methodOuts[1] = 1;
+    new->methodOuts[2] = 2;
+    [solver addConstraint:new];
+    return new;
+};
+
+
++(void)testStringAppend
+{
+    DBVariable *prefix, *suffix, *combined;
+    DBConstraint *concat;
+    DBSolver *solver=[DBSolver new];
+
+    prefix=[solver variableWithName:@"prefix" intValue:0];
+    suffix=[solver variableWithName:@"suffix" intValue:0];
+    combined=[solver variableWithName:@"combined" intValue:0];
+    [prefix _setValue:@"Hello "];
+    [suffix _setValue:@"World!"];
+    [combined _setValue:@" "];
+    NSLog(@"prefix value: %@",[prefix value]);
+    NSLog(@"suffix value: %@",[suffix value]);
+    NSLog(@"combined value: %@",[combined value]);
+    NSLog(@"will create concat constraint ");
+    concat = [DBConstraint constraintWithCConstraint:create_Concat( prefix,suffix,combined, S_required,solver)];
+    [prefix _setValue:@"Hello "];
+    [suffix _setValue:@"World!"];
+    NSLog(@"prefix value: %@",[prefix value]);
+    NSLog(@"suffix value: %@",[suffix value]);
+    NSLog(@"combined value: %@",[combined value]);
+    
+    [prefix setValue:@"Hello cruel "];
+    
+    IDEXPECT([combined value], @"Hello cruel World!", @"concated");
+    
+    
+    
+}
+
+
+
 +testSelectors
 {
     return @[
-            @"testTemperatureConverter",
+             @"testTemperatureConverter",
+             @"testStringAppend",
             
              ];
 }
