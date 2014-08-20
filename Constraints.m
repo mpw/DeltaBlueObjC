@@ -42,7 +42,7 @@ Constraint c;
 
 /******* Variables *******/
 
-Variable Variable_Create( char *name)
+Variable Variable_Create()
 {
     register Variable new;
 
@@ -55,14 +55,11 @@ Variable Variable_Create( char *name)
     new->mark = 0;
     new->walkStrength = S_weakest;
     new->stay = true;
-    strncpy(new->name, name, 10);
-    new->name[9] = 0;
-        
 
     return new;
 }
 
-Variable Variable_CreateConstant(char *name)
+Variable Variable_CreateConstant()
 {
     register Variable new;
 
@@ -73,8 +70,6 @@ Variable Variable_CreateConstant(char *name)
     new->mark = 0;
     new->walkStrength = S_required;
     new->stay = true;
-    strncpy(new->name, name, 10);
-    new->name[9] = 0;
     return new;
 }
 

@@ -17,13 +17,15 @@
 scalarAccessor(id, solver,setSolver)
 
 idAccessor(value, _setValue )
+objectAccessor(NSString, name, setName)
+scalarAccessor(Variable, variable , setVariable)
 
-
--initConstantWithName:(NSString*)name intValue:(long)newValue
+-initConstantWithName:(NSString*)newName intValue:(long)newValue
 {
     self=[super init];
     if ( self ) {
-        variable=Variable_CreateConstant( (char*)[name UTF8String]);
+        [self setVariable:Variable_CreateConstant()];
+        [self setName:name];
         [self _setIntValue:newValue];
     }
     return self;
@@ -33,7 +35,7 @@ idAccessor(value, _setValue )
 {
     self=[super init];
     if ( self ) {
-        variable=Variable_Create( (char*)[name UTF8String]);
+        variable=Variable_Create( );
         [self _setIntValue:newValue];
 
     }
@@ -44,11 +46,6 @@ idAccessor(value, _setValue )
 +variableWithName:(NSString*)name intValue:(long)value
 {
     return [[[self alloc] initWithName:name intValue:value] autorelease];
-}
-
--(Variable)variable
-{
-    return variable;
 }
 
 -(NSMutableArray*)constraints
@@ -109,7 +106,7 @@ idAccessor(value, _setValue )
 
 -(NSString*)description
 {
-    return [NSString stringWithFormat:@"%s = %@",variable->name,value];
+    return [NSString stringWithFormat:@"%@ = %@",name,value];
 }
 
 -(DBConstraint*)multiplyBy:(DBVariable*)other into:(DBVariable*)result strength:(int)strength

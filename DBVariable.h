@@ -18,10 +18,13 @@
     Variable variable;
     DBSolver *solver;
     id       value;
+    NSString *name;
 }
 
 idAccessor_h(solver,setSolver)
 idAccessor_h(value, setValue )
+objectAccessor_h(NSString, name, setName)
+
 -(void)_setValue:(id)newValue;
 
 +variableWithName:(NSString*)name intValue:(long)value;

@@ -102,7 +102,6 @@ Variable v;
 
     [self withArray:[var constraints] do:@selector(destroyConstraint:)];
     [allVariables removeObject:var];
-//    Variable_Destroy(v);
 }
 
 -(void)addConstraint:(Constraint)newConstraint

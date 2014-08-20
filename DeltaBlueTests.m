@@ -116,20 +116,23 @@ static Constraint create_Concat(DBVariable * prefix, DBVariable * suffix, DBVari
     [prefix _setValue:@"Hello "];
     [suffix _setValue:@"World!"];
     [combined _setValue:@" "];
-    NSLog(@"prefix value: %@",[prefix value]);
-    NSLog(@"suffix value: %@",[suffix value]);
-    NSLog(@"combined value: %@",[combined value]);
-    NSLog(@"will create concat constraint ");
     concat = [DBConstraint constraintWithCConstraint:create_Concat( prefix,suffix,combined, S_required,solver)];
     [prefix _setValue:@"Hello "];
     [suffix _setValue:@"World!"];
-    NSLog(@"prefix value: %@",[prefix value]);
-    NSLog(@"suffix value: %@",[suffix value]);
-    NSLog(@"combined value: %@",[combined value]);
     
     [prefix setValue:@"Hello cruel "];
     
     IDEXPECT([combined value], @"Hello cruel World!", @"concated");
+    
+    
+    [suffix setValue:@"Moon?"];
+    
+    IDEXPECT([combined value], @"Hello cruel Moon?", @"concated");
+    
+    
+//    [combined setValue:@"Hello cruel Sun"];
+    
+//    IDEXPECT([prefix value], @"Hello cruel ", @"prefix");
     
     
     

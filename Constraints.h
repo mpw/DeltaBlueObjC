@@ -16,7 +16,6 @@ typedef struct {
   long		mark;
   char		walkStrength;
   bool      stay;
-  char		name[10];
 } *Variable, VariableStruct;
 
 typedef struct {
@@ -31,8 +30,8 @@ typedef struct {
 } *Constraint, ConstraintStruct;
 
 /* Variables */
-  Variable	Variable_Create(char *);
-  Variable	Variable_CreateConstant(char *);
+  Variable	Variable_Create();
+  Variable	Variable_CreateConstant();
   void		Variable_Destroy(Variable);
 
 /* Constraints */
