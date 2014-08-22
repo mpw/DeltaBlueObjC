@@ -15,11 +15,22 @@
 @implementation DBVariable
 
 scalarAccessor(id, solver,setSolver)
-idAccessor(externalReference, setExternalReference )
+idAccessor(externalReference, _setExternalReference )
 
 idAccessor(localValue, _setLocalValue )
 objectAccessor(NSString, name, setName)
 scalarAccessor(Variable, variable , setVariable)
+
+-(void)setExternalReference:(id)newVar
+{
+    if ( [externalReference respondsToSelector:@selector(setDelegate:)] ) {
+        [externalReference setDelegate:nil];
+    }
+    [self _setExternalReference:newVar];
+    if ( [newVar respondsToSelector:@selector(setDelegate:)] ) {
+        [newVar setDelegate:self];
+    }
+}
 
 -value
 {
@@ -103,19 +114,29 @@ scalarAccessor(Variable, variable , setVariable)
 
 -(void)setValue:(id)newVar
 {
+    [self _setValue:newVar];
+    [self resatisfy];
+}
+
+
+
+-(void)resatisfy
+{
     Constraint	editC;
     NSArray*	plan;
     
     editC = EditC(self, S_required,solver);
     if (SATISFIED(editC)) {
-        [self _setValue:newVar];
         plan=[solver extractPlanFromConstraint:[DBConstraint constraintWithCConstraint:editC]];
         ExecutePlan(plan);
     }
     DestroyConstraint(editC);
 }
 
-
+-(void)changed:ref
+{
+    [self resatisfy];
+}
 
 -(NSString*)description
 {
