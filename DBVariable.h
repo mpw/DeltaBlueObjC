@@ -17,13 +17,15 @@
 {
     Variable variable;
     DBSolver *solver;
-    id       value;
+    id       localValue;
     NSString *name;
+    id       externalReference;
 }
 
 idAccessor_h(solver,setSolver)
 idAccessor_h(value, setValue )
 objectAccessor_h(NSString, name, setName)
+idAccessor_h(externalReference, setExternalReference )
 
 -(void)_setValue:(id)newValue;
 

@@ -15,10 +15,21 @@
 @implementation DBVariable
 
 scalarAccessor(id, solver,setSolver)
+idAccessor(externalReference, setExternalReference )
 
-idAccessor(value, _setValue )
+idAccessor(localValue, _setLocalValue )
 objectAccessor(NSString, name, setName)
 scalarAccessor(Variable, variable , setVariable)
+
+-value
+{
+    return externalReference ? [externalReference value] : [self localValue];
+}
+
+-(void)_setValue:newValue
+{
+    externalReference ? [externalReference _setValue:newValue] : [self _setLocalValue:newValue];
+}
 
 -initConstantWithName:(NSString*)newName intValue:(long)newValue
 {
@@ -75,7 +86,7 @@ scalarAccessor(Variable, variable , setVariable)
 
 -(long)intValue
 {
-    return [value longValue];
+    return [[self value] longValue];
 }
 
 -(void)_setIntValue:(long)newValue
@@ -87,6 +98,8 @@ scalarAccessor(Variable, variable , setVariable)
 {
     [self setValue:@(newValue)];
 }
+
+
 
 -(void)setValue:(id)newVar
 {
@@ -106,7 +119,7 @@ scalarAccessor(Variable, variable , setVariable)
 
 -(NSString*)description
 {
-    return [NSString stringWithFormat:@"%@ = %@",name,value];
+    return [NSString stringWithFormat:@"%@ = %@",name,[self value]];
 }
 
 -(DBConstraint*)multiplyBy:(DBVariable*)other into:(DBVariable*)result strength:(int)strength
