@@ -1,0 +1,14 @@
+#!/usr/local/bin/stsh
+framework:DeltaBlue load.
+a := 2.
+b := 5.
+f := 3.
+solver := DBSolver solver.
+dba := solver variableWithName:'a' intValue:2.
+dbb := solver variableWithName:'b' intValue:17.
+dba setExternalReference: ref:a.
+dbb setExternalReference: ref:b.
+factor := solver constantWithName:'three' intValue:3 .
+factor setExternalReference: ref:f.
+constraint := dba multiplyBy:factor into:dbb strength:0.
+shell runInteractiveLoop.
