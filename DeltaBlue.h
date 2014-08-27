@@ -9,7 +9,6 @@ void	InitDeltaBlue(void);
 void	AddVariable(Variable);
 void	DestroyVariable(Variable);
 void	AddConstraint(Constraint);
-void	DestroyConstraint(Constraint);
 List	ExtractPlan(void);
 List	ExtractPlanFromConstraint(Constraint);
 List	ExtractPlanFromConstraints(List);

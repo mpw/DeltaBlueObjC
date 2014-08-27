@@ -124,13 +124,13 @@ scalarAccessor(Variable, variable , setVariable)
 {
     Constraint	editC;
     NSArray*	plan;
-    
     editC = EditC(self, S_required,solver);
+    DBConstraint *c=[DBConstraint constraintWithCConstraint:editC];
     if (SATISFIED(editC)) {
-        plan=[solver extractPlanFromConstraint:[DBConstraint constraintWithCConstraint:editC]];
+        plan=[solver extractPlanFromConstraint:c];
         ExecutePlan(plan);
     }
-    DestroyConstraint(editC);
+    [solver destroyConstraint:c];
 }
 
 -(void)changed:ref

@@ -104,13 +104,13 @@ Variable v;
     [allVariables removeObject:var];
 }
 
--(void)addConstraint:(Constraint)newConstraint
+-(void)addDBConstraint:(DBConstraint*)c
 {
-//    NSLog(@"addConstraint: %p",newConstraint);
+    //    NSLog(@"addConstraint: %p",newConstraint);
     int i;
     
     //  add constraint to all variables
-    DBConstraint *c=[DBConstraint constraintWithCConstraint:newConstraint];
+    Constraint newConstraint = [c constraint];
     for (i = newConstraint->varCount - 1; i >= 0; i--) {
         [newConstraint->variables[i] addConstraint:c];
         
@@ -118,6 +118,12 @@ Variable v;
     newConstraint->whichMethod = NO_METHOD;
     
     [self incrementalAdd:newConstraint];
+}
+
+-(void)addConstraint:(Constraint)newConstraint
+{
+    DBConstraint *c=[DBConstraint constraintWithCConstraint:newConstraint];
+    [self addDBConstraint:c];
 }
 
 
@@ -491,12 +497,6 @@ static void Error(char *s)
     }
     return first;
 }
-
-void DestroyConstraint( Constraint c)
-{
-    [[DBSolver solver] destroyConstraint:[DBConstraint constraintWithCConstraint:c]];
-}
-
 
 -(DBVariable*)variableWithName:(NSString*)name intValue:(long)value
 {

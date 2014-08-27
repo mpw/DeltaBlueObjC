@@ -33,6 +33,5 @@
 -(DBVariable*)constantWithName:(NSString*)name intValue:(long)value;
 
 void AddConstraint( Constraint c);
-void DestroyConstraint( Constraint c);
 
 @end
