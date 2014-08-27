@@ -88,6 +88,9 @@ static void concat_Execute(Constraint c)
     }
 }
 
+
+
+
 static Constraint create_Concat(DBVariable * prefix, DBVariable * suffix, DBVariable * combined, int strength, DBSolver *solver)
 {
     Constraint new = Constraint_Create(3, strength);

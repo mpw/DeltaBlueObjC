@@ -20,4 +20,5 @@
 -(Constraint)constraint;
 -(BOOL)isSatisfiedInput;
 -(DBVariable*)outputVariable;
+-(void)execute;
 @end

@@ -103,6 +103,9 @@ Constraint AddC(DBVariable *a, DBVariable *b, DBVariable *sum, int strength, DBS
     return new;
 };
 
+
+
+
 /******** Multiply Constraint *******/
 
 static void MultiplyC_Execute(Constraint c)

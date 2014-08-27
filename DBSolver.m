@@ -317,7 +317,7 @@ Variable v;
             [self incrementalRemove:[c constraint]];
             return false;
         }
-        [self recalculate:[nextC constraint]];
+        [self recalculate:nextC];
         nextC=[self nextDownstreamConstraintFrom:todo1 variable:[out variable]];
     }
     return true;
@@ -393,7 +393,7 @@ Variable v;
         if (nextC == NULL) {
             break;
         } else {
-            [self recalculate:[nextC constraint]];
+            [self recalculate:nextC];
             v = [[nextC outputVariable] variable];
         }
     }
@@ -401,15 +401,18 @@ Variable v;
 
 /******* Private: Recalculation *******/
 
--(void)recalculate:(Constraint)c
+-(void)recalculate:(DBConstraint*)constraint
 {
 //    NSLog(@"recalculate: %p",c);
     register Variable out;
+    Constraint c=[constraint constraint];
     
     out = [OUT_VAR(c) variable];
     out->walkStrength = [self outputWalkStrength:c];
     out->stay = [self constantOutput:c];
-    if (out->stay) c->execute(c);
+    if (out->stay) {
+        [constraint execute];
+    }
 }
 
 -(int)outputWalkStrength:(Constraint)c

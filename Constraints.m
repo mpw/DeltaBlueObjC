@@ -26,13 +26,6 @@ char* errorString;
     exit(-1);
 }
 
-static void Execute(Constraint);
-static void Execute(c)
-Constraint c;
-{
-    c->execute(c);
-}
-
 static void Noop(Constraint);
 static void Noop(c)
 Constraint c;
@@ -172,7 +165,7 @@ int strength;
 void ExecutePlan(NSArray *plan)
 {
     for (DBConstraint *c in plan) {
-        Execute( [c constraint]);
+        [c execute];
     }
 
 }

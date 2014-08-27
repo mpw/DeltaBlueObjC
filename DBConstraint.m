@@ -51,4 +51,10 @@
     return (constraint->variables[constraint->methodOuts[constraint->whichMethod]]);
 }
 
+-(void)execute
+{
+    constraint->execute( constraint);
+}
+
+
 @end
