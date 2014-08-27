@@ -27,11 +27,12 @@
 
 +(instancetype)solver;
 -(void)addVariable:(DBVariable*)v;
--(void)addConstraint:(Constraint)c;
+-(void)addCConstraint:(Constraint)c;
 -(NSArray*)extractPlanFromConstraint:(DBConstraint*)c;
 -(DBVariable*)variableWithName:(NSString*)name intValue:(long)value;
 -(DBVariable*)constantWithName:(NSString*)name intValue:(long)value;
+-(void)addConstraint:(DBConstraint*)c;
 
-void AddConstraint( Constraint c);
+
 
 @end

@@ -2,21 +2,37 @@
 framework:DeltaBlue load.
 a := 2.
 b := 5.
-f := 3.
+f := 3.0.
+ra := ref:a .
+rb := ref:b .
+rf := ref:f .
+
 solver := DBSolver solver.
 dba := solver variableWithName:'a' intValue:2.
 dbb := solver variableWithName:'b' intValue:17.
-dba setExternalReference: ref:a.
-dbb setExternalReference: ref:b.
+dba setExternalReference: ra.
+dbb setExternalReference: rb.
+dba retain.
+dbb retain.
+
+
 factor := solver constantWithName:'three' intValue:3 .
-factor setExternalReference: ref:f.
-constraint := solver constraintWithVariables: #( dbb , dba, factor ) strength:0.
+factor setExternalReference: rf.
+vars := NSMutableArray array.
+vars addObject:dbb.
+vars addObject:dba.
+vars addObject:factor.
+constraint := solver constraintWithVariables: vars  strength:0.
 constraint addMethodBlock:[ :constraint | 
-   (constraint variableAtIndex:0) _setValue:(constraint variableAtIndex:1) * (constraint variableAtIndex:2)
+   v1 := (constraint variableAtIndex:1) value.
+   v2 := (constraint variableAtIndex:2) value.
+   (constraint variableAtIndex:0) _setValue: (v1*v2).
 ].
-constraint addMethodBlock:[ :constraint | 
-   (constraint variableAtIndex:1) _setValue:(constraint variableAtIndex:0) / (constraint variableAtIndex:2)
+ constraint addMethodBlock:[ :constraint | 
+   v0 := (constraint variableAtIndex:0) value.
+   v2 := (constraint variableAtIndex:2) value.
+    (constraint variableAtIndex:1) _setValue:(v0/v2).
 ].
 
-constraint := dba multiplyBy:factor into:dbb strength:0.
+solver addConstraint:constraint.
 shell runInteractiveLoop.

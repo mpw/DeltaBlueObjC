@@ -25,7 +25,7 @@ Constraint StayC(DBVariable *v, int strength, DBSolver *solver)
     new->variables[0] = v;
     new->methodCount = 1;
     new->methodOuts[0] = 0;
-    [solver addConstraint:new];
+    [solver addCConstraint:new];
     return new;
 };
 
@@ -38,7 +38,7 @@ Constraint EditC(DBVariable * v, int strength, DBSolver *solver)
     new->variables[0] = v;
     new->methodCount = 1;
     new->methodOuts[0] = 0;
-    [solver addConstraint:new];
+    [solver addCConstraint:new];
     return new;
 };
 
@@ -66,7 +66,7 @@ Constraint EqualsC(DBVariable *a, DBVariable *b,int strength, DBSolver *solver)
     new->methodCount = 2;
     new->methodOuts[0] = 0;
     new->methodOuts[1] = 1;
-    [solver addConstraint:new];
+    [solver addCConstraint:new];
     return new;
 };
 
@@ -99,7 +99,7 @@ Constraint AddC(DBVariable *a, DBVariable *b, DBVariable *sum, int strength, DBS
     new->methodOuts[0] = 2;
     new->methodOuts[1] = 1;
     new->methodOuts[2] = 0;
-    [solver addConstraint:new];
+    [solver addCConstraint:new];
     return new;
 };
 
@@ -137,7 +137,7 @@ Constraint MultiplyC(DBVariable *a, DBVariable * b, DBVariable * prod, int stren
     new->methodOuts[1] = 1;
     new->methodOuts[2] = 2;
     
-    [solver addConstraint:new];
+    [solver addCConstraint:new];
     
     return new;
 };
@@ -172,7 +172,7 @@ Constraint DivideC(DBVariable * a, DBVariable * b, DBVariable * result, int stre
     new->methodOuts[1] = 1;
     new->methodOuts[2] = 2;
     
-    [solver addConstraint:new];
+    [solver addCConstraint:new];
     
     return new;
 };
@@ -204,6 +204,6 @@ Constraint ScaleOffsetC(DBVariable * src, DBVariable * scale, DBVariable * offse
     new->methodCount = 2;
     new->methodOuts[0] = 3;
     new->methodOuts[1] = 0;
-    [solver addConstraint:new];
+    [solver addCConstraint:new];
     return new;
 };

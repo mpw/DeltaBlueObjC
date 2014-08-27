@@ -104,26 +104,30 @@ Variable v;
     [allVariables removeObject:var];
 }
 
--(void)addDBConstraint:(DBConstraint*)c
+-(void)addConstraint:(DBConstraint*)c
 {
-    //    NSLog(@"addConstraint: %p",newConstraint);
+//    NSLog(@"addConstraint: %p",c);
     int i;
     
     //  add constraint to all variables
     Constraint newConstraint = [c constraint];
+//    NSLog(@"c-constraint: %p varCount: %d",newConstraint,newConstraint->varCount);
     for (i = newConstraint->varCount - 1; i >= 0; i--) {
+//        NSLog(@"add constraint to variable %d",i);
         [newConstraint->variables[i] addConstraint:c];
+//        NSLog(@"did add constraint to variable %d",i);
         
     }
     newConstraint->whichMethod = NO_METHOD;
-    
+//    NSLog(@"will do incrementalAdd:");
     [self incrementalAdd:newConstraint];
+//    NSLog(@"did incrementalAdd");
 }
 
--(void)addConstraint:(Constraint)newConstraint
+-(void)addCConstraint:(Constraint)newConstraint
 {
     DBConstraint *c=[DBConstraint constraintWithCConstraint:newConstraint];
-    [self addDBConstraint:c];
+    [self addConstraint:c];
 }
 
 

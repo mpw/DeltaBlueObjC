@@ -75,7 +75,7 @@ static DBConstraint* create_Concat(DBVariable * prefix, DBVariable * suffix, DBV
     [dbConstraint addMethodBlock:^(DBConstraint *c) {
         [dbvar(0) _setValue:[[dbvar(1) value  ]stringByAppendingString:[dbvar(2) value]]];
     }];
-    [solver addConstraint:[dbConstraint constraint]];
+    [solver addConstraint:dbConstraint];
     return dbConstraint;
 };
 
