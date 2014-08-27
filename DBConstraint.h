@@ -28,5 +28,7 @@ typedef void (^ConstraintBlock)(DBConstraint *);
 -(void)execute;
 -(void)addMethodBlock:(ConstraintBlock)aBlock;
 -(DBVariable *)variableAtIndex:(int)anIndex;
++(instancetype)constraintWithVariables:(NSArray*)newVars strength:(int)strength;
+
 
 @end

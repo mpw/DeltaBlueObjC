@@ -59,7 +59,6 @@
     INTEXPECT([celcius intValue], -40, @"celcius for celcius -40");
     INTEXPECT([fahrenheit intValue], -40, @"fahrenheit for celcius -40");
     
-    
  
     [fahrenheit assignInt:70];
     INTEXPECT([celcius intValue], 21, @"celcius for fahrenheit 70");
@@ -67,47 +66,16 @@
     
 }
 
-#define var(i) (c->variables[i])
 #define dbvar(i) ([(c) variableAtIndex:(i)])
-
-
-static void concat_Execute(Constraint c)
-{
-    /* (src * scale) + offset = dest */
-    NSLog(@"satisfy concat: %@ %@ %@ method: %d",var(0),var(1),var(2),c->whichMethod);
-    switch (c->whichMethod) {
-        case 0:
-            [var(0) _setValue:[[var(1) value  ]stringByAppendingString:[var(2) value]]];
-            break;
-        case 1:
-            [var(1) _setValue:[[var(0) value] substringFromIndex:[[var(2) value] length]]];
-            
-            break;
-        case 2:
-            [var(2) _setValue:[[var(0) value] substringToIndex:[[var(1) value] length]]];
-            break;
-    }
-}
-
-
 
 
 static DBConstraint* create_Concat(DBVariable * prefix, DBVariable * suffix, DBVariable * combined, int strength, DBSolver *solver)
 {
-    Constraint new = Constraint_Create(3, strength);
-//    new->execute = concat_Execute;
-    new->variables[0] = combined;
-    new->variables[1] = prefix;
-    new->variables[2] = suffix;
-    new->methodCount = 1;
-    new->methodOuts[0] = 0;
-    new->methodOuts[1] = 1;
-    new->methodOuts[2] = 2;
-    DBConstraint *dbConstraint = [DBConstraint constraintWithCConstraint:new];
+    DBConstraint *dbConstraint = [DBConstraint constraintWithVariables:@[ combined, prefix, suffix] strength:strength];
     [dbConstraint addMethodBlock:^(DBConstraint *c) {
         [dbvar(0) _setValue:[[dbvar(1) value  ]stringByAppendingString:[dbvar(2) value]]];
     }];
-    [solver addConstraint:new];
+    [solver addConstraint:[dbConstraint constraint]];
     return dbConstraint;
 };
 

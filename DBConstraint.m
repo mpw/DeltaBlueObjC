@@ -18,6 +18,11 @@
 }
 
 
++(instancetype)constraintWithVariables:(NSArray*)newVars strength:(int)strength
+{
+    return [[[self alloc] initWithVariables:newVars strength:strength] autorelease];
+}
+
 -initWithCConstraint:(Constraint)aCConstraint
 {
     if ( self=[super init] ) {
@@ -26,6 +31,21 @@
         // create temporary DBConstraint objects refering to
         // an underlying constraint struct
     }
+    return self;
+}
+
+-initWithVariables:(NSArray*)vars strength:(int)strength
+{
+    int numVars = [vars count];
+    Constraint c=Constraint_Create( numVars, strength);
+    if ( c ) {
+        self=[self initWithCConstraint:c];
+        for (int i=0;i<numVars;i++ ) {
+            c->variables[i]=[vars objectAtIndex:i];
+            c->methodOuts[i]=i;
+        }
+    }
+    
     return self;
 }
 
@@ -63,6 +83,7 @@
 -(void)addMethodBlock:(ConstraintBlock)aBlock
 {
     [[self methodBlocks] addObject:[aBlock copy]];
+    constraint->methodCount = [[self methodBlocks] count];
 }
 
 -(DBVariable *)variableAtIndex:(int)anIndex
