@@ -11,6 +11,11 @@
 #include "List.h"
 #include "Constraints.h"
 
+@class DBConstraint;
+
+typedef void (^ConstraintBlock)(DBConstraint *);
+
+
 @interface DBConstraint : NSObject
 {
     Constraint constraint;
@@ -21,4 +26,7 @@
 -(BOOL)isSatisfiedInput;
 -(DBVariable*)outputVariable;
 -(void)execute;
+-(void)addMethodBlock:(ConstraintBlock)aBlock;
+-(DBVariable *)variableAtIndex:(int)anIndex;
+
 @end

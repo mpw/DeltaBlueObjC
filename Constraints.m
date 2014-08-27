@@ -85,7 +85,7 @@ Constraint Constraint_Create(int variableCount, int strength)
     register Constraint new;
     int i;
 
-    new = (Constraint) malloc(sizeof(ConstraintStruct) + ((variableCount - 1) * sizeof(Variable)));
+    new = (Constraint) calloc(1, sizeof(ConstraintStruct) + ((variableCount) * sizeof(Variable)));
     if (new == NULL) Error("out of memory");
     new->execute = Noop;
     new->inputFlag = false;
@@ -99,6 +99,7 @@ Constraint Constraint_Create(int variableCount, int strength)
     for (i = 0; i < new->varCount; i++) {
     	new->variables[i] = NULL;
     }
+    new->methodBlocks = [NSMutableArray new];
     return new;
 }
 

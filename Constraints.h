@@ -20,6 +20,7 @@ typedef struct {
 
 typedef struct {
   Proc		execute;
+  NSMutableArray *methodBlocks;
   bool      inputFlag;
   char		strength;
   char		whichMethod;

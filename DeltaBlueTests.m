@@ -68,6 +68,7 @@
 }
 
 #define var(i) (c->variables[i])
+#define dbvar(i) ([(c) variableAtIndex:(i)])
 
 
 static void concat_Execute(Constraint c)
@@ -91,10 +92,10 @@ static void concat_Execute(Constraint c)
 
 
 
-static Constraint create_Concat(DBVariable * prefix, DBVariable * suffix, DBVariable * combined, int strength, DBSolver *solver)
+static DBConstraint* create_Concat(DBVariable * prefix, DBVariable * suffix, DBVariable * combined, int strength, DBSolver *solver)
 {
     Constraint new = Constraint_Create(3, strength);
-    new->execute = concat_Execute;
+//    new->execute = concat_Execute;
     new->variables[0] = combined;
     new->variables[1] = prefix;
     new->variables[2] = suffix;
@@ -102,8 +103,12 @@ static Constraint create_Concat(DBVariable * prefix, DBVariable * suffix, DBVari
     new->methodOuts[0] = 0;
     new->methodOuts[1] = 1;
     new->methodOuts[2] = 2;
+    DBConstraint *dbConstraint = [DBConstraint constraintWithCConstraint:new];
+    [dbConstraint addMethodBlock:^(DBConstraint *c) {
+        [dbvar(0) _setValue:[[dbvar(1) value  ]stringByAppendingString:[dbvar(2) value]]];
+    }];
     [solver addConstraint:new];
-    return new;
+    return dbConstraint;
 };
 
 
@@ -119,7 +124,7 @@ static Constraint create_Concat(DBVariable * prefix, DBVariable * suffix, DBVari
     [prefix _setValue:@"Hello "];
     [suffix _setValue:@"World!"];
     [combined _setValue:@" "];
-    concat = [DBConstraint constraintWithCConstraint:create_Concat( prefix,suffix,combined, S_required,solver)];
+    concat = create_Concat( prefix,suffix,combined, S_required,solver);
     [prefix _setValue:@"Hello "];
     [suffix _setValue:@"World!"];
     

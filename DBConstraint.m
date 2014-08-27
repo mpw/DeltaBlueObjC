@@ -11,6 +11,7 @@
 
 @implementation DBConstraint
 
+
 +(instancetype)constraintWithCConstraint:(Constraint)aCConstraint;
 {
     return [[[self alloc] initWithCConstraint:aCConstraint] autorelease];
@@ -21,6 +22,9 @@
 {
     if ( self=[super init] ) {
         constraint=aCConstraint;
+        // can't initialize methodBlocks here because we still
+        // create temporary DBConstraint objects refering to
+        // an underlying constraint struct
     }
     return self;
 }
@@ -51,9 +55,34 @@
     return (constraint->variables[constraint->methodOuts[constraint->whichMethod]]);
 }
 
+-(NSMutableArray*)methodBlocks
+{
+    return constraint->methodBlocks;
+}
+
+-(void)addMethodBlock:(ConstraintBlock)aBlock
+{
+    [[self methodBlocks] addObject:[aBlock copy]];
+}
+
+-(DBVariable *)variableAtIndex:(int)anIndex
+{
+    return constraint->variables[anIndex];
+}
+
 -(void)execute
 {
-    constraint->execute( constraint);
+    int whichMethod = constraint->whichMethod;
+    if ( whichMethod < [[self methodBlocks] count]) {
+        ConstraintBlock block = [[self methodBlocks] objectAtIndex:whichMethod];
+        if ( block ) {
+            block( self );
+        }
+    } else {
+        if ( constraint->execute) {
+            constraint->execute( constraint);
+        }
+    }
 }
 
 
