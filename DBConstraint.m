@@ -91,6 +91,39 @@
     return constraint->variables[anIndex];
 }
 
+-(void)add2ArgBlock:(TwoArgBlock)aBlock
+{
+    if ( constraint->varCount == 3 ) {
+        int currentResultIndex = [[self methodBlocks] count];
+        int args[3];
+        for (int i=0,target =0;i<3;i++,target++) {
+            if ( i==currentResultIndex) {
+                target++;
+            }
+            args[i]=target;
+        }
+        int first=args[0];
+        int second=args[1];
+        [self addMethodBlock:^(DBConstraint *c) {
+            id value1=[[c variableAtIndex:first] value];
+            id value2=[[c variableAtIndex:second] value];
+            id result =aBlock( value1, value2);
+            [[c variableAtIndex:currentResultIndex] _setValue:result];
+        }];
+    } else {
+        NSLog(@"2arg block only makes sense with 3 vars");
+    }
+}
+
+-(void)add1ArgBlock:(TwoArgBlock)aBlock
+{
+    if ( constraint->varCount == 3 ) {
+        
+    } else {
+        NSLog(@"2arg block only makes sense with 3 vars");
+    }
+}
+
 -(void)execute
 {
     int whichMethod = constraint->whichMethod;

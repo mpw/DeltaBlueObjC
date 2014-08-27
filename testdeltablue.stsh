@@ -23,15 +23,11 @@ vars addObject:dbb.
 vars addObject:dba.
 vars addObject:factor.
 constraint := solver constraintWithVariables: vars  strength:0.
-constraint addMethodBlock:[ :constraint | 
-   v1 := (constraint variableAtIndex:1) value.
-   v2 := (constraint variableAtIndex:2) value.
-   (constraint variableAtIndex:0) _setValue: (v1*v2).
+constraint add2ArgBlock:[ :a :b | 
+  a * b.
 ].
- constraint addMethodBlock:[ :constraint | 
-   v0 := (constraint variableAtIndex:0) value.
-   v2 := (constraint variableAtIndex:2) value.
-    (constraint variableAtIndex:1) _setValue:(v0/v2).
+constraint add2ArgBlock:[ :a :b | 
+  a / b.
 ].
 
 solver addConstraint:constraint.

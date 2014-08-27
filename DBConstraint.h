@@ -14,6 +14,8 @@
 @class DBConstraint;
 
 typedef void (^ConstraintBlock)(DBConstraint *);
+typedef id (^OneArgBlock)(id a);
+typedef id (^TwoArgBlock)(id a,id b);
 
 
 @interface DBConstraint : NSObject
@@ -27,6 +29,7 @@ typedef void (^ConstraintBlock)(DBConstraint *);
 -(DBVariable*)outputVariable;
 -(void)execute;
 -(void)addMethodBlock:(ConstraintBlock)aBlock;
+-(void)add2ArgBlock:(TwoArgBlock)aBlock;
 -(DBVariable *)variableAtIndex:(int)anIndex;
 +(instancetype)constraintWithVariables:(NSArray*)newVars strength:(int)strength;
 
