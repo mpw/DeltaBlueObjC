@@ -512,4 +512,10 @@ static void Error(char *s)
     return v;
 }
 
+-(DBConstraint*)constraintWithVariables:(NSArray*)vars strength:(int)newStrength
+{
+    return [DBConstraint constraintWithVariables:vars strength:newStrength];
+}
+
+
 @end

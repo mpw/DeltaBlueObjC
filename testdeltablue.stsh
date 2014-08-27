@@ -10,5 +10,10 @@ dba setExternalReference: ref:a.
 dbb setExternalReference: ref:b.
 factor := solver constantWithName:'three' intValue:3 .
 factor setExternalReference: ref:f.
+constraint := solver constraintWithVariables: #( dbb , dba, factor ) strength:0.
+constraint addMethodBlock:[ :constraint | 
+   (constraint variableAtIndex:0) _setValue:(constraint variableAtIndex:1) * (constraint variableAtIndex:2)
+].
+
 constraint := dba multiplyBy:factor into:dbb strength:0.
 shell runInteractiveLoop.
