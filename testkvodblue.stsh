@@ -1,0 +1,20 @@
+#!/usr/local/bin/stsh
+framework:DeltaBlue load.
+solver := DBSolver solver.
+
+
+message := MPWMessageExpression new.
+message setReceiver: 'Marcel'.
+mref := ref:var:message/receiver.
+
+
+mref startKVO.
+
+target := 'target'.
+
+constraint := solver constraintWithRef: mref   andRef: ref:target.
+constraint add1ArgBlock:[ :a | 
+  'Hello ,' , a.
+].
+solver addConstraint: constraint.
+shell runInteractiveLoop.
