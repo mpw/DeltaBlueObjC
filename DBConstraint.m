@@ -115,12 +115,25 @@
     }
 }
 
--(void)add1ArgBlock:(TwoArgBlock)aBlock
+-(void)add1ArgBlock:(OneArgBlock)aBlock
 {
-    if ( constraint->varCount == 3 ) {
-        
+    if ( constraint->varCount == 2 ) {
+        int currentResultIndex = [[self methodBlocks] count];
+        int args[2];
+        for (int i=0,target =0;i<2;i++,target++) {
+            if ( i==currentResultIndex) {
+                target++;
+            }
+            args[i]=target;
+        }
+        int first=args[0];
+        [self addMethodBlock:^(DBConstraint *c) {
+            id value1=[[c variableAtIndex:first] value];
+            id result =aBlock( value1);
+            [[c variableAtIndex:currentResultIndex] _setValue:result];
+        }];
     } else {
-        NSLog(@"2arg block only makes sense with 3 vars");
+        NSLog(@"1arg block only makes sense with 2 vars");
     }
 }
 

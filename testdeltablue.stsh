@@ -2,32 +2,24 @@
 framework:DeltaBlue load.
 a := 2.
 b := 5.
-f := 3.0.
 ra := ref:a .
 rb := ref:b .
-rf := ref:f .
 
 solver := DBSolver solver.
 dba := solver variableWithName:'a' intValue:2.
 dbb := solver variableWithName:'b' intValue:17.
 dba setExternalReference: ra.
 dbb setExternalReference: rb.
-dba retain.
-dbb retain.
 
-
-factor := solver constantWithName:'three' intValue:3 .
-factor setExternalReference: rf.
 vars := NSMutableArray array.
 vars addObject:dbb.
 vars addObject:dba.
-vars addObject:factor.
 constraint := solver constraintWithVariables: vars  strength:0.
-constraint add2ArgBlock:[ :a :b | 
-  a * b.
+constraint add1ArgBlock:[ :a | 
+  a * 3.
 ].
-constraint add2ArgBlock:[ :a :b | 
-  a / b.
+constraint add1ArgBlock:[ :a | 
+  a / 3.
 ].
 
 solver addConstraint:constraint.

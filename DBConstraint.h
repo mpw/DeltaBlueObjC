@@ -30,6 +30,8 @@ typedef id (^TwoArgBlock)(id a,id b);
 -(void)execute;
 -(void)addMethodBlock:(ConstraintBlock)aBlock;
 -(void)add2ArgBlock:(TwoArgBlock)aBlock;
+-(void)add1ArgBlock:(OneArgBlock)aBlock;
+
 -(DBVariable *)variableAtIndex:(int)anIndex;
 +(instancetype)constraintWithVariables:(NSArray*)newVars strength:(int)strength;
 
