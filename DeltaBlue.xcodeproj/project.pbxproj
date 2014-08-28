@@ -16,6 +16,8 @@
 		1F427BC308550B40006D9616 /* MPWConstraintFormula.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F427BC108550B40006D9616 /* MPWConstraintFormula.h */; };
 		1F427BC408550B40006D9616 /* MPWConstraintFormula.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F427BC208550B40006D9616 /* MPWConstraintFormula.m */; };
 		1F5243AB19501D7600BE7469 /* ObjectiveSmalltalk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F5243AA19501D7600BE7469 /* ObjectiveSmalltalk.framework */; };
+		1F67F89D19AF4147000D3BC1 /* DBSolver+Bindings.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F67F89B19AF4147000D3BC1 /* DBSolver+Bindings.h */; };
+		1F67F89E19AF4147000D3BC1 /* DBSolver+Bindings.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F67F89C19AF4147000D3BC1 /* DBSolver+Bindings.m */; };
 		1F73B7F6199BB6700065F690 /* Constraints.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F73B7F2199BB6700065F690 /* Constraints.m */; };
 		1F73B7F8199BB6700065F690 /* List.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F73B7F4199BB6700065F690 /* List.m */; };
 		1F73B7F9199BB6700065F690 /* UsefulConstraints.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F73B7F5199BB6700065F690 /* UsefulConstraints.m */; };
@@ -48,6 +50,8 @@
 		1F427BC108550B40006D9616 /* MPWConstraintFormula.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPWConstraintFormula.h; sourceTree = "<group>"; };
 		1F427BC208550B40006D9616 /* MPWConstraintFormula.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPWConstraintFormula.m; sourceTree = "<group>"; };
 		1F5243AA19501D7600BE7469 /* ObjectiveSmalltalk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectiveSmalltalk.framework; path = ../../Build/Release/ObjectiveSmalltalk.framework; sourceTree = "<group>"; };
+		1F67F89B19AF4147000D3BC1 /* DBSolver+Bindings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DBSolver+Bindings.h"; sourceTree = "<group>"; };
+		1F67F89C19AF4147000D3BC1 /* DBSolver+Bindings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DBSolver+Bindings.m"; sourceTree = "<group>"; };
 		1F73B7F2199BB6700065F690 /* Constraints.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constraints.m; sourceTree = "<group>"; };
 		1F73B7F4199BB6700065F690 /* List.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = List.m; sourceTree = "<group>"; };
 		1F73B7F5199BB6700065F690 /* UsefulConstraints.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsefulConstraints.m; sourceTree = "<group>"; };
@@ -125,6 +129,8 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				1F67F89B19AF4147000D3BC1 /* DBSolver+Bindings.h */,
+				1F67F89C19AF4147000D3BC1 /* DBSolver+Bindings.m */,
 				1F73B80E199C0C580065F690 /* DBSolver.h */,
 				1F73B80F199C0C580065F690 /* DBSolver.m */,
 				1F73B7FA199BB79D0065F690 /* DeltaBlueTests.h */,
@@ -193,6 +199,7 @@
 			files = (
 				1F73B804199BBAF00065F690 /* List.h in Headers */,
 				1F73B810199C0C580065F690 /* DBSolver.h in Headers */,
+				1F67F89D19AF4147000D3BC1 /* DBSolver+Bindings.h in Headers */,
 				1F0257FA08513593009B864E /* MPWConstraintVariable.h in Headers */,
 				1F73B802199BBAF00065F690 /* Constraints.h in Headers */,
 				1F73B803199BBAF00065F690 /* DeltaBlue.h in Headers */,
@@ -290,6 +297,7 @@
 				1F73B7FD199BB79D0065F690 /* DeltaBlueTests.m in Sources */,
 				1F73B811199C0C580065F690 /* DBSolver.m in Sources */,
 				1F73B7F6199BB6700065F690 /* Constraints.m in Sources */,
+				1F67F89E19AF4147000D3BC1 /* DBSolver+Bindings.m in Sources */,
 				1F73B809199BE1D40065F690 /* DBVariable.m in Sources */,
 				1F73B7F8199BB6700065F690 /* List.m in Sources */,
 				1F0257FB08513594009B864E /* MPWConstraintVariable.m in Sources */,

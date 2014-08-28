@@ -165,5 +165,9 @@ scalarAccessor(Variable, variable , setVariable)
     variable->mark=newVar;
 }
 
+-(DBConstraint *)constraintWith:(DBVariable *)other
+{
+    return [solver constraintWithVariables:@[ other, self] strength:0];
+}
 
 @end

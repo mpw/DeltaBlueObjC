@@ -2,25 +2,15 @@
 framework:DeltaBlue load.
 a := 2.
 b := 5.
-ra := ref:a .
-rb := ref:b .
 
 solver := DBSolver solver.
-dba := solver variableWithName:'a' intValue:2.
-dbb := solver variableWithName:'b' intValue:17.
-dba setExternalReference: ra.
-dbb setExternalReference: rb.
 
-vars := NSMutableArray array.
-vars addObject:dbb.
-vars addObject:dba.
-constraint := solver constraintWithVariables: vars  strength:0.
+constraint := solver constraintWithRef: ref:a andRef: ref:b.
 constraint add1ArgBlock:[ :a | 
   a * 3.
 ].
 constraint add1ArgBlock:[ :a | 
   a / 3.
 ].
-
 solver addConstraint:constraint.
 shell runInteractiveLoop.

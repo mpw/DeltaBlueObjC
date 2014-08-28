@@ -11,6 +11,8 @@
 #import "DBVariable.h"
 #import "DBConstraint.h"
 
+
+
 #define OUT_VAR(c)	(c->variables[c->methodOuts[c->whichMethod]])
 
 
@@ -106,16 +108,11 @@ Variable v;
 
 -(void)addConstraint:(DBConstraint*)c
 {
-//    NSLog(@"addConstraint: %p",c);
     int i;
     
-    //  add constraint to all variables
     Constraint newConstraint = [c constraint];
-//    NSLog(@"c-constraint: %p varCount: %d",newConstraint,newConstraint->varCount);
     for (i = newConstraint->varCount - 1; i >= 0; i--) {
-//        NSLog(@"add constraint to variable %d",i);
         [newConstraint->variables[i] addConstraint:c];
-//        NSLog(@"did add constraint to variable %d",i);
         
     }
     newConstraint->whichMethod = NO_METHOD;
