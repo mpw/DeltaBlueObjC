@@ -1,0 +1,15 @@
+#!/usr/local/bin/stsh
+framework:DeltaBlue load.
+theFile := ref:file:test.txt
+
+a := ''.
+
+solver := DBSolver solver.
+
+constraint := solver constraintWithRef: theFile  andRef: ref:a.
+
+constraint add1ArgBlock:[ :a | 
+  a.
+].
+solver addConstraint:constraint.
+shell runInteractiveLoop.
