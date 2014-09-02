@@ -8,13 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		1F0257FA08513593009B864E /* MPWConstraintVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F0257F808513593009B864E /* MPWConstraintVariable.h */; };
-		1F0257FB08513594009B864E /* MPWConstraintVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F0257F908513593009B864E /* MPWConstraintVariable.m */; };
 		1F0259320851365B009B864E /* MPWFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F0259310851365B009B864E /* MPWFoundation.framework */; };
 		1F02596508513686009B864E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F02596408513686009B864E /* Foundation.framework */; };
 		1F02597A0851392A009B864E /* MPWConstraintSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F0259780851392A009B864E /* MPWConstraintSet.h */; };
-		1F02597B0851392A009B864E /* MPWConstraintSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F0259790851392A009B864E /* MPWConstraintSet.m */; };
 		1F427BC308550B40006D9616 /* MPWConstraintFormula.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F427BC108550B40006D9616 /* MPWConstraintFormula.h */; };
-		1F427BC408550B40006D9616 /* MPWConstraintFormula.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F427BC208550B40006D9616 /* MPWConstraintFormula.m */; };
 		1F5243AB19501D7600BE7469 /* ObjectiveSmalltalk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F5243AA19501D7600BE7469 /* ObjectiveSmalltalk.framework */; };
 		1F67F89D19AF4147000D3BC1 /* DBSolver+Bindings.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F67F89B19AF4147000D3BC1 /* DBSolver+Bindings.h */; };
 		1F67F89E19AF4147000D3BC1 /* DBSolver+Bindings.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F67F89C19AF4147000D3BC1 /* DBSolver+Bindings.m */; };
@@ -34,7 +31,6 @@
 		1F73B810199C0C580065F690 /* DBSolver.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F73B80E199C0C580065F690 /* DBSolver.h */; };
 		1F73B811199C0C580065F690 /* DBSolver.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F73B80F199C0C580065F690 /* DBSolver.m */; };
 		1FF8EB4B0854A580006606C2 /* MPWSimpleConstraintSolver.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FF8EB490854A580006606C2 /* MPWSimpleConstraintSolver.h */; };
-		1FF8EB4C0854A580006606C2 /* MPWSimpleConstraintSolver.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FF8EB4A0854A580006606C2 /* MPWSimpleConstraintSolver.m */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
 
@@ -300,11 +296,7 @@
 				1F67F89E19AF4147000D3BC1 /* DBSolver+Bindings.m in Sources */,
 				1F73B809199BE1D40065F690 /* DBVariable.m in Sources */,
 				1F73B7F8199BB6700065F690 /* List.m in Sources */,
-				1F0257FB08513594009B864E /* MPWConstraintVariable.m in Sources */,
-				1F02597B0851392A009B864E /* MPWConstraintSet.m in Sources */,
 				1F73B80D199BE5EF0065F690 /* DBConstraint.m in Sources */,
-				1FF8EB4C0854A580006606C2 /* MPWSimpleConstraintSolver.m in Sources */,
-				1F427BC408550B40006D9616 /* MPWConstraintFormula.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

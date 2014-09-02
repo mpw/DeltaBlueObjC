@@ -8,6 +8,7 @@
 
 #import "DBSolver+Bindings.h"
 #import <ObjectiveSmalltalk/MPWBinding.h>
+#import "DBVariable.h"
 
 @implementation DBSolver (Bindings)
 

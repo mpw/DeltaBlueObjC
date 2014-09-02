@@ -48,6 +48,9 @@ idAccessor_h(externalReference, setExternalReference )
 -(void)removeConstraint:(DBConstraint*)oldConstraint;
 -(BOOL)isKnownWithMark:(long)mark;
 
+-(DBConstraint *)constraintWith:(DBVariable *)other;
+
+
 longAccessor_h(mark , setMark )
 
 @end

@@ -37,7 +37,7 @@ objectAccessor( NSMutableSet, changedVariables, setChangedVariables )
 -basicEvaluate:aScript
 {
 	NSArray *result = [compiler evaluate:aScript];
-    [self markChanged:[aScript variablesWritten]];
+    [self markChanged:[aScript variableNamesWritten]];
     return result;
 }
 
@@ -51,7 +51,7 @@ objectAccessor( NSMutableSet, changedVariables, setChangedVariables )
 {
     id compiled = [compiler compile:aScript];
 	id result = [self basicEvaluate:compiled];
-	[self markChanged:[compiled variablesWritten]];
+	[self markChanged:[compiled variableNamesWritten]];
 	[self reevaluateConstraints];
 //	[self clearChanged];
 	return result;

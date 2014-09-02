@@ -33,6 +33,8 @@
 -(DBVariable*)constantWithName:(NSString*)name intValue:(long)value;
 -(void)addConstraint:(DBConstraint*)c;
 
+-(DBConstraint*)constraintWithVariables:(NSArray*)vars strength:(int)newStrength;
+
 
 
 @end

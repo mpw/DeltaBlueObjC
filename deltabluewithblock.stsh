@@ -1,0 +1,19 @@
+#!/usr/local/bin/stsh
+framework:DeltaBlue load.
+a := 2.
+b := 5.
+
+solver := DBSolver solver.
+block := [ a := b * 3].
+
+variableDetermined := block block variablesWritten allObjects firstObject bindingWithContext:context.
+variablesRead := block block variablesRead allObjects collect bindingWithContext:context.
+
+constraint := solver constraintWithRef: variableDetermined andRef: variablesRead lastObject.
+
+constraint add1ArgBlock:[ :a | a * 3 ]. 
+constraint add1ArgBlock:[ :a | a / 3 ]. 
+solver addConstraint:constraint.
+
+
+shell runInteractiveLoop.
