@@ -32,31 +32,41 @@
     return [v1 constraintWith:v2];
 }
 
--(MPWBlockInvocable*)convertBlock:(MPWBlockInvocable*)block
+-(MPWBlockInvocable*)convertAssignment:(MPWAssignmentExpression*)a inContext:aContext
 {
-    MPWAssignmentExpression *a=[[block block] statements];
     MPWExpression *e=[a rhs];
     NSString* arg=[[[e variableNamesRead] allObjects] firstObject];
     MPWStatementList *newStatements = [MPWStatementList statementList];
     [newStatements addStatement:e];
     
     MPWBlockExpression *newBlock = [MPWBlockExpression blockWithStatements:newStatements arguments:@[ arg]];
-    return [MPWBlockContext blockContextWithBlock:newBlock context:[block context]];
+    return [MPWBlockContext blockContextWithBlock:newBlock context:aContext];
 }
 
-
--(DBConstraint*)constraintWithSTBlock:(MPWBlockInvocable*)block inContext:aContext
+-(DBConstraint*)constraintWithAssignmentExpression:(MPWAssignmentExpression*)expr inContext:aContext
 {
-    MPWBinding *written=[[[[[block block] variablesWritten] allObjects] firstObject] bindingWithContext:aContext];
-    NSArray *read=[[[[[block block] variablesRead] allObjects] collect] bindingWithContext:aContext];
+    MPWBinding *written = [[[expr lhs] identifier] bindingWithContext:aContext];
+                           
+//    MPWBinding *written=[[[[[block block] variablesWritten] allObjects] firstObject] bindingWithContext:aContext];
+    
+    
+    
+    NSArray *read=[[[[[expr rhs] variablesRead] allObjects] collect] bindingWithContext:aContext];
     NSArray *bindings = [read arrayByAddingObject:written];
     NSArray *variables = [[self collect] constraintVarWithBinding:[bindings each]];
     
     
     DBConstraint *c= [self constraintWithVariables:variables strength:0];
-    [c add1ArgBlock:(OneArgBlock)[self convertBlock:block]];
+    [c add1ArgBlock:(OneArgBlock)[self convertAssignment:expr inContext:aContext]];
     [self addConstraint:c];
     return c;
+}
+
+-(DBConstraint*)constraintWithSTBlock:(MPWBlockContext*)block inContext:aContext
+{
+    MPWAssignmentExpression *e=[[block block] statements];
+    return [self constraintWithAssignmentExpression:e inContext:aContext];
+    
 }
 
 -(DBConstraint*)constraintWithSTBlock:(MPWBlockInvocable*)block
