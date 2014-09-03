@@ -11,6 +11,7 @@
 #import "DBVariable.h"
 #import "DBConstraint.h"
 
+#import <ObjectiveSmalltalk/MPWBinding.h>
 
 
 #define OUT_VAR(c)	(c->variables[c->methodOuts[c->whichMethod]])
@@ -517,6 +518,7 @@ static void Error(char *s)
 {
     return [DBConstraint constraintWithVariables:vars strength:newStrength];
 }
+
 
 
 @end

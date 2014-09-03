@@ -11,7 +11,7 @@
 #import "List.h"
 #import "Constraints.h"
 
-@class DBVariable,DBConstraint;
+@class DBVariable,DBConstraint,MPWBlockInvocable;
 
 @interface DBSolver : NSObject
 {
@@ -34,6 +34,7 @@
 -(void)addConstraint:(DBConstraint*)c;
 
 -(DBConstraint*)constraintWithVariables:(NSArray*)vars strength:(int)newStrength;
+
 
 
 

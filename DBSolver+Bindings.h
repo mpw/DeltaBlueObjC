@@ -14,4 +14,6 @@
 
 -(DBVariable*)constraintVarWithBinding:(MPWBinding*)aBinding;
 
+-(DBConstraint*)constraintWithSTBlock:(MPWBlockInvocable*)block inContext:aContext;
+
 @end
