@@ -59,6 +59,11 @@
     return c;
 }
 
+-(DBConstraint*)constraintWithSTBlock:(MPWBlockInvocable*)block
+{
+    return [self constraintWithSTBlock:block inContext:[block context]];
+}
+
 
 
 @end
