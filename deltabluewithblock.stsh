@@ -4,13 +4,7 @@ a := 2.
 b := 5.
 
 solver := DBSolver solver.
-block := [ a := b * 20].
+constraint := solver constraintWithSTBlock:[ a:= b * 20]  inContext:context.
 
-constraint := solver constraintWithSTBlock:block inContext:context.
-
-#constraint add1ArgBlock:[ :a | a * 3 ]. 
 constraint add1ArgBlock:[ :a | a / 20 ]. 
-solver addConstraint:constraint.
-
-
 shell runInteractiveLoop.

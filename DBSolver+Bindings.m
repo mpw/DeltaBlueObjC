@@ -55,6 +55,7 @@
     
     DBConstraint *c= [self constraintWithVariables:variables strength:0];
     [c add1ArgBlock:(OneArgBlock)[self convertBlock:block]];
+    [self addConstraint:c];
     return c;
 }
 
