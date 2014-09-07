@@ -12,11 +12,15 @@
 #import "DBVariable.h"
 #import "DBConstraint.h"
 #import "DBSolver.h"
+#import "DBSolver+Bindings.h"
 
 #include "List.h"
 #include "Constraints.h"
 #include "DeltaBlue.h"
 #include "UsefulConstraints.h"
+
+#import <ObjectiveSmalltalk/MPWStCompiler.h>
+#import <ObjectiveSmalltalk/MPWBinding.h>
 
 
 @implementation DeltaBlueTests
@@ -114,6 +118,57 @@ static DBConstraint* create_Concat(DBVariable * prefix, DBVariable * suffix, DBV
     
 }
 
++(void)testSimpleObjSTConstraint
+{
+    DBSolver *solver=[DBSolver solver];
+    MPWStCompiler *compiler=[MPWStCompiler compiler];
+    [compiler evaluateScriptString:@"a := 2."];
+    [compiler evaluateScriptString:@"b := 10."];
+    
+    id block=[compiler evaluateScriptString:@"[ b := a*20 + 1 ]"];
+    DBConstraint *constraint=[solver constraintWithSTBlock:block inContext:compiler];
+    [constraint add1ArgBlock:[compiler evaluateScriptString:@"[ :arg | arg - 1 /20]"]];
+    [compiler evaluateScriptString:@" a:=200"];
+    IDEXPECT([compiler evaluateScriptString:@"b"], @(4001), @"b forward-evaluated via constraint");
+    [compiler evaluateScriptString:@" b:=1000"];
+    IDEXPECT([compiler evaluateScriptString:@"a"], @(49.95), @"a backward-evaluated via constraint");
+}
+
++(void)testTemperatureConverterObjST
+{
+    DBSolver *solver=[DBSolver solver];
+    MPWStCompiler *compiler=[MPWStCompiler compiler];
+    [compiler evaluateScriptString:@"c := 0."];
+    [compiler evaluateScriptString:@"f := 32."];
+    [compiler evaluateScriptString:@"k := 100."];
+    MPWBinding *c=[compiler evaluateScriptString:@"ref:c"];
+    MPWBinding *f=[compiler evaluateScriptString:@"ref:f"];
+    MPWBinding *k=[compiler evaluateScriptString:@"ref:k"];
+    id block1=[compiler evaluateScriptString:@"[ f := c * (9.0/5) + 32 ]"];
+    DBConstraint *fc_constraint=[solver constraintWithSTBlock:block1 inContext:compiler];
+    [fc_constraint add1ArgBlock:[compiler evaluateScriptString:@"[ :farg | farg - 32.0 * (5.0/9)]"]];
+    id block2=[compiler evaluateScriptString:@"[ k := c + 272 ]"];
+    DBConstraint *ck_constraint=[solver constraintWithSTBlock:block2 inContext:compiler];
+    [ck_constraint add1ArgBlock:[compiler evaluateScriptString:@"[ :farg | farg - 272 ]"]];
+
+    
+    [c bindValue:@(0)];
+    IDEXPECT([f value], @(32), @"0 degrees C as F");
+    [c bindValue:@(22)];
+    IDEXPECT([f value], @(71.6), @"22 degrees C as F");
+    [c bindValue:@(100)];
+    IDEXPECT([f value], @(212), @"100 degrees C as F");
+    [f bindValue:@(-40)];
+    IDEXPECT([c value], @(-40), @"-40 degrees F as C");
+    [f bindValue:@(212)];
+    IDEXPECT([c value], @(100), @"212 degrees F as C");
+    [f bindValue:@(32)];
+    IDEXPECT([c value], @(0), @"32 degrees F as C");
+    IDEXPECT([k value], @(272), @"32 degrees F as K");
+    [f bindValue:@(212)];
+    IDEXPECT([k value], @(372), @"212 degrees F as K");
+}
+
 
 
 +testSelectors
@@ -121,6 +176,8 @@ static DBConstraint* create_Concat(DBVariable * prefix, DBVariable * suffix, DBV
     return @[
              @"testTemperatureConverter",
              @"testStringAppend",
+             @"testSimpleObjSTConstraint",
+             @"testTemperatureConverterObjST",
             
              ];
 }

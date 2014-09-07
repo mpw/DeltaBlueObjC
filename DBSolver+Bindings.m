@@ -17,10 +17,24 @@
 
 @implementation DBSolver (Bindings)
 
+-(DBVariable*)lookupDBVariableWithBinding:(MPWBinding*)binding
+{
+    for ( DBVariable *var in allVariables) {
+        if ( [var externalReference] == binding) {
+            return var;
+        }
+    }
+    return nil;
+}
+
+
 -(DBVariable*)constraintVarWithBinding:(MPWBinding*)aBinding
 {
-    DBVariable *var=[self variableWithName:[aBinding name] intValue:0];
-    [var setExternalReference:aBinding];
+    DBVariable *var=[self lookupDBVariableWithBinding:aBinding];
+    if (!var) {
+        var=[self variableWithName:[aBinding name] intValue:0];
+        [var setExternalReference:aBinding];
+    }
     return var;
 }
 
@@ -52,7 +66,7 @@
     
     
     NSArray *read=[[[[[expr rhs] variablesRead] allObjects] collect] bindingWithContext:aContext];
-    NSArray *bindings = [read arrayByAddingObject:written];
+    NSArray *bindings = [@[written] arrayByAddingObjectsFromArray:read];
     NSArray *variables = [[self collect] constraintVarWithBinding:[bindings each]];
     
     
