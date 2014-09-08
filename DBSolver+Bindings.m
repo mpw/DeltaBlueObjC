@@ -91,3 +91,13 @@
 
 
 @end
+
+@implementation MPWBlockContext(constraint)
+
+
+-constraintIn:(DBSolver*)solver
+{
+    return [solver constraintWithSTBlock:self];
+}
+
+@end
