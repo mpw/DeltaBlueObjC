@@ -8,7 +8,7 @@ message setReceiver: 'Marcel'.
 mref := ref:var:message/receiver.
 
 
-mref startKVO.
+mref startObserving.
 
 target := 'target'.
 
