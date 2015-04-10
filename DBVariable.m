@@ -53,13 +53,13 @@ scalarAccessor(Variable, variable , setVariable)
     return self;
 }
 
--initWithName:(NSString*)name intValue:(long)newValue
+-initWithName:(NSString*)newName intValue:(long)newValue
 {
     self=[super init];
     if ( self ) {
         variable=Variable_Create( );
         [self _setIntValue:newValue];
-
+        [self setName:newName];
     }
     return self;
 }

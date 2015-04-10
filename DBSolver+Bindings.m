@@ -53,7 +53,7 @@
     MPWStatementList *newStatements = [MPWStatementList statementList];
     [newStatements addStatement:e];
     
-    MPWBlockExpression *newBlock = [MPWBlockExpression blockWithStatements:newStatements arguments:@[ arg]];
+    MPWBlockExpression *newBlock = [MPWBlockExpression blockWithStatements:newStatements arguments:[[e variableNamesRead] allObjects]];
     return [MPWBlockContext blockContextWithBlock:newBlock context:aContext];
 }
 
@@ -64,14 +64,22 @@
 //    MPWBinding *written=[[[[[block block] variablesWritten] allObjects] firstObject] bindingWithContext:aContext];
     
     
-    
+    NSLog(@"written: %@",written);
     NSArray *read=[[[[[expr rhs] variablesRead] allObjects] collect] bindingWithContext:aContext];
+    NSLog(@"read: %@",read);
     NSArray *bindings = [@[written] arrayByAddingObjectsFromArray:read];
     NSArray *variables = [[self collect] constraintVarWithBinding:[bindings each]];
-    
+    NSLog(@"constraint variables: %@",variables);
     
     DBConstraint *c= [self constraintWithVariables:variables strength:0];
-    [c add1ArgBlock:(OneArgBlock)[self convertAssignment:expr inContext:aContext]];
+    NSLog(@"constraint: %@",c);
+    id convertedBlock = [self convertAssignment:expr inContext:aContext];
+    int numParams =[[convertedBlock formalParameters] count];
+    if ( numParams == 2) {
+        [c add2ArgBlock:(TwoArgBlock)convertedBlock];
+    } else {
+        [c add1ArgBlock:(OneArgBlock)convertedBlock];
+    }
     [self addConstraint:c];
     return c;
 }

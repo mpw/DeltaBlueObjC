@@ -106,7 +106,7 @@
         int second=args[1];
         [self addMethodBlock:^(DBConstraint *c) {
             id value1=[[c variableAtIndex:first] value];
-            id value2=[[c variableAtIndex:second] value];
+            id value2=nil;[[c variableAtIndex:second] value];
             id result =aBlock( value1, value2);
             [[c variableAtIndex:currentResultIndex] _setValue:result];
         }];

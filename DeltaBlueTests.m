@@ -169,6 +169,24 @@ static DBConstraint* create_Concat(DBVariable * prefix, DBVariable * suffix, DBV
     IDEXPECT([k value], @(372), @"212 degrees F as K");
 }
 
++(void)testTwoArgBlock
+{
+    DBSolver *solver=[DBSolver solver];
+    MPWStCompiler *compiler=[MPWStCompiler compiler];
+    [compiler evaluateScriptString:@"a := 5."];
+    [compiler evaluateScriptString:@"b := 15."];
+    [compiler evaluateScriptString:@"c := 20."];
+    MPWBinding *a=[compiler evaluateScriptString:@"ref:a"];
+    MPWBinding *b=[compiler evaluateScriptString:@"ref:b"];
+    MPWBinding *c=[compiler evaluateScriptString:@"ref:c"];
+    id block1=[compiler evaluateScriptString:@"[ c := a + b ]"];
+    DBConstraint *abc_add_constraint=[solver constraintWithSTBlock:block1 inContext:compiler];
+//    [abc_add_constraint add2ArgBlock:[compiler evaluateScriptString:@"[ :carg :barg | carg - barg ]"]];
+//    [abc_add_constraint add2ArgBlock:[compiler evaluateScriptString:@"[ :carg :aarg | carg - aarg ]"]];
+    
+    [a bindValue:@(30)];
+    IDEXPECT([c value], @(40), @"10 + 30");
+}
 
 
 +testSelectors
@@ -178,6 +196,7 @@ static DBConstraint* create_Concat(DBVariable * prefix, DBVariable * suffix, DBV
              @"testStringAppend",
              @"testSimpleObjSTConstraint",
              @"testTemperatureConverterObjST",
+//             @"testTwoArgBlock",
             
              ];
 }
