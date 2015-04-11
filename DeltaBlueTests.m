@@ -179,13 +179,15 @@ static DBConstraint* create_Concat(DBVariable * prefix, DBVariable * suffix, DBV
     MPWBinding *a=[compiler evaluateScriptString:@"ref:a"];
     MPWBinding *b=[compiler evaluateScriptString:@"ref:b"];
     MPWBinding *c=[compiler evaluateScriptString:@"ref:c"];
-    id block1=[compiler evaluateScriptString:@"[ c := a + b ]"];
+    id block1=[compiler evaluateScriptString:@"[  c := a + b ]"];
     DBConstraint *abc_add_constraint=[solver constraintWithSTBlock:block1 inContext:compiler];
 //    [abc_add_constraint add2ArgBlock:[compiler evaluateScriptString:@"[ :carg :barg | carg - barg ]"]];
 //    [abc_add_constraint add2ArgBlock:[compiler evaluateScriptString:@"[ :carg :aarg | carg - aarg ]"]];
     
-    [a bindValue:@(30)];
-    IDEXPECT([c value], @(40), @"10 + 30");
+    [a bindValue:@(10)];
+    IDEXPECT([c value], @(25), @"10 + 15");
+    [b bindValue:@(107)];
+    IDEXPECT([c value], @(117), @"10 + 107");
 }
 
 
@@ -196,7 +198,7 @@ static DBConstraint* create_Concat(DBVariable * prefix, DBVariable * suffix, DBV
              @"testStringAppend",
              @"testSimpleObjSTConstraint",
              @"testTemperatureConverterObjST",
-//             @"testTwoArgBlock",
+             @"testTwoArgBlock",
             
              ];
 }

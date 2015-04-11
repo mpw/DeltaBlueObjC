@@ -75,11 +75,7 @@
     NSLog(@"constraint: %@",c);
     id convertedBlock = [self convertAssignment:expr inContext:aContext];
     int numParams =[[convertedBlock formalParameters] count];
-    if ( numParams == 2) {
-        [c add2ArgBlock:(TwoArgBlock)convertedBlock];
-    } else {
-        [c add1ArgBlock:(OneArgBlock)convertedBlock];
-    }
+    [c addBlock:convertedBlock withNumArgs:numParams];
     [self addConstraint:c];
     return c;
 }
