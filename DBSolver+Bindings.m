@@ -31,7 +31,7 @@
 -(DBVariable*)constraintVarWithBinding:(MPWBinding*)aBinding
 {
     DBVariable *var=[self lookupDBVariableWithBinding:aBinding];
-    if (!var) {
+    if (!var && ![[aBinding name] isEqualTo:@"self"]) {
         var=[self variableWithName:[aBinding name] intValue:0];
         [var setExternalReference:aBinding];
     }
@@ -49,11 +49,15 @@
 -(MPWBlockInvocable*)convertAssignment:(MPWAssignmentExpression*)a inContext:aContext
 {
     MPWExpression *e=[a rhs];
-    NSString* arg=[[[e variableNamesRead] allObjects] firstObject];
+    NSMutableSet *variableNamesRead = [[[e variableNamesRead] mutableCopy] autorelease];
+    [variableNamesRead removeObject:@"self"];
+    NSString* arg=[[variableNamesRead allObjects] firstObject];
     MPWStatementList *newStatements = [MPWStatementList statementList];
     [newStatements addStatement:e];
     
-    MPWBlockExpression *newBlock = [MPWBlockExpression blockWithStatements:newStatements arguments:[[e variableNamesRead] allObjects]];
+    
+    
+    MPWBlockExpression *newBlock = [MPWBlockExpression blockWithStatements:newStatements arguments:[variableNamesRead allObjects]];
     return [MPWBlockContext blockContextWithBlock:newBlock context:aContext];
 }
 
@@ -68,6 +72,13 @@
     NSArray *read=[[[[[expr rhs] variablesRead] allObjects] collect] bindingWithContext:aContext];
     NSLog(@"read: %@",read);
     NSArray *bindings = [@[written] arrayByAddingObjectsFromArray:read];
+    NSMutableArray *constraintVars=[NSMutableArray array];
+    for ( MPWBinding *binding in bindings) {
+        id cvar=[self  constraintVarWithBinding:binding];
+        if ( cvar) {
+            [constraintVars addObject:cvar];
+        }
+    }
     NSArray *variables = [[self collect] constraintVarWithBinding:[bindings each]];
     NSLog(@"constraint variables: %@",variables);
     
