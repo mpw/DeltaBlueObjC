@@ -77,12 +77,13 @@
         id cvar=[self  constraintVarWithBinding:binding];
         if ( cvar) {
             [constraintVars addObject:cvar];
+            [binding startObserving];
         }
     }
-    NSArray *variables = [[self collect] constraintVarWithBinding:[bindings each]];
-    NSLog(@"constraint variables: %@",variables);
+//    NSArray *variables = [[self collect] constraintVarWithBinding:[bindings each]];
+    NSLog(@"constraint variables: %@",constraintVars);
     
-    DBConstraint *c= [self constraintWithVariables:variables strength:0];
+    DBConstraint *c= [self constraintWithVariables:constraintVars strength:0];
     NSLog(@"constraint: %@",c);
     id convertedBlock = [self convertAssignment:expr inContext:aContext];
     int numParams =[[convertedBlock formalParameters] count];
