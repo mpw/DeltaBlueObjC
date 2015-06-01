@@ -28,9 +28,11 @@
 		1F73B809199BE1D40065F690 /* DBVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F73B807199BE1D40065F690 /* DBVariable.m */; };
 		1F73B80C199BE5EF0065F690 /* DBConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F73B80A199BE5EF0065F690 /* DBConstraint.h */; };
 		1F73B80D199BE5EF0065F690 /* DBConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F73B80B199BE5EF0065F690 /* DBConstraint.m */; };
-		1F73B810199C0C580065F690 /* DBSolver.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F73B80E199C0C580065F690 /* DBSolver.h */; };
+		1F73B810199C0C580065F690 /* DBSolver.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F73B80E199C0C580065F690 /* DBSolver.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1F73B811199C0C580065F690 /* DBSolver.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F73B80F199C0C580065F690 /* DBSolver.m */; };
 		1FF8EB4B0854A580006606C2 /* MPWSimpleConstraintSolver.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FF8EB490854A580006606C2 /* MPWSimpleConstraintSolver.h */; };
+		1FFC563E1B1C693800BE3884 /* MPWDataflowConstraintExpression+SolverIntegration.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FFC563C1B1C693800BE3884 /* MPWDataflowConstraintExpression+SolverIntegration.h */; };
+		1FFC563F1B1C693800BE3884 /* MPWDataflowConstraintExpression+SolverIntegration.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FFC563D1B1C693800BE3884 /* MPWDataflowConstraintExpression+SolverIntegration.m */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
 
@@ -65,6 +67,8 @@
 		1F73B80F199C0C580065F690 /* DBSolver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBSolver.m; sourceTree = "<group>"; };
 		1FF8EB490854A580006606C2 /* MPWSimpleConstraintSolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPWSimpleConstraintSolver.h; sourceTree = "<group>"; };
 		1FF8EB4A0854A580006606C2 /* MPWSimpleConstraintSolver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPWSimpleConstraintSolver.m; sourceTree = "<group>"; };
+		1FFC563C1B1C693800BE3884 /* MPWDataflowConstraintExpression+SolverIntegration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MPWDataflowConstraintExpression+SolverIntegration.h"; sourceTree = "<group>"; };
+		1FFC563D1B1C693800BE3884 /* MPWDataflowConstraintExpression+SolverIntegration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MPWDataflowConstraintExpression+SolverIntegration.m"; sourceTree = "<group>"; };
 		32DBCF5E0370ADEE00C91783 /* DeltaBlue_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeltaBlue_Prefix.pch; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* DeltaBlue.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DeltaBlue.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -125,6 +129,8 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				1FFC563C1B1C693800BE3884 /* MPWDataflowConstraintExpression+SolverIntegration.h */,
+				1FFC563D1B1C693800BE3884 /* MPWDataflowConstraintExpression+SolverIntegration.m */,
 				1F67F89B19AF4147000D3BC1 /* DBSolver+Bindings.h */,
 				1F67F89C19AF4147000D3BC1 /* DBSolver+Bindings.m */,
 				1F73B80E199C0C580065F690 /* DBSolver.h */,
@@ -197,6 +203,7 @@
 				1F73B810199C0C580065F690 /* DBSolver.h in Headers */,
 				1F67F89D19AF4147000D3BC1 /* DBSolver+Bindings.h in Headers */,
 				1F0257FA08513593009B864E /* MPWConstraintVariable.h in Headers */,
+				1FFC563E1B1C693800BE3884 /* MPWDataflowConstraintExpression+SolverIntegration.h in Headers */,
 				1F73B802199BBAF00065F690 /* Constraints.h in Headers */,
 				1F73B803199BBAF00065F690 /* DeltaBlue.h in Headers */,
 				1F02597A0851392A009B864E /* MPWConstraintSet.h in Headers */,
@@ -291,6 +298,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F73B7F9199BB6700065F690 /* UsefulConstraints.m in Sources */,
+				1FFC563F1B1C693800BE3884 /* MPWDataflowConstraintExpression+SolverIntegration.m in Sources */,
 				1F73B7FD199BB79D0065F690 /* DeltaBlueTests.m in Sources */,
 				1F73B811199C0C580065F690 /* DBSolver.m in Sources */,
 				1F73B7F6199BB6700065F690 /* Constraints.m in Sources */,

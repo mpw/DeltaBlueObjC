@@ -65,7 +65,6 @@
 {
     MPWBinding *written = [[[expr lhs] identifier] bindingWithContext:aContext];
                            
-//    MPWBinding *written=[[[[[block block] variablesWritten] allObjects] firstObject] bindingWithContext:aContext];
     
     
     NSLog(@"written: %@",written);
