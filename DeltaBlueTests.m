@@ -190,6 +190,42 @@ static DBConstraint* create_Concat(DBVariable * prefix, DBVariable * suffix, DBV
     IDEXPECT([c value], @(117), @"10 + 107");
 }
 
++(void)testDataflowConstraintConnector
+{
+    DBSolver *solver=[DBSolver solver];
+    MPWStCompiler *compiler=[MPWStCompiler compiler];
+    [compiler setSolver:solver];
+    [compiler evaluateScriptString:@"a := 5."];
+    [compiler evaluateScriptString:@"b := 15."];
+    [compiler evaluateScriptString:@"c := 20."];
+    INTEXPECT([(NSNumber*)[compiler evaluateScriptString:@"c"] intValue], 20, @"before");
+    [compiler evaluateScriptString:@"c |= a + b."];
+    INTEXPECT([(NSNumber*)[compiler evaluateScriptString:@"c"] intValue], 20, @"after same value");
+    [compiler evaluateScriptString:@"a := 20."];
+    INTEXPECT([(NSNumber*)[compiler evaluateScriptString:@"c"] intValue], 35, @"after new value");
+    
+}
+
++(void)testBidirectionalDataflowConstraintConnector
+{
+    DBSolver *solver=[DBSolver solver];
+    MPWStCompiler *compiler=[MPWStCompiler compiler];
+    [compiler setSolver:solver];
+    [compiler evaluateScriptString:@"a := 15."];
+    [compiler evaluateScriptString:@"b := 15."];
+    [compiler evaluateScriptString:@"b =|= a."];
+    INTEXPECT([(NSNumber*)[compiler evaluateScriptString:@"b"] intValue], 15, @"before");
+
+    [compiler evaluateScriptString:@"a := 20"];
+    INTEXPECT([(NSNumber*)[compiler evaluateScriptString:@"b"] intValue], 20, @"direction a -> b");
+/*
+    [compiler evaluateScriptString:@"b := 10"];
+
+ INTEXPECT([(NSNumber*)[compiler evaluateScriptString:@"a"] intValue], 10, @"direction b -> a");
+*/
+    
+}
+
 
 +testSelectors
 {
@@ -199,6 +235,8 @@ static DBConstraint* create_Concat(DBVariable * prefix, DBVariable * suffix, DBV
              @"testSimpleObjSTConstraint",
              @"testTemperatureConverterObjST",
              @"testTwoArgBlock",
+             @"testDataflowConstraintConnector",
+             @"testBidirectionalDataflowConstraintConnector",
             
              ];
 }

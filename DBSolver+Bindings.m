@@ -46,14 +46,13 @@
     return [v1 constraintWith:v2];
 }
 
--(MPWBlockInvocable*)convertAssignment:(MPWAssignmentExpression*)a inContext:aContext
+-(MPWBlockInvocable*)convertRHSToBlock:(MPWExpression*)rhs inContext:aContext
 {
-    MPWExpression *e=[a rhs];
-    NSMutableSet *variableNamesRead = [[[e variableNamesRead] mutableCopy] autorelease];
+    NSMutableSet *variableNamesRead = [[[rhs variableNamesRead] mutableCopy] autorelease];
     [variableNamesRead removeObject:@"self"];
-    NSString* arg=[[variableNamesRead allObjects] firstObject];
+//    NSString* arg=[[variableNamesRead allObjects] firstObject];
     MPWStatementList *newStatements = [MPWStatementList statementList];
-    [newStatements addStatement:e];
+    [newStatements addStatement:rhs];
     
     
     
@@ -64,9 +63,7 @@
 -(DBConstraint*)constraintWithAssignmentExpression:(MPWAssignmentExpression*)expr inContext:aContext
 {
     MPWBinding *written = [[[expr lhs] identifier] bindingWithContext:aContext];
-                           
-    
-    
+                               
     NSLog(@"written: %@",written);
     NSArray *read=[[[[[expr rhs] variablesRead] allObjects] collect] bindingWithContext:aContext];
     NSLog(@"read: %@",read);
@@ -84,7 +81,7 @@
     
     DBConstraint *c= [self constraintWithVariables:constraintVars strength:0];
     NSLog(@"constraint: %@",c);
-    id convertedBlock = [self convertAssignment:expr inContext:aContext];
+    id convertedBlock = [self convertRHSToBlock:[expr rhs] inContext:aContext];
     int numParams =[[convertedBlock formalParameters] count];
     [c addBlock:convertedBlock withNumArgs:numParams];
     [self addConstraint:c];
