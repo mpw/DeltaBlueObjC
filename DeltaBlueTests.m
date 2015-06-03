@@ -218,11 +218,11 @@ static DBConstraint* create_Concat(DBVariable * prefix, DBVariable * suffix, DBV
 
     [compiler evaluateScriptString:@"a := 20"];
     INTEXPECT([(NSNumber*)[compiler evaluateScriptString:@"b"] intValue], 20, @"direction a -> b");
-/*
+
     [compiler evaluateScriptString:@"b := 10"];
 
  INTEXPECT([(NSNumber*)[compiler evaluateScriptString:@"a"] intValue], 10, @"direction b -> a");
-*/
+
     
 }
 

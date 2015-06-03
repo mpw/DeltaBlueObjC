@@ -60,12 +60,12 @@
     return [MPWBlockContext blockContextWithBlock:newBlock context:aContext];
 }
 
--(DBConstraint*)constraintWithAssignmentExpression:(MPWAssignmentExpression*)expr inContext:aContext
+-(DBConstraint*)constraintWithLhs:(MPWExpression*)lhs rhs:(MPWExpression*)rhs inContext:aContext
 {
-    MPWBinding *written = [[[expr lhs] identifier] bindingWithContext:aContext];
-                               
+    MPWBinding *written = [[lhs identifier] bindingWithContext:aContext];
+    
     NSLog(@"written: %@",written);
-    NSArray *read=[[[[[expr rhs] variablesRead] allObjects] collect] bindingWithContext:aContext];
+    NSArray *read=[[[[rhs variablesRead] allObjects] collect] bindingWithContext:aContext];
     NSLog(@"read: %@",read);
     NSArray *bindings = [@[written] arrayByAddingObjectsFromArray:read];
     NSMutableArray *constraintVars=[NSMutableArray array];
@@ -76,17 +76,34 @@
             [binding startObserving];
         }
     }
-//    NSArray *variables = [[self collect] constraintVarWithBinding:[bindings each]];
+    //    NSArray *variables = [[self collect] constraintVarWithBinding:[bindings each]];
     NSLog(@"constraint variables: %@",constraintVars);
     
     DBConstraint *c= [self constraintWithVariables:constraintVars strength:0];
     NSLog(@"constraint: %@",c);
-    id convertedBlock = [self convertRHSToBlock:[expr rhs] inContext:aContext];
+    id convertedBlock = [self convertRHSToBlock:rhs inContext:aContext];
     int numParams =[[convertedBlock formalParameters] count];
     [c addBlock:convertedBlock withNumArgs:numParams];
     [self addConstraint:c];
     return c;
 }
+
+-(DBConstraint*)constraintWithAssignmentExpression:(MPWAssignmentExpression*)expr inContext:aContext
+{
+    return [self constraintWithLhs:[expr lhs] rhs:[expr rhs] inContext:aContext];
+}
+
+
+-(DBConstraint*)constraintWithBidirectionalConstraintExpression:(MPWAssignmentExpression*)expr inContext:aContext
+{
+    DBConstraint *c = [self constraintWithLhs:[expr lhs] rhs:[expr rhs] inContext:aContext];
+    id convertedBlock = [self convertRHSToBlock:[expr lhs] inContext:aContext];
+    int numParams =[[convertedBlock formalParameters] count];
+    [c addBlock:convertedBlock withNumArgs:numParams];
+    return c;
+}
+
+
 
 -(DBConstraint*)constraintWithSTBlock:(MPWBlockContext*)block inContext:aContext
 {
