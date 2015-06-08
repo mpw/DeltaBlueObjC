@@ -35,6 +35,7 @@ typedef id (^TwoArgBlock)(id a,id b);
 
 -(DBVariable *)variableAtIndex:(int)anIndex;
 +(instancetype)constraintWithVariables:(NSArray*)newVars strength:(int)strength;
+-(int)numVars;
 
 
 @end

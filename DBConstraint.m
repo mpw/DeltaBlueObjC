@@ -199,6 +199,11 @@ typedef struct {
     }
 }
 
+-(int)numVars
+{
+    return constraint->varCount;
+}
+
 -(NSString *)description
 {
     NSMutableString *description=[NSMutableString stringWithFormat:@"<%@:%p: %d vars: ",[self class],self,constraint->varCount];

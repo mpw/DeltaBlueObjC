@@ -13,7 +13,7 @@
 
 -(NSObject<MPWEvaluable>*)evaluateIn:aContext
 {
-    NSLog(@"evalute |=, aContext=%@ solver=%@",aContext,[aContext solver]);
+//    NSLog(@"evalute |=, aContext=%@ solver=%@",aContext,[aContext solver]);
     return [[aContext solver] constraintWithAssignmentExpression:self inContext:aContext];
 
 }

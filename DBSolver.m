@@ -32,6 +32,8 @@
 
 @implementation DBSolver
 
+objectAccessor(NSMutableSet, bindings, setBindings)
+
 +(instancetype)solver
 {
     static DBSolver *solver=nil;
@@ -67,6 +69,7 @@
 {
     self=[super init];
     [self initDeltaBlue];
+    [self setBindings:[NSMutableSet set]];
     return self;
 }
 
@@ -110,7 +113,7 @@ Variable v;
 -(void)addConstraint:(DBConstraint*)c
 {
     int i;
-    
+
     Constraint newConstraint = [c constraint];
     for (i = newConstraint->varCount - 1; i >= 0; i--) {
         [newConstraint->variables[i] addConstraint:c];
@@ -121,6 +124,8 @@ Variable v;
     [self incrementalAdd:newConstraint];
 //    NSLog(@"did incrementalAdd");
 }
+
+
 
 -(void)addCConstraint:(Constraint)newConstraint
 {
@@ -282,7 +287,8 @@ Variable v;
         out->mark = currentMark;
         return overridden;
     } else {
-        NSAssert(c->strength != S_required, @"required constraint not satisfied");
+        NSAssert5(c->strength != S_required, @"required constraint %@ not satisfied vars: %@  hot: %@  todo1: %@ todo2:%@",
+                  [DBConstraint constraintWithCConstraint:c],allVariables,hot,todo1,todo2);
 //        if (c->strength == S_required) {
 //            Error("Could not satisfy a required constraint");
 //        }
@@ -519,6 +525,10 @@ static void Error(char *s)
     return [DBConstraint constraintWithVariables:vars strength:newStrength];
 }
 
-
+-(void)dealloc
+{
+    [bindings release];
+    [super dealloc];
+}
 
 @end

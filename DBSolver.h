@@ -23,6 +23,8 @@
     NSMutableArray *hot;	/* used to collect "hot" constraints */
     NSMutableArray *todo1; /* used by AddPropagate */
     NSMutableArray *todo2; /* used by RemovePropagate */
+    
+    NSMutableSet   *bindings;
 }
 
 +(instancetype)solver;
