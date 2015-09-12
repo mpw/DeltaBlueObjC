@@ -24,7 +24,6 @@ typedef id (^TwoArgBlock)(id a,id b);
 }
 
 +(instancetype)constraintWithCConstraint:(Constraint)aCConstraint;
--(Constraint)constraint;
 -(BOOL)isSatisfiedInput;
 -(DBVariable*)outputVariable;
 -(void)execute;
@@ -47,5 +46,6 @@ typedef id (^TwoArgBlock)(id a,id b);
 -(void)chooseMethodWithMark:(long)currentMark;
 -(int)strength;
 -(void)recalculate;
+-(void)markInputs:(long)currentMark;
 
 @end

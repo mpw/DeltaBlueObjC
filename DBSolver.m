@@ -185,63 +185,36 @@ objectAccessor(NSMutableSet, bindings, setBindings)
 -(DBConstraint*)satisfy:(DBConstraint *)constraint
 {
 //    NSLog(@"satisfy: %p",c);
-    int	outIndex, i;
     DBConstraint	*overridden=nil;
     DBVariable	*outVar;
-    Constraint c = [constraint constraint];
     
     [constraint chooseMethodWithMark:currentMark];
 
     if ( [constraint isSatisfied]) {
-        /* mark inputs to allow cycle detection in AddPropagate */
-        outIndex = c->methodOuts[c->whichMethod];
-        for (i = c->varCount - 1; i >= 0; i--) {
-//            NSLog(@"variable[%d]",i);
-            if (i != outIndex) {
-                [c->variables[i] variable]->mark = currentMark;
-            }
-        }
+
+        [constraint markInputs:currentMark];
         
-        outVar = c->variables[outIndex];
+        outVar =  [constraint outputVariable];
         overridden = [outVar determinedBy];
         if (overridden != nil) {
             [overridden clearMethod];
         }
         [outVar setDeterminedBy:constraint];
 
-        if (![self addPropagate:[DBConstraint constraintWithCConstraint: c]]) {
+        if (![self addPropagate:constraint]) {
             Error("Cycle encountered");
             return NULL;
         }
         [outVar setMark:currentMark];
         return overridden;
     } else {
-        NSAssert5(c->strength != S_required, @"required constraint %@ not satisfied vars: %@  hot: %@  todo1: %@ todo2:%@",
-                  [DBConstraint constraintWithCConstraint:c],allVariables,hot,todo1,todo2);
+        NSAssert5([constraint strength] != S_required, @"required constraint %@ not satisfied vars: %@  hot: %@  todo1: %@ todo2:%@",
+                  constraint,allVariables,hot,todo1,todo2);
 //        if (c->strength == S_required) {
 //            Error("Could not satisfy a required constraint");
 //        }
         return nil;
     }
-}
-
--(int)chooseMethod:(DBConstraint *)constraint
-{
-    Constraint c=[constraint constraint];
-    register int	best, bestOutStrength, m;
-    register Variable	mOut;
-    
-    best = NO_METHOD;
-    bestOutStrength = c->strength;
-    for (m = c->methodCount - 1; m >= 0; m--) {
-        mOut = [c->variables[c->methodOuts[m]] variable];
-        if ((mOut->mark != currentMark) &&
-            (Weaker(mOut->walkStrength, bestOutStrength))) {
-            best = m;
-            bestOutStrength = mOut->walkStrength;
-        }
-    }
-    return best;
 }
 
 -(bool)addPropagate:(DBConstraint*)c

@@ -52,11 +52,6 @@
 }
 
 
--(Constraint)constraint
-{
-    return constraint;
-}
-
 -(NSUInteger)hash
 {
     return (NSUInteger)constraint;
@@ -64,7 +59,11 @@
 
 -(BOOL)isEqual:(id)object
 {
-    return constraint == [object constraint];
+    if ( [object isKindOfClass:[self class]]) {
+        DBConstraint *c=object;
+        return constraint == c->constraint;
+    }
+    return NO;
 }
 
 -(BOOL)isSatisfiedInput
@@ -334,7 +333,19 @@ typedef struct {
     }
 }
 
+-(void)markInputs:(long)currentMark
+{
+    int	outIndex, i;
+    Constraint c = constraint;
+    
+    outIndex = c->methodOuts[c->whichMethod];
+    for (i = c->varCount - 1; i >= 0; i--) {
+        if (i != outIndex) {
+            [c->variables[i] variable]->mark = currentMark;
+        }
+    }
 
+}
 
 
 @end
