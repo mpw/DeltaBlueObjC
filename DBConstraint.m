@@ -288,4 +288,34 @@ typedef struct {
     return minStrength;
 }
 
+-(void)prepareForAdd
+{
+    for (int i = constraint->varCount - 1; i >= 0; i--) {
+        [constraint->variables[i] addConstraint:self];
+        
+    }
+    [self clearMethod];
+}
+
+-(int)chooseMethodWithMark:(long)currentMark
+{
+    Constraint c=[self constraint];
+    register int	best, bestOutStrength, m;
+    register Variable	mOut;
+    
+    best = NO_METHOD;
+    bestOutStrength = c->strength;
+    for (m = c->methodCount - 1; m >= 0; m--) {
+        mOut = [c->variables[c->methodOuts[m]] variable];
+        if ((mOut->mark != currentMark) &&
+            (Weaker(mOut->walkStrength, bestOutStrength))) {
+            best = m;
+            bestOutStrength = mOut->walkStrength;
+        }
+    }
+    return best;
+}
+
+
+
 @end

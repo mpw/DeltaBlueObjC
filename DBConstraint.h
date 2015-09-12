@@ -42,4 +42,8 @@ typedef id (^TwoArgBlock)(id a,id b);
 -(BOOL)isConstantOutput;
 -(int)outputWalkStrength;
 
+-(void)prepareForAdd;
+-(void)destroy;
+-(int)chooseMethodWithMark:(long)currentMark;
+
 @end

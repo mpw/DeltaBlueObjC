@@ -93,17 +93,8 @@ objectAccessor(NSMutableSet, bindings, setBindings)
 
 -(void)addConstraint:(DBConstraint*)c
 {
-    int i;
-
-    Constraint newConstraint = [c constraint];
-    for (i = newConstraint->varCount - 1; i >= 0; i--) {
-        [newConstraint->variables[i] addConstraint:c];
-        
-    }
-    newConstraint->whichMethod = NO_METHOD;
-//    NSLog(@"will do incrementalAdd:");
+    [c prepareForAdd];
     [self incrementalAdd:c];
-//    NSLog(@"did incrementalAdd");
 }
 
 
@@ -185,7 +176,6 @@ objectAccessor(NSMutableSet, bindings, setBindings)
     while (nextC != NULL) {
         DBVariable *out=[nextC outputVariable];
         
-//        out = [OUT_VAR([nextC constraint]) variable];
         if (([out mark] != currentMark) && [nextC inputsKnownWithMark:currentMark]) {
             [plan addObject:nextC];
             [out setMark:currentMark];
@@ -221,7 +211,8 @@ objectAccessor(NSMutableSet, bindings, setBindings)
     DBVariable	*outVar;
     Constraint c = [constraint constraint];
     
-    c->whichMethod = [self chooseMethod:constraint];
+    c->whichMethod = [constraint chooseMethodWithMark:currentMark];
+
     if ( [constraint isSatisfied]) {
         /* mark inputs to allow cycle detection in AddPropagate */
         outIndex = c->methodOuts[c->whichMethod];
@@ -421,7 +412,6 @@ static void Error(char *s)
             }
         }
     }
-//    Constraint firstConstraint = [first constraint];
     
     if (first == NULL) {
         first = [todo removeFirst];
