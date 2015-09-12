@@ -24,7 +24,7 @@ typedef id (^TwoArgBlock)(id a,id b);
 }
 
 +(instancetype)constraintWithCConstraint:(Constraint)aCConstraint;
--(Constraint)constraint;
+// -(Constraint)constraint;
 -(BOOL)isSatisfiedInput;
 -(DBVariable*)outputVariable;
 -(void)execute;
@@ -36,6 +36,6 @@ typedef id (^TwoArgBlock)(id a,id b);
 -(DBVariable *)variableAtIndex:(int)anIndex;
 +(instancetype)constraintWithVariables:(NSArray*)newVars strength:(int)strength;
 -(int)numVars;
-
+-(BOOL)isSatisfied;
 
 @end

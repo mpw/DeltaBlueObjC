@@ -136,16 +136,10 @@ Variable v;
 
 -(void)destroyConstraint:(DBConstraint*)c
 {
-    register int i;
-    Constraint oldConstraint=[c constraint];
-    
-    if (SATISFIED(oldConstraint)) {
+    if ( [c isSatisfied]) {
         [self incrementalRemoveObj:c];
     }
-    for (i = oldConstraint->varCount - 1; i >= 0; i--) {
-        [oldConstraint->variables[i] removeConstraint:c];
-    }
-    Constraint_Destroy(oldConstraint);
+    [c destroy];
 }
 
 /******** Public: Plan Extraction *******/
@@ -350,7 +344,9 @@ Variable v;
 -(void)collectUnsatisfied:(DBConstraint*)constr
 {
     Constraint c=[constr constraint];
-    if (!SATISFIED(c)) List_Add(unsatisfied, c);
+    if (! [constr isSatisfied] )  {
+        List_Add(unsatisfied, c);
+    }
 }
 
 -(void)incrementalRemove:(Constraint)c

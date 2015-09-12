@@ -7,6 +7,8 @@
 //
 
 #import "DBConstraint.h"
+#import "DBVariable.h"
+
 #define SATISFIED(c)	((c)->whichMethod != NO_METHOD)
 
 @implementation DBConstraint
@@ -68,6 +70,11 @@
 -(BOOL)isSatisfiedInput
 {
     return (constraint->inputFlag && SATISFIED(constraint));
+}
+
+-(BOOL)isSatisfied
+{
+    return constraint->whichMethod != NO_METHOD;
 }
 
 -(DBVariable*)outputVariable
@@ -216,6 +223,16 @@ typedef struct {
     }
     [description appendString:@">"];
     return description;
+}
+
+-(void)destroy
+{
+    for (int i = constraint->varCount - 1; i >= 0; i--) {
+        [constraint->variables[i] removeConstraint:self];
+    }
+
+    constraint->execute = NULL;
+    // release as well?
 }
 
 @end
