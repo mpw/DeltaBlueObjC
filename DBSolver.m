@@ -378,42 +378,12 @@ objectAccessor(NSMutableSet, bindings, setBindings)
     Constraint c=[constraint constraint];
     
     out = [OUT_VAR(c) variable];
-    out->walkStrength = [self outputWalkStrength:c];
+    out->walkStrength = [constraint outputWalkStrength];
     out->stay =  [constraint isConstantOutput];
     
     if (out->stay) {
         [constraint execute];
     }
-}
-
--(int)outputWalkStrength:(Constraint)c
-{
-    register int outIndex, minStrength, m, mOutIndex;
-    
-    minStrength = c->strength;
-    outIndex = c->methodOuts[c->whichMethod];
-    for (m = c->methodCount - 1; m >= 0; m--) {
-        mOutIndex = c->methodOuts[m];
-        if ((mOutIndex != outIndex) &&
-            (Weaker([c->variables[mOutIndex] variable]->walkStrength, minStrength))) {
-            minStrength = [c->variables[mOutIndex] variable]->walkStrength;
-        }
-    }
-    return minStrength;
-}
-
--(bool)constantOutput:(Constraint)c
-{
-    register int outIndex, i;
-    
-    if (c->inputFlag) return false;
-    outIndex = c->methodOuts[c->whichMethod];
-    for (i = c->varCount - 1; i >= 0; i--) {
-        if (i != outIndex) {
-            if (![c->variables[i] variable]->stay) return false;
-        }
-    }
-    return true;
 }
 
 /******* Private: Miscellaneous *******/
@@ -454,8 +424,6 @@ static void Error(char *s)
     
     if (first == NULL) {
         first = [todo removeFirst];
-//        firstConstraint = (Constraint) List_RemoveFirst(todo);
-//        NSLog(@"remove first: %p",firstConstraint);
     }
     return first;
 }

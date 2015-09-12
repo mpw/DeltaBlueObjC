@@ -272,4 +272,20 @@ typedef struct {
 }
 
 
+-(int)outputWalkStrength
+{
+    register int outIndex, minStrength, m, mOutIndex;
+    Constraint c=constraint;
+    minStrength = c->strength;
+    outIndex = c->methodOuts[c->whichMethod];
+    for (m = c->methodCount - 1; m >= 0; m--) {
+        mOutIndex = c->methodOuts[m];
+        if ((mOutIndex != outIndex) &&
+            (Weaker([c->variables[mOutIndex] variable]->walkStrength, minStrength))) {
+            minStrength = [c->variables[mOutIndex] variable]->walkStrength;
+        }
+    }
+    return minStrength;
+}
+
 @end
