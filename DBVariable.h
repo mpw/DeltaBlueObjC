@@ -28,13 +28,15 @@ idAccessor_h(solver,setSolver)
 idAccessor_h(value, setValue )
 objectAccessor_h(NSString, name, setName)
 idAccessor_h(externalReference, setExternalReference )
+intAccessor_h(walkStrength, setWalkStrength)
+boolAccessor_h(stay, setStay)
+
 
 -(void)_setValue:(id)newValue;
 
 +variableWithName:(NSString*)name intValue:(long)value;
 -initWithName:(NSString*)name intValue:(long)value;
 -initConstantWithName:(NSString*)name intValue:(long)value;
--(Variable)variable;
 
 -(DBConstraint*)multiplyBy:(DBVariable*)other into:(DBVariable*)result strength:(int)strength;
 -(DBConstraint*)divideBy:(DBVariable*)other into:(DBVariable*)result strength:(int)strength;

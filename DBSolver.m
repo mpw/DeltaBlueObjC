@@ -227,7 +227,6 @@ objectAccessor(NSMutableSet, bindings, setBindings)
     while (nextC != NULL) {
 //        NSLog(@"nextC: %p",nextC);
         DBVariable	*out=[nextC outputVariable];
-//        out = [OUT_VAR(nextC) variable];
         if ([out mark] == currentMark) {
             /* remove the cycle-causing constraint */
 //            NSLog(@"remove: %p",c);
@@ -286,8 +285,8 @@ objectAccessor(NSMutableSet, bindings, setBindings)
     [todo2 removeAllObjects];
     [v setDeterminedBy:nil];
     
-    [v variable]->walkStrength = S_weakest;
-    [v variable]->stay = true;
+    [v setWalkStrength:S_weakest];
+    [v setStay:YES];
     while (true) {
         DBConstraint	*nextC;
         

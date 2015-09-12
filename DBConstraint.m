@@ -264,7 +264,7 @@ typedef struct {
     outIndex = constraint->methodOuts[constraint->whichMethod];
     for (i = constraint->varCount - 1; i >= 0; i--) {
         if (i != outIndex) {
-            if (![constraint->variables[i] variable]->stay) {
+            if (![constraint->variables[i] stay]) {
                 return NO;
             }
         }
@@ -282,8 +282,8 @@ typedef struct {
     for (m = c->methodCount - 1; m >= 0; m--) {
         mOutIndex = c->methodOuts[m];
         if ((mOutIndex != outIndex) &&
-            (Weaker([c->variables[mOutIndex] variable]->walkStrength, minStrength))) {
-            minStrength = [c->variables[mOutIndex] variable]->walkStrength;
+            (Weaker([c->variables[mOutIndex] walkStrength], minStrength))) {
+            minStrength = [c->variables[mOutIndex] walkStrength];
         }
     }
     return minStrength;
@@ -301,17 +301,17 @@ typedef struct {
 -(void)chooseMethodWithMark:(long)currentMark
 {
     Constraint c=constraint;
-    register int	best, bestOutStrength, m;
-    register Variable	mOut;
+    int	best, bestOutStrength, m;
+    DBVariable*	mOut;
     
     best = NO_METHOD;
     bestOutStrength = c->strength;
     for (m = c->methodCount - 1; m >= 0; m--) {
-        mOut = [c->variables[c->methodOuts[m]] variable];
-        if ((mOut->mark != currentMark) &&
-            (Weaker(mOut->walkStrength, bestOutStrength))) {
+        mOut = c->variables[c->methodOuts[m]];
+        if (([mOut mark] != currentMark) &&
+            (Weaker([mOut walkStrength], bestOutStrength))) {
             best = m;
-            bestOutStrength = mOut->walkStrength;
+            bestOutStrength = [mOut walkStrength];
         }
     }
     constraint->whichMethod=best;
@@ -324,11 +324,12 @@ typedef struct {
 
 -(void)recalculate
 {
-    Variable out =  [[self outputVariable] variable];
-    out->walkStrength = [self outputWalkStrength];
-    out->stay =  [self isConstantOutput];
+    DBVariable *outputVariable=[self outputVariable];
+    [outputVariable setWalkStrength:[self outputWalkStrength]];
+    [outputVariable setStay:[self isConstantOutput]];
     
-    if (out->stay) {
+    
+    if ([outputVariable stay]) {
         [self execute];
     }
 }
@@ -341,7 +342,7 @@ typedef struct {
     outIndex = c->methodOuts[c->whichMethod];
     for (i = c->varCount - 1; i >= 0; i--) {
         if (i != outIndex) {
-            [c->variables[i] variable]->mark = currentMark;
+            [c->variables[i] setMark:currentMark];
         }
     }
 

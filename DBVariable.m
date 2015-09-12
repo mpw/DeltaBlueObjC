@@ -19,7 +19,7 @@ idAccessor(externalReference, _setExternalReference )
 
 idAccessor(localValue, _setLocalValue )
 objectAccessor(NSString, name, setName)
-scalarAccessor(Variable, variable , setVariable)
+//scalarAccessor(Variable, variable , setVariable)
 
 -(void)setExternalReference:(id)newVar
 {
@@ -46,7 +46,7 @@ scalarAccessor(Variable, variable , setVariable)
 {
     self=[super init];
     if ( self ) {
-        [self setVariable:Variable_CreateConstant()];
+        variable=Variable_CreateConstant();
         [self setName:name];
         [self _setIntValue:newValue];
     }
@@ -171,5 +171,25 @@ scalarAccessor(Variable, variable , setVariable)
 }
 
 objectAccessor( DBConstraint, determinedBy, setDeterminedBy )
+
+-(int)walkStrength
+{
+    return variable->walkStrength;
+}
+
+-(void)setWalkStrength:(int)newVar
+{
+    variable->walkStrength=newVar;
+}
+
+-(BOOL)stay
+{
+    return variable->stay;
+}
+
+-(void)setStay:(BOOL)newVar
+{
+    variable->stay=newVar;
+}
 
 @end
