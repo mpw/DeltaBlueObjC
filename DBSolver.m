@@ -74,25 +74,6 @@ objectAccessor(NSMutableSet, bindings, setBindings)
 }
 
 /* this is used when we know we are going to throw away all variables */
-#if 0
-
-static void FreeVariable(v)
-Variable v;
-{
-    Constraint c;
-    int i;
-    
-    c = (Constraint) List_RemoveFirst(v->constraints);
-    while (c != NULL) {
-        for (i = c->varCount - 1; i >= 0; i--) {
-            List_Remove((c->variables[i])->constraints, (Element) c);
-        }
-        Constraint_Destroy(c);
-        c = (Constraint) List_RemoveFirst(v->constraints);
-    }
-    Variable_Destroy(v);
-}
-#endif
 
 /******** Public: Variables and Constraints *******/
 
@@ -123,14 +104,6 @@ Variable v;
 //    NSLog(@"will do incrementalAdd:");
     [self incrementalAdd:c];
 //    NSLog(@"did incrementalAdd");
-}
-
-
-
--(void)addCConstraint:(Constraint)newConstraint
-{
-    DBConstraint *c=[DBConstraint constraintWithCConstraint:newConstraint];
-    [self addConstraint:c];
 }
 
 
@@ -213,7 +186,7 @@ Variable v;
         DBVariable *out=[nextC outputVariable];
         
 //        out = [OUT_VAR([nextC constraint]) variable];
-        if (([out mark] != currentMark) && [self inputsKnown:[nextC constraint]]) {
+        if (([out mark] != currentMark) && [nextC inputsKnownWithMark:currentMark]) {
             [plan addObject:nextC];
             [out setMark:currentMark];
             nextC = [self nextDownstreamConstraintFrom:hot variable:out];
@@ -224,20 +197,6 @@ Variable v;
     return plan;
 }
 
--(bool)inputsKnown:(Constraint)c
-{
-    int	outIndex, i;
-    
-    outIndex = c->methodOuts[c->whichMethod];
-    for (i = c->varCount - 1; i >= 0; i--) {
-        if (i != outIndex) {
-            if ( ![c->variables[i] isKnownWithMark:currentMark]) {
-                return false;
-            }
-        }
-    }
-    return true;
-}
 
 /******* Private: Adding *******/
 

@@ -241,4 +241,20 @@ typedef struct {
 
 }
 
+
+-(BOOL)inputsKnownWithMark:(long)currentMark
+{
+    int	outIndex, i;
+    
+    outIndex = constraint->methodOuts[constraint->whichMethod];
+    for (i = constraint->varCount - 1; i >= 0; i--) {
+        if (i != outIndex) {
+            if ( ![constraint->variables[i] isKnownWithMark:currentMark]) {
+                return NO;
+            }
+        }
+    }
+    return YES;
+}
+
 @end

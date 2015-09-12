@@ -38,5 +38,6 @@ typedef id (^TwoArgBlock)(id a,id b);
 -(int)numVars;
 -(BOOL)isSatisfied;
 -(void)clearMethod;
+-(BOOL)inputsKnownWithMark:(long)currentMark;
 
 @end
