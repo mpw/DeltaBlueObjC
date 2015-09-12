@@ -6,6 +6,7 @@
 ****************************************************************************/
 
 #import <Foundation/Foundation.h>
+#import "List.h"
 
 @class DBVariable,DBConstraint;
 

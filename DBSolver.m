@@ -46,18 +46,6 @@ objectAccessor(NSMutableSet, bindings, setBindings)
 
 -(void)initDeltaBlue
 {
-    //    Variable v;
-    
-    /*
-     if (allVariables == NULL) allVariables = List_Create(128);
-     v = (Variable) List_RemoveFirst(allVariables);
-     while (v != NULL) {
-     FreeVariable(v);
-     v = (Variable) List_RemoveFirst(allVariables);
-     }
-     List_RemoveAll(allVariables);
-     currentMark = 0;
-     */
     allVariables=[NSMutableArray new];
     hot = [NSMutableArray new];
     todo1 = [NSMutableArray new];
@@ -116,15 +104,6 @@ objectAccessor(NSMutableSet, bindings, setBindings)
     }
 }
 
-
-
--(void)withList:(List)aList do:(SEL)selector
-{
-    for (int i=aList->first,max=aList->last; i<max;i++) {
-        
-        objc_msgSend( self, selector, aList->slots + i);
-    }
-}
 
 -(void)withArray:(NSArray*)aList do:(SEL)selector
 {

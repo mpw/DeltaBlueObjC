@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import "List.h"
 #import "Constraints.h"
 
 @class DBVariable,DBConstraint,MPWBlockInvocable;
