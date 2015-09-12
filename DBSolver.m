@@ -190,7 +190,7 @@ objectAccessor(NSMutableSet, bindings, setBindings)
     DBVariable	*outVar;
     Constraint c = [constraint constraint];
     
-    c->whichMethod = [constraint chooseMethodWithMark:currentMark];
+    [constraint chooseMethodWithMark:currentMark];
 
     if ( [constraint isSatisfied]) {
         /* mark inputs to allow cycle detection in AddPropagate */

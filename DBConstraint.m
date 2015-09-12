@@ -299,9 +299,9 @@ typedef struct {
     [self clearMethod];
 }
 
--(int)chooseMethodWithMark:(long)currentMark
+-(void)chooseMethodWithMark:(long)currentMark
 {
-    Constraint c=[self constraint];
+    Constraint c=constraint;
     register int	best, bestOutStrength, m;
     register Variable	mOut;
     
@@ -315,7 +315,7 @@ typedef struct {
             bestOutStrength = mOut->walkStrength;
         }
     }
-    return best;
+    constraint->whichMethod=best;
 }
 
 -(int)strength
