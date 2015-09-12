@@ -257,4 +257,19 @@ typedef struct {
     return YES;
 }
 
+-(BOOL)isConstantOutput
+{
+    int outIndex, i;
+    
+    if (constraint->inputFlag) return false;
+    outIndex = constraint->methodOuts[constraint->whichMethod];
+    for (i = constraint->varCount - 1; i >= 0; i--) {
+        if (i != outIndex) {
+            if (![constraint->variables[i] variable]->stay) return NO;
+        }
+    }
+    return YES;
+}
+
+
 @end

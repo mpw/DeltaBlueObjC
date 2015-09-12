@@ -198,6 +198,7 @@ objectAccessor(NSMutableSet, bindings, setBindings)
 }
 
 
+
 /******* Private: Adding *******/
 
 -(void)incrementalAdd:(DBConstraint *)c
@@ -378,7 +379,8 @@ objectAccessor(NSMutableSet, bindings, setBindings)
     
     out = [OUT_VAR(c) variable];
     out->walkStrength = [self outputWalkStrength:c];
-    out->stay = [self constantOutput:c];
+    out->stay =  [constraint isConstantOutput];
+    
     if (out->stay) {
         [constraint execute];
     }

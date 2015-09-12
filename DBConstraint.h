@@ -39,5 +39,6 @@ typedef id (^TwoArgBlock)(id a,id b);
 -(BOOL)isSatisfied;
 -(void)clearMethod;
 -(BOOL)inputsKnownWithMark:(long)currentMark;
+-(BOOL)isConstantOutput;
 
 @end
