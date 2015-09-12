@@ -221,7 +221,7 @@ objectAccessor(NSMutableSet, bindings, setBindings)
     DBVariable	*outVar;
     Constraint c = [constraint constraint];
     
-    c->whichMethod = [self chooseMethod:c];
+    c->whichMethod = [self chooseMethod:constraint];
     if ( [constraint isSatisfied]) {
         /* mark inputs to allow cycle detection in AddPropagate */
         outIndex = c->methodOuts[c->whichMethod];
@@ -255,8 +255,9 @@ objectAccessor(NSMutableSet, bindings, setBindings)
     }
 }
 
--(int)chooseMethod:(Constraint)c
+-(int)chooseMethod:(DBConstraint *)constraint
 {
+    Constraint c=[constraint constraint];
     register int	best, bestOutStrength, m;
     register Variable	mOut;
     
