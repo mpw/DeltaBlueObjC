@@ -353,11 +353,12 @@ Variable v;
 {
     //    NSLog(@"remove %p",c);
     
-    Variable out;
+//    Variable out;
+    DBVariable *outputVar;
     register int i;
     Constraint c=[objConstraint constraint];
     
-    out = [OUT_VAR(c) variable];
+    outputVar = OUT_VAR(c);
     c->whichMethod = NO_METHOD;
     
     
@@ -369,7 +370,7 @@ Variable v;
         
     }
     unsatisfied = List_Create(8);
-    [self removePropagateFrom:out];
+    [self removePropagateFrom:outputVar];
     for (strength = S_required; strength <= S_weakest; strength++) {
         [self withList:unsatisfied do:@selector(addConstraintAtStrength:)];
         
@@ -378,9 +379,9 @@ Variable v;
 }
 
 
--(void)removePropagateFrom:(Variable)v
+-(void)removePropagateFrom:(DBVariable*)aVariable
 {
-    
+    Variable v=[aVariable variable];
     [todo2 removeAllObjects];
 
     v->determinedBy = NULL;
