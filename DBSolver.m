@@ -261,7 +261,8 @@ objectAccessor(NSMutableSet, bindings, setBindings)
             [self incrementalRemoveObj:c];
             return false;
         }
-        [self recalculate:nextC];
+        [nextC recalculate];
+//        [self recalculate:nextC];
         nextC=[self nextDownstreamConstraintFrom:todo1 variable:out];
     }
     return true;
@@ -280,7 +281,7 @@ objectAccessor(NSMutableSet, bindings, setBindings)
 -(void)collectUnsatisfied:(DBConstraint*)constr
 {
     if (! [constr isSatisfied] )  {
-        List_Add(unsatisfied, [constr constraint]);
+        [unsatisfied addObject:constr];
     }
 }
 
@@ -290,20 +291,12 @@ objectAccessor(NSMutableSet, bindings, setBindings)
     //    NSLog(@"remove %p",c);
     @autoreleasepool {
         DBVariable *outputVar;
-        register int i;
-        Constraint c=[objConstraint constraint];
         
-        outputVar = OUT_VAR(c);
-        c->whichMethod = NO_METHOD;
+        outputVar = [objConstraint outputVariable];
+        [objConstraint clearMethod];
         
+        [objConstraint destroy];
         
-        
-        
-        for (i = c->varCount - 1; i >= 0; i--) {
-            [[c->variables[i] variable]->constraints removeObject:objConstraint];
-            
-            
-        }
         unsatisfied = [NSMutableArray array];
         [self removePropagateFrom:outputVar];
         for (strength = S_required; strength <= S_weakest; strength++) {
@@ -334,28 +327,14 @@ objectAccessor(NSMutableSet, bindings, setBindings)
         if (nextC == NULL) {
             break;
         } else {
-            [self recalculate:nextC];
+            [nextC recalculate];
+//            [self recalculate:nextC];
             v = [nextC outputVariable];
         }
     }
 }
 
 /******* Private: Recalculation *******/
-
--(void)recalculate:(DBConstraint*)constraint
-{
-//    NSLog(@"recalculate: %p",c);
-    register Variable out;
-    Constraint c=[constraint constraint];
-    
-    out = [OUT_VAR(c) variable];
-    out->walkStrength = [constraint outputWalkStrength];
-    out->stay =  [constraint isConstantOutput];
-    
-    if (out->stay) {
-        [constraint execute];
-    }
-}
 
 /******* Private: Miscellaneous *******/
 

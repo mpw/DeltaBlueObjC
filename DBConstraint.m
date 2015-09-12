@@ -265,7 +265,9 @@ typedef struct {
     outIndex = constraint->methodOuts[constraint->whichMethod];
     for (i = constraint->varCount - 1; i >= 0; i--) {
         if (i != outIndex) {
-            if (![constraint->variables[i] variable]->stay) return NO;
+            if (![constraint->variables[i] variable]->stay) {
+                return NO;
+            }
         }
     }
     return YES;
@@ -315,6 +317,23 @@ typedef struct {
     }
     return best;
 }
+
+-(int)strength
+{
+    return constraint->strength;
+}
+
+-(void)recalculate
+{
+    Variable out =  [[self outputVariable] variable];
+    out->walkStrength = [self outputWalkStrength];
+    out->stay =  [self isConstantOutput];
+    
+    if (out->stay) {
+        [self execute];
+    }
+}
+
 
 
 

@@ -45,5 +45,7 @@ typedef id (^TwoArgBlock)(id a,id b);
 -(void)prepareForAdd;
 -(void)destroy;
 -(int)chooseMethodWithMark:(long)currentMark;
+-(int)strength;
+-(void)recalculate;
 
 @end
