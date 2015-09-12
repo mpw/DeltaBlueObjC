@@ -322,7 +322,7 @@ Variable v;
         if ([out mark] == currentMark) {
             /* remove the cycle-causing constraint */
 //            NSLog(@"remove: %p",c);
-            [self incrementalRemove:[c constraint]];
+            [self incrementalRemoveObj:c];
             return false;
         }
         [self recalculate:nextC];
@@ -343,16 +343,11 @@ Variable v;
 
 -(void)collectUnsatisfied:(DBConstraint*)constr
 {
-    Constraint c=[constr constraint];
     if (! [constr isSatisfied] )  {
-        List_Add(unsatisfied, c);
+        List_Add(unsatisfied, [constr constraint]);
     }
 }
 
--(void)incrementalRemove:(Constraint)c
-{
-    [self incrementalRemoveObj:[DBConstraint constraintWithCConstraint:c] ];
-}
 
 -(void)incrementalRemoveObj:(DBConstraint*)objConstraint
 {
