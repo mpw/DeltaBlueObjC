@@ -15,6 +15,7 @@
 
 @interface DBVariable : NSObject
 {
+    DBConstraint *determinedBy;
     Variable variable;
     DBSolver *solver;
     id       localValue;
@@ -22,6 +23,7 @@
     id       externalReference;
 }
 
+objectAccessor_h( DBConstraint, determinedBy, setDeterminedBy )
 idAccessor_h(solver,setSolver)
 idAccessor_h(value, setValue )
 objectAccessor_h(NSString, name, setName)
@@ -49,6 +51,8 @@ idAccessor_h(externalReference, setExternalReference )
 -(BOOL)isKnownWithMark:(long)mark;
 
 -(DBConstraint *)constraintWith:(DBVariable *)other;
+-(DBConstraint*)determinedBy;
+-(void)setDeterminedBy:(DBConstraint *)determinedByConstraint;
 
 
 longAccessor_h(mark , setMark )

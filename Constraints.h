@@ -7,12 +7,11 @@
 
 #import <Foundation/Foundation.h>
 
-@class DBVariable;
+@class DBVariable,DBConstraint;
 
 typedef struct {
 //  long		value;
   NSMutableArray *		constraints;
-  void *	determinedBy; /* Constraint */
   long		mark;
   char		walkStrength;
   bool      stay;

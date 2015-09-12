@@ -235,4 +235,10 @@ typedef struct {
     // release as well?
 }
 
+-(void)clearMethod
+{
+    constraint->whichMethod = NO_METHOD;
+
+}
+
 @end

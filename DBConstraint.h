@@ -37,5 +37,6 @@ typedef id (^TwoArgBlock)(id a,id b);
 +(instancetype)constraintWithVariables:(NSArray*)newVars strength:(int)strength;
 -(int)numVars;
 -(BOOL)isSatisfied;
+-(void)clearMethod;
 
 @end

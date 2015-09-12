@@ -16,9 +16,9 @@
 @interface DBSolver : NSObject
 {
     long currentMark;
-    List unsatisfied;	/* used to collect unsatisfied downstream constraints */
     int strength;		/* used to add unsatisfied constraints in strength order */
 
+    NSMutableArray *unsatisfied;	/* used to collect unsatisfied downstream constraints */
     NSMutableArray *allVariables;
     NSMutableArray *hot;	/* used to collect "hot" constraints */
     NSMutableArray *todo1; /* used by AddPropagate */

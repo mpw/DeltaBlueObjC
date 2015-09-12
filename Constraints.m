@@ -44,7 +44,6 @@ Variable Variable_Create()
     new->constraints = [NSMutableArray new];
 
 
-    new->determinedBy = NULL;
     new->mark = 0;
     new->walkStrength = S_weakest;
     new->stay = true;
@@ -59,7 +58,6 @@ Variable Variable_CreateConstant()
     new = (Variable) malloc(sizeof(VariableStruct));
     if (new == NULL) Error("out of memory");
     new->constraints = [NSMutableArray new];
-    new->determinedBy = NULL;
     new->mark = 0;
     new->walkStrength = S_required;
     new->stay = true;

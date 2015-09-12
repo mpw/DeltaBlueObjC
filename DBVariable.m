@@ -86,7 +86,7 @@ scalarAccessor(Variable, variable , setVariable)
     return
             variable->mark == mark ||
             variable->stay ||
-    variable->determinedBy == nil;
+    [self determinedBy] == nil;
     
 }
 
@@ -169,5 +169,7 @@ scalarAccessor(Variable, variable , setVariable)
 {
     return [solver constraintWithVariables:@[ other, self] strength:0];
 }
+
+objectAccessor( DBConstraint, determinedBy, setDeterminedBy )
 
 @end

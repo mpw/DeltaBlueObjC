@@ -121,7 +121,7 @@ Variable v;
     }
     newConstraint->whichMethod = NO_METHOD;
 //    NSLog(@"will do incrementalAdd:");
-    [self incrementalAdd:newConstraint];
+    [self incrementalAdd:c];
 //    NSLog(@"did incrementalAdd");
 }
 
@@ -216,7 +216,7 @@ Variable v;
         if (([out mark] != currentMark) && [self inputsKnown:[nextC constraint]]) {
             [plan addObject:nextC];
             [out setMark:currentMark];
-            nextC = [self nextDownstreamConstraintFrom:hot variable:[out variable]];
+            nextC = [self nextDownstreamConstraintFrom:hot variable:out];
         } else {
             nextC = [hot removeFirst];
         }
@@ -241,10 +241,10 @@ Variable v;
 
 /******* Private: Adding *******/
 
--(void)incrementalAdd:(Constraint)c
+-(void)incrementalAdd:(DBConstraint *)c
 {
 //    NSLog(@"incrementalAdd: %p",c);
-    Constraint overridden=NULL;
+    DBConstraint *overridden=nil;
     
     [self newMark];
     overridden = [self satisfy:c];
@@ -253,15 +253,16 @@ Variable v;
     }
 }
 
--(Constraint)satisfy:(Constraint)c
+-(DBConstraint*)satisfy:(DBConstraint *)constraint
 {
 //    NSLog(@"satisfy: %p",c);
-    register int	outIndex, i;
-    register Constraint	overridden;
-    register Variable	out;
+    int	outIndex, i;
+    DBConstraint	*overridden=nil;
+    DBVariable	*outVar;
+    Constraint c = [constraint constraint];
     
     c->whichMethod = [self chooseMethod:c];
-    if (SATISFIED(c)) {
+    if ( [constraint isSatisfied]) {
         /* mark inputs to allow cycle detection in AddPropagate */
         outIndex = c->methodOuts[c->whichMethod];
         for (i = c->varCount - 1; i >= 0; i--) {
@@ -270,15 +271,19 @@ Variable v;
                 [c->variables[i] variable]->mark = currentMark;
             }
         }
-        out = [c->variables[outIndex] variable];
-        overridden = (Constraint) out->determinedBy;
-        if (overridden != NULL) overridden->whichMethod = NO_METHOD;
-        out->determinedBy = c;
+        
+        outVar = c->variables[outIndex];
+        overridden = [outVar determinedBy];
+        if (overridden != nil) {
+            [overridden clearMethod];
+        }
+        [outVar setDeterminedBy:constraint];
+
         if (![self addPropagate:[DBConstraint constraintWithCConstraint: c]]) {
             Error("Cycle encountered");
             return NULL;
         }
-        out->mark = currentMark;
+        [outVar setMark:currentMark];
         return overridden;
     } else {
         NSAssert5(c->strength != S_required, @"required constraint %@ not satisfied vars: %@  hot: %@  todo1: %@ todo2:%@",
@@ -286,7 +291,7 @@ Variable v;
 //        if (c->strength == S_required) {
 //            Error("Could not satisfy a required constraint");
 //        }
-        return NULL;
+        return nil;
     }
 }
 
@@ -326,7 +331,7 @@ Variable v;
             return false;
         }
         [self recalculate:nextC];
-        nextC=[self nextDownstreamConstraintFrom:todo1 variable:[out variable]];
+        nextC=[self nextDownstreamConstraintFrom:todo1 variable:out];
     }
     return true;
 }
@@ -334,9 +339,9 @@ Variable v;
 /******* Private: Removing *******/
 
 
--(void)addConstraintAtStrength:(Constraint)c
+-(void)addConstraintAtStrength:(DBConstraint *)c
 {
-    if (c->strength == strength) {
+    if ([c strength] == strength) {
         [self incrementalAdd:c];
     }
 }
@@ -352,45 +357,44 @@ Variable v;
 -(void)incrementalRemoveObj:(DBConstraint*)objConstraint
 {
     //    NSLog(@"remove %p",c);
-    
+    @autoreleasepool {
+        DBVariable *outputVar;
+        register int i;
+        Constraint c=[objConstraint constraint];
+        
+        outputVar = OUT_VAR(c);
+        c->whichMethod = NO_METHOD;
+        
+        
+        
+        
+        for (i = c->varCount - 1; i >= 0; i--) {
+            [[c->variables[i] variable]->constraints removeObject:objConstraint];
+            
+            
+        }
+        unsatisfied = [NSMutableArray array];
+        [self removePropagateFrom:outputVar];
+        for (strength = S_required; strength <= S_weakest; strength++) {
+            [self withArray:unsatisfied do:@selector(addConstraintAtStrength:)];
+            
+        }
+    }
 //    Variable out;
-    DBVariable *outputVar;
-    register int i;
-    Constraint c=[objConstraint constraint];
-    
-    outputVar = OUT_VAR(c);
-    c->whichMethod = NO_METHOD;
-    
-    
-    
-    
-    for (i = c->varCount - 1; i >= 0; i--) {
-        [[c->variables[i] variable]->constraints removeObject:objConstraint];
-        
-        
-    }
-    unsatisfied = List_Create(8);
-    [self removePropagateFrom:outputVar];
-    for (strength = S_required; strength <= S_weakest; strength++) {
-        [self withList:unsatisfied do:@selector(addConstraintAtStrength:)];
-        
-    }
-    List_Destroy(unsatisfied);
 }
 
 
--(void)removePropagateFrom:(DBVariable*)aVariable
+-(void)removePropagateFrom:(DBVariable*)v
 {
-    Variable v=[aVariable variable];
     [todo2 removeAllObjects];
-
-    v->determinedBy = NULL;
-    v->walkStrength = S_weakest;
-    v->stay = true;
+    [v setDeterminedBy:nil];
+    
+    [v variable]->walkStrength = S_weakest;
+    [v variable]->stay = true;
     while (true) {
         DBConstraint	*nextC;
         
-        [self withArray:v->constraints do:@selector(collectUnsatisfied:)];
+        [self withArray:[v constraints] do:@selector(collectUnsatisfied:)];
 
         
 //        List_Do(v->constraints, CollectUnsatisfied);
@@ -400,7 +404,7 @@ Variable v;
             break;
         } else {
             [self recalculate:nextC];
-            v = [[nextC outputVariable] variable];
+            v = [nextC outputVariable];
         }
     }
 }
@@ -466,25 +470,22 @@ static void Error(char *s)
 }
 
 
--(DBConstraint*)nextDownstreamConstraintFrom:(NSMutableArray*)todo variable:(Variable)variable
+-(DBConstraint*)nextDownstreamConstraintFrom:(NSMutableArray*)todo variable:(DBVariable*)variable
 {
-    NSArray * allC = variable->constraints;
+    NSArray * allC = [variable constraints];
 
     
-    Constraint determiningC = variable->determinedBy;
+    DBConstraint *determiningC = [variable determinedBy];
     DBConstraint *first = nil;
     
 //    NSLog(@"all constraints: %@",allC);
     for ( DBConstraint *cur in allC) {
 //        NSLog(@"cur constraint: %p",cur);
-        Constraint curConstraint=[cur constraint];
-        if ( curConstraint != determiningC &&
-             SATISFIED(curConstraint)) {
+        if ( cur != determiningC && [cur isSatisfied]) {
             if ( !first ) {
                 first=cur;
             } else {
                 [todo addObject:cur];
-//                List_Add(todo, curConstraint);
             }
         }
     }
