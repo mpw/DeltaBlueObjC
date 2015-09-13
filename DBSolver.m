@@ -35,6 +35,8 @@
 
 objectAccessor(NSMutableSet, bindings, setBindings)
 objectAccessor(DBConstraint, lastAdded, setLastAdded)
+objectAccessor(NSMutableOrderedSet, allConstraints, setAllConstraints)
+boolAccessor(solving, setSolving)
 
 +(instancetype)solver
 {
@@ -52,6 +54,7 @@ objectAccessor(DBConstraint, lastAdded, setLastAdded)
     hot = [NSMutableArray new];
     todo1 = [NSMutableArray new];
     todo2 = [NSMutableArray new];
+    allConstraints = [NSMutableOrderedSet new];
     currentMark = 0;
 }
 
@@ -83,9 +86,12 @@ objectAccessor(DBConstraint, lastAdded, setLastAdded)
 
 -(void)addConstraint:(DBConstraint*)c
 {
+//    NSLog(@"addConstraint: %@",c);
+    [[self allConstraints] addObject:c];
     [self setLastAdded:c];
     [c prepareForAdd];
     [self incrementalAdd:c];
+//    NSLog(@"did addConstraint, all constraints: %@",allConstraints);
 }
 
 
@@ -188,35 +194,45 @@ objectAccessor(DBConstraint, lastAdded, setLastAdded)
 -(DBConstraint*)satisfy:(DBConstraint *)constraint
 {
 //    NSLog(@"satisfy: %p",c);
-    DBConstraint	*overridden=nil;
-    DBVariable	*outVar;
-    
-    [constraint chooseMethodWithMark:currentMark];
-
-    if ( [constraint isSatisfied]) {
-
-        [constraint markInputs:currentMark];
+    @try {
+        if (solving) {
+//            NSLog(@"=== already solving!! ====");
+        }
+        solving=YES;
+        DBConstraint	*overridden=nil;
+        DBVariable	*outVar;
         
-        outVar =  [constraint outputVariable];
-        overridden = [outVar determinedBy];
-        if (overridden != nil) {
-            [overridden clearMethod];
+        [constraint chooseMethodWithMark:currentMark];
+        
+        if ( [constraint isSatisfied]) {
+            
+            [constraint markInputs:currentMark];
+            
+            outVar =  [constraint outputVariable];
+            overridden = [outVar determinedBy];
+            if (overridden != nil) {
+                [overridden clearMethod];
+            }
+            [outVar setDeterminedBy:constraint];
+            
+            if (![self addPropagate:constraint]) {
+                Error("Cycle encountered");
+                solving=NO;
+                return NULL;
+            }
+            [outVar setMark:currentMark];
+            return overridden;
+        } else {
+            NSAssert5([constraint strength] != S_required, @"required constraint %@ not satisfied vars: %@  hot: %@  todo1: %@ todo2:%@",
+                      constraint,allVariables,hot,todo1,todo2);
+            //        if (c->strength == S_required) {
+            //            Error("Could not satisfy a required constraint");
+            //        }
+            solving=NO;
+            return nil;
         }
-        [outVar setDeterminedBy:constraint];
-
-        if (![self addPropagate:constraint]) {
-            Error("Cycle encountered");
-            return NULL;
-        }
-        [outVar setMark:currentMark];
-        return overridden;
-    } else {
-        NSAssert5([constraint strength] != S_required, @"required constraint %@ not satisfied vars: %@  hot: %@  todo1: %@ todo2:%@",
-                  constraint,allVariables,hot,todo1,todo2);
-//        if (c->strength == S_required) {
-//            Error("Could not satisfy a required constraint");
-//        }
-        return nil;
+    } @finally {
+        solving=NO;
     }
 }
 

@@ -13,6 +13,8 @@
 
 @implementation DBConstraint
 
+objectAccessor(NSMutableArray, realBlocks, setRealBlocks)
+
 
 +(instancetype)constraintWithCConstraint:(Constraint)aCConstraint;
 {
@@ -32,6 +34,7 @@
         // can't initialize methodBlocks here because we still
         // create temporary DBConstraint objects refering to
         // an underlying constraint struct
+        [self setRealBlocks:[NSMutableArray array]];
     }
     return self;
 }
@@ -124,6 +127,7 @@ typedef struct {
             id result =block( values[0], values[1],values[2], values[3],values[4], values[5],values[6], values[7]);
             [[c variableAtIndex:currentResultIndex] _setValue:result];
         }];
+        [[self realBlocks] addObject:aBlock];
         constraint->whichMethod=0;
     } else {
         NSLog(@"block with %d args only makes sense with constraint with %d vars, but constraint has %d",numArgs,numArgs+1,constraint->varCount);
@@ -138,56 +142,6 @@ typedef struct {
 -(void)add1ArgBlock:(TwoArgBlock)aBlock
 {
     [self addBlock:(id)aBlock withNumArgs:1];
-}
-
-
--(void)add2ArgBlock_old:(TwoArgBlock)aBlock
-{
-    if ( constraint->varCount == 3 ) {
-        int currentResultIndex = [[self methodBlocks] count];
-        DBVariable *resultVar=[self variableAtIndex:currentResultIndex];
-        int args[3];
-        for (int i=0,target =0;i<3;i++,target++) {
-            if ( i==currentResultIndex) {
-                target++;
-            }
-            args[i]=target;
-        }
-        int first=args[0];
-        int second=args[1];
-
-        [self addMethodBlock:^(DBConstraint *c) {
-            id value1=[[c variableAtIndex:first] value];
-            id value2=[[c variableAtIndex:second] value];
-            id result =aBlock( value1, value2);
-            [[c variableAtIndex:currentResultIndex] _setValue:result];
-        }];
-        constraint->whichMethod=0;
-    } else {
-        NSLog(@"2arg block only makes sense with 3 vars");
-    }
-}
-
--(void)add1ArgBlock_old:(OneArgBlock)aBlock
-{
-    if ( constraint->varCount == 2 ) {
-        int currentResultIndex = [[self methodBlocks] count];
-        int args[2];
-        for (int i=0,target =0;i<2;i++,target++) {
-            if ( i==currentResultIndex) {
-                target++;
-            }
-            args[i]=target;
-        }
-        int first=args[0];
-        [self addMethodBlock:^(DBConstraint *c) {
-            id value1=[[c variableAtIndex:first] value];
-            id result =aBlock( value1);
-            [[c variableAtIndex:currentResultIndex] _setValue:result];
-        }];
-    } else {
-        NSLog(@"1arg block only makes sense with 2 vars");
-    }
 }
 
 -(void)execute
@@ -220,6 +174,7 @@ typedef struct {
     for (int i=0;i<constraint->methodCount;i++) {
         [description appendFormat:@"%d ",constraint->methodOuts[i]];
     }
+    [description appendFormat:@"blocks (%ld): %@",[constraint->methodBlocks count],realBlocks];
     [description appendString:@">"];
     return description;
 }

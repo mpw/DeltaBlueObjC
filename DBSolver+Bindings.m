@@ -60,7 +60,10 @@
     
     
     MPWBlockExpression *newBlock = [MPWBlockExpression blockWithStatements:newStatements arguments:[variableNamesRead allObjects]];
-    return [MPWBlockContext blockContextWithBlock:newBlock context:aContext];
+    MPWBlockContext *b = [MPWBlockContext blockContextWithBlock:newBlock context:aContext];
+//    NSLog(@"converted block: %@",b);
+//    NSLog(@"rhs: %@",rhs);
+    return b;
 }
 
 -(NSArray*)bindingsForLhs:(MPWExpression*)lhs rhs:(MPWExpression*)rhs inContext:aContext
@@ -106,10 +109,11 @@
     NSArray *constraintVars=[self constraintVarsForBindings:bindings];
 
     DBConstraint *c= [self constraintWithVariables:constraintVars strength:0];
-//    NSLog(@"constraint: %@",c);
+//    NSLog(@"constraint before adding block: %@",c);
     id convertedBlock = [self convertRHSToBlock:rhs inContext:aContext];
     int numParams =[[convertedBlock formalParameters] count];
     [c addBlock:convertedBlock withNumArgs:numParams];
+//    NSLog(@"constraint after adding block: %@",c);
     [self addConstraint:c];
     return c;
 }

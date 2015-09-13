@@ -21,6 +21,7 @@ typedef id (^TwoArgBlock)(id a,id b);
 @interface DBConstraint : NSObject
 {
     Constraint constraint;
+    NSMutableArray *realBlocks;
 }
 
 +(instancetype)constraintWithCConstraint:(Constraint)aCConstraint;

@@ -122,15 +122,25 @@ objectAccessor(NSString, name, setName)
 
 -(void)resatisfy
 {
-    Constraint	editC;
-    NSArray*	plan;
-    editC = EditC(self, S_required,solver);
-    DBConstraint *c=[DBConstraint constraintWithCConstraint:editC];
-    if (SATISFIED(editC)) {
-        plan=[solver extractPlanFromConstraint:c];
-        ExecutePlan(plan);
+    if ( solver && ![solver solving]) {
+//        NSLog(@"resatisfy, solver %@ is not solving (%d)",solver,[solver solving]);
+        [solver setSolving:YES];
+        Constraint	editC;
+        NSArray*	plan;
+        editC = EditC(self, S_preferred,solver);
+        DBConstraint *c=[DBConstraint constraintWithCConstraint:editC];
+        [solver setSolving:YES];
+        if ([c isSatisfied]) {
+            [solver setSolving:YES];
+            plan=[solver extractPlanFromConstraint:c];
+            [solver setSolving:YES];
+            ExecutePlan(plan);
+        }
+        [solver destroyConstraint:c];
+        [solver setSolving:NO];
+    } else {
+//        NSLog(@"=========== solver was solving, do not resatisfy");
     }
-    [solver destroyConstraint:c];
 }
 
 -(void)changed:ref

@@ -22,9 +22,12 @@
     NSMutableArray *hot;	/* used to collect "hot" constraints */
     NSMutableArray *todo1; /* used by AddPropagate */
     NSMutableArray *todo2; /* used by RemovePropagate */
+    NSMutableOrderedSet *allConstraints;
     
     NSMutableSet   *bindings;
     DBConstraint   *lastAdded;
+    
+    BOOL solving;
 }
 
 +(instancetype)solver;
@@ -36,6 +39,7 @@
 
 -(DBConstraint*)constraintWithVariables:(NSArray*)vars strength:(int)newStrength;
 
+boolAccessor_h(solving, setSolving)
 
 objectAccessor_h(DBConstraint, lastAdded, setLastAdded)
 
