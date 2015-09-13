@@ -49,5 +49,6 @@ typedef id (^TwoArgBlock)(id a,id b);
 -(void)markInputs:(long)currentMark;
 
 -(BOOL)hasVariables:(NSSet*)constraintVariables;
+-(BOOL)hasSameVariablesAs:(DBConstraint*)otherConstraint;
 
 @end

@@ -286,7 +286,7 @@ static DBConstraint* create_Concat(DBVariable * prefix, DBVariable * suffix, DBV
              @"testBidirectionalDataflowConstraintConnector",
              @"testFormulaOfSameConstraintCanBeIDentified",
              @"testGetConstraintWithSameVariablesAsLastAdded",
-//             @"testConstraintWithMultipleFormuaeWithoutSpecialBlock",
+             @"testConstraintWithMultipleFormuaeWithoutSpecialBlock",
              ];
 }
 

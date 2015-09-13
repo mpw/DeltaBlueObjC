@@ -116,7 +116,7 @@
 
 -(void)addFormulaWithLHS:(MPWExpression*)lhs rhs:(MPWExpression*)rhs toConstraint:existingConstraint inContext:aContext
 {
-    
+    [existingConstraint add1ArgBlock:[self convertRHSToBlock:rhs inContext:aContext ]];
 }
 
 -(DBConstraint*)constraintWithLhs:(MPWExpression*)lhs rhs:(MPWExpression*)rhs inContext:aContext
