@@ -21,7 +21,7 @@
 
 #import <ObjectiveSmalltalk/MPWStCompiler.h>
 #import <ObjectiveSmalltalk/MPWBinding.h>
-
+#import "MPWDataflowConstraintExpression+SolverIntegration.h"
 
 @implementation DeltaBlueTests
 
@@ -169,10 +169,18 @@ static DBConstraint* create_Concat(DBVariable * prefix, DBVariable * suffix, DBV
     IDEXPECT([k value], @(372), @"212 degrees F as K");
 }
 
-+(void)testTwoArgBlock
++(MPWStCompiler*)compilerWithSolver
 {
     DBSolver *solver=[DBSolver solver];
     MPWStCompiler *compiler=[MPWStCompiler compiler];
+    [compiler setSolver:solver];
+    return compiler;
+}
+
++(void)testTwoArgBlock
+{
+    MPWStCompiler *compiler=[self compilerWithSolver];
+
     [compiler evaluateScriptString:@"a := 5."];
     [compiler evaluateScriptString:@"b := 15."];
     [compiler evaluateScriptString:@"c := 20."];
@@ -180,10 +188,7 @@ static DBConstraint* create_Concat(DBVariable * prefix, DBVariable * suffix, DBV
     MPWBinding *b=[compiler evaluateScriptString:@"ref:b"];
     MPWBinding *c=[compiler evaluateScriptString:@"ref:c"];
     id block1=[compiler evaluateScriptString:@"[  c := a + b ]"];
-    DBConstraint *abc_add_constraint=[solver constraintWithSTBlock:block1 inContext:compiler];
-//    [abc_add_constraint add2ArgBlock:[compiler evaluateScriptString:@"[ :carg :barg | carg - barg ]"]];
-//    [abc_add_constraint add2ArgBlock:[compiler evaluateScriptString:@"[ :carg :aarg | carg - aarg ]"]];
-    
+    DBConstraint *abc_add_constraint=[[compiler solver] constraintWithSTBlock:block1 inContext:compiler];
     [a bindValue:@(10)];
     IDEXPECT([c value], @(25), @"10 + 15");
     [b bindValue:@(107)];
@@ -192,9 +197,8 @@ static DBConstraint* create_Concat(DBVariable * prefix, DBVariable * suffix, DBV
 
 +(void)testDataflowConstraintConnector
 {
-    DBSolver *solver=[DBSolver solver];
-    MPWStCompiler *compiler=[MPWStCompiler compiler];
-    [compiler setSolver:solver];
+    MPWStCompiler *compiler=[self compilerWithSolver];
+
     [compiler evaluateScriptString:@"a := 5."];
     [compiler evaluateScriptString:@"b := 15."];
     [compiler evaluateScriptString:@"c := 20."];
@@ -208,9 +212,8 @@ static DBConstraint* create_Concat(DBVariable * prefix, DBVariable * suffix, DBV
 
 +(void)testBidirectionalDataflowConstraintConnector
 {
-    DBSolver *solver=[DBSolver solver];
-    MPWStCompiler *compiler=[MPWStCompiler compiler];
-    [compiler setSolver:solver];
+    MPWStCompiler *compiler=[self compilerWithSolver];
+
     [compiler evaluateScriptString:@"a := 15."];
     [compiler evaluateScriptString:@"b := 15."];
     [compiler evaluateScriptString:@"b =|= a."];
@@ -226,6 +229,50 @@ static DBConstraint* create_Concat(DBVariable * prefix, DBVariable * suffix, DBV
     
 }
 
++(void)testConstraintWithMultipleFormuaeWithoutSpecialBlock
+{
+    MPWStCompiler *compiler=[self compilerWithSolver];
+
+    [compiler evaluateScriptString:@"a := 5."];
+    [compiler evaluateScriptString:@"b := 15."];
+    INTEXPECT([(NSNumber*)[compiler evaluateScriptString:@"b"] intValue], 15, @"before");
+    [compiler evaluateScriptString:@"b |= a + 10."];
+    [compiler evaluateScriptString:@"a |= b - 10."];
+    [compiler evaluateScriptString:@"a := 20. "];
+    INTEXPECT([(NSNumber*)[compiler evaluateScriptString:@"b"] intValue], 30, @"after forward formula");
+    [compiler evaluateScriptString:@"b := 50."];
+    INTEXPECT([(NSNumber*)[compiler evaluateScriptString:@"a"] intValue], 40, @"after reverse formula");
+    
+}
+
+
++(void)testFormulaOfSameConstraintCanBeIDentified
+{
+    MPWStCompiler *compiler=[self compilerWithSolver];
+
+    [compiler evaluateScriptString:@"a := 5. b:=15. c:=45. "];
+    DBConstraint *c1 = [compiler evaluateScriptString:@"b |= a + 10."];
+    DBConstraint *c2 = [compiler evaluateScriptString:@"a |= b - 10."];
+    DBConstraint *c3 = [compiler evaluateScriptString:@"c |= b + 30."];
+    DBConstraint *c4 = [compiler evaluateScriptString:@"b |= c - 30."];
+    EXPECTTRUE([c1 hasSameVariablesAs:c2], @"hasSameVariables");
+    EXPECTTRUE([c2 hasSameVariablesAs:c1], @"hasSameVariables");
+    EXPECTFALSE([c1 hasSameVariablesAs:c3], @"hasSameVariables");
+    EXPECTFALSE([c2 hasSameVariablesAs:c3], @"hasSameVariables");
+    EXPECTTRUE([c4 hasSameVariablesAs:c3], @"hasSameVariables");
+}
+
++(void)testGetConstraintWithSameVariablesAsLastAdded
+{
+    MPWStCompiler *compiler=[self compilerWithSolver];
+    [compiler evaluateScriptString:@"a := 5. b:=15."];
+    DBConstraint *c1 = [compiler evaluateScriptString:@"b |= a + 10."];
+    MPWDataflowConstraintExpression *expr=[compiler compile:@"a |= b - 10"];
+    DBConstraint *lookup=[[compiler solver] lookupConstraintWithLhs:[expr lhs] rhs:[expr rhs] inContext:compiler ];
+    EXPECTTRUE( lookup==c1, @"should have found");
+
+}
+
 
 +testSelectors
 {
@@ -237,7 +284,9 @@ static DBConstraint* create_Concat(DBVariable * prefix, DBVariable * suffix, DBV
              @"testTwoArgBlock",
              @"testDataflowConstraintConnector",
              @"testBidirectionalDataflowConstraintConnector",
-            
+             @"testFormulaOfSameConstraintCanBeIDentified",
+             @"testGetConstraintWithSameVariablesAsLastAdded",
+//             @"testConstraintWithMultipleFormuaeWithoutSpecialBlock",
              ];
 }
 

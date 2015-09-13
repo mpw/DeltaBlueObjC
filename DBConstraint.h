@@ -48,4 +48,6 @@ typedef id (^TwoArgBlock)(id a,id b);
 -(void)recalculate;
 -(void)markInputs:(long)currentMark;
 
+-(BOOL)hasVariables:(NSSet*)constraintVariables;
+
 @end

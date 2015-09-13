@@ -6,7 +6,7 @@
 //
 //
 
-#import <Foundation/Foundation.h>
+#import <MPWFoundation/MPWFoundation.h>
 
 #import "Constraints.h"
 
@@ -24,6 +24,7 @@
     NSMutableArray *todo2; /* used by RemovePropagate */
     
     NSMutableSet   *bindings;
+    DBConstraint   *lastAdded;
 }
 
 +(instancetype)solver;
@@ -36,6 +37,7 @@
 -(DBConstraint*)constraintWithVariables:(NSArray*)vars strength:(int)newStrength;
 
 
+objectAccessor_h(DBConstraint, lastAdded, setLastAdded)
 
 
 @end

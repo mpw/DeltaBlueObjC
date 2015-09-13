@@ -345,8 +345,25 @@ typedef struct {
             [c->variables[i] setMark:currentMark];
         }
     }
-
 }
 
+-(NSSet*)variables
+{
+    NSMutableSet *vars=[NSMutableSet set];
+    for (int i=0;i<constraint->varCount;i++) {
+        [vars addObject:constraint->variables[i]];
+    }
+    return vars;
+}
+
+-(BOOL)hasVariables:(NSSet*)variables
+{
+    return [[self variables] isEqual:variables];
+}
+
+-(BOOL)hasSameVariablesAs:(DBConstraint*)otherConstraint
+{
+    return [self hasVariables:[otherConstraint variables]];
+}
 
 @end

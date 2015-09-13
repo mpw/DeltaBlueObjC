@@ -63,42 +63,48 @@
     return [MPWBlockContext blockContextWithBlock:newBlock context:aContext];
 }
 
--(DBConstraint*)lookupConstraintWithLhs:(MPWExpression*)lhs rhs:(MPWExpression*)rhs inContext:aContext
-{
-    return nil;
-#if 0
-    DBConstraint *constraintFound = nil;
-    MPWBinding *writtenBinding = [[lhs identifier] bindingWithContext:aContext];
-
-    DBVariable *writtenConstraintVar = [self lookupDBVariableWithBinding:writtenBinding];
-    if ( writtenConstraintVar) {
-        constraintFound=[writtenConstraintVar ]
-        NSArray *readBindings=[[[[rhs variablesRead] allObjects] collect] bindingWithContext:aContext];
-        
-    }
-    return constraintFound;
-#endif
-}
-
--(DBConstraint*)createConstraintWithLhs:(MPWExpression*)lhs rhs:(MPWExpression*)rhs inContext:aContext
+-(NSArray*)bindingsForLhs:(MPWExpression*)lhs rhs:(MPWExpression*)rhs inContext:aContext
 {
     MPWBinding *written = [[lhs identifier] bindingWithContext:aContext];
-    
-//    NSLog(@"written: %@",written);
     NSArray *read=[[[[rhs variablesRead] allObjects] collect] bindingWithContext:aContext];
-//    NSLog(@"read: %@",read);
     NSArray *bindings = [@[written] arrayByAddingObjectsFromArray:read];
+    return bindings;
+}
+
+-(NSArray*)constraintVarsForBindings:(NSArray*)thisConstraintBindings
+{
     NSMutableArray *constraintVars=[NSMutableArray array];
-    for ( MPWBinding *binding in bindings) {
-        id cvar=[self  constraintVarWithBinding:binding];
+    for ( MPWBinding *binding in thisConstraintBindings) {
+        id cvar=[self constraintVarWithBinding:binding];
         if ( cvar) {
             [constraintVars addObject:cvar];
             [binding startObserving];
         }
     }
-    //    NSArray *variables = [[self collect] constraintVarWithBinding:[bindings each]];
-//    NSLog(@"constraint variables: %@",constraintVars);
-    
+    return constraintVars;
+}
+
+-(DBConstraint*)lookupConstraintWithLhs:(MPWExpression*)lhs rhs:(MPWExpression*)rhs inContext:aContext
+{
+    NSArray *bindingsArray = [self bindingsForLhs:lhs rhs:rhs inContext:aContext];
+//    NSLog(@"bindingsArray: %@",bindingsArray);
+    NSArray *variableArray = [self constraintVarsForBindings:bindingsArray];
+//    NSLog(@"variableArray: %@",variableArray);
+    NSSet *newVars = [NSSet setWithArray:variableArray];
+//    NSLog(@"newVars (set): %@",newVars);
+    if ( [[self lastAdded] hasVariables:newVars]) {
+        return [self lastAdded];
+    } else {
+        return nil;
+    }
+}
+
+
+-(DBConstraint*)createConstraintWithLhs:(MPWExpression*)lhs rhs:(MPWExpression*)rhs inContext:aContext
+{
+    NSArray *bindings = [self bindingsForLhs:lhs rhs:rhs inContext:aContext];
+    NSArray *constraintVars=[self constraintVarsForBindings:bindings];
+
     DBConstraint *c= [self constraintWithVariables:constraintVars strength:0];
 //    NSLog(@"constraint: %@",c);
     id convertedBlock = [self convertRHSToBlock:rhs inContext:aContext];
@@ -108,10 +114,17 @@
     return c;
 }
 
+-(void)addFormulaWithLHS:(MPWExpression*)lhs rhs:(MPWExpression*)rhs toConstraint:existingConstraint inContext:aContext
+{
+    
+}
+
 -(DBConstraint*)constraintWithLhs:(MPWExpression*)lhs rhs:(MPWExpression*)rhs inContext:aContext
 {
     DBConstraint *existingConstraint=[self lookupConstraintWithLhs:lhs rhs:rhs inContext:aContext];
-    if ( !existingConstraint) {
+    if ( existingConstraint) {
+        [self addFormulaWithLHS:lhs rhs:rhs toConstraint:existingConstraint inContext:aContext];
+    } else {
         existingConstraint=[self createConstraintWithLhs:lhs rhs:rhs inContext:aContext];
     }
     return existingConstraint;

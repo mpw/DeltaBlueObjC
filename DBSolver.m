@@ -17,6 +17,7 @@
 #define OUT_VAR(c)	(c->variables[c->methodOuts[c->whichMethod]])
 
 
+
 @implementation NSMutableArray(removeFirst)
 
 -(id)removeFirst
@@ -33,6 +34,7 @@
 @implementation DBSolver
 
 objectAccessor(NSMutableSet, bindings, setBindings)
+objectAccessor(DBConstraint, lastAdded, setLastAdded)
 
 +(instancetype)solver
 {
@@ -81,6 +83,7 @@ objectAccessor(NSMutableSet, bindings, setBindings)
 
 -(void)addConstraint:(DBConstraint*)c
 {
+    [self setLastAdded:c];
     [c prepareForAdd];
     [self incrementalAdd:c];
 }
@@ -349,6 +352,9 @@ static void Error(char *s)
     return first;
 }
 
+//---- creating constraints and variables
+
+
 -(DBVariable*)variableWithName:(NSString*)name intValue:(long)value
 {
     DBVariable *v=[DBVariable variableWithName:name intValue:value];
@@ -367,6 +373,12 @@ static void Error(char *s)
 {
     return [DBConstraint constraintWithVariables:vars strength:newStrength];
 }
+
+-(DBConstraint*)lastConstraint
+{
+    return nil;
+}
+
 
 -(void)dealloc
 {
