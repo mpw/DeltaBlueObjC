@@ -123,7 +123,7 @@ objectAccessor(NSString, name, setName)
 -(void)resatisfy
 {
     if ( solver && ![solver solving]) {
-//        NSLog(@"resatisfy, solver %@ is not solving (%d)",solver,[solver solving]);
+        NSLog(@"resatisfy, solver %@ is not solving (%d)",solver,[solver solving]);
         [solver setSolving:YES];
         Constraint	editC;
         NSArray*	plan;
@@ -145,6 +145,7 @@ objectAccessor(NSString, name, setName)
 
 -(void)changed:ref
 {
+    NSLog(@"changed: %@: %@",self,ref);
     [self resatisfy];
 }
 

@@ -270,7 +270,6 @@ static DBConstraint* create_Concat(DBVariable * prefix, DBVariable * suffix, DBV
     MPWDataflowConstraintExpression *expr=[compiler compile:@"a |= b - 10"];
     DBConstraint *lookup=[[compiler solver] lookupConstraintWithLhs:[expr lhs] rhs:[expr rhs] inContext:compiler ];
     EXPECTTRUE( lookup==c1, @"should have found");
-
 }
 
 

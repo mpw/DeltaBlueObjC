@@ -13,6 +13,8 @@
 		1F02597A0851392A009B864E /* MPWConstraintSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F0259780851392A009B864E /* MPWConstraintSet.h */; };
 		1F427BC308550B40006D9616 /* MPWConstraintFormula.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F427BC108550B40006D9616 /* MPWConstraintFormula.h */; };
 		1F5243AB19501D7600BE7469 /* ObjectiveSmalltalk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F5243AA19501D7600BE7469 /* ObjectiveSmalltalk.framework */; };
+		1F58841A1EA8DA9100074A1D /* DeltaBlueTemperatureConverterTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F5884181EA8DA9100074A1D /* DeltaBlueTemperatureConverterTests.h */; };
+		1F58841B1EA8DA9100074A1D /* DeltaBlueTemperatureConverterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5884191EA8DA9100074A1D /* DeltaBlueTemperatureConverterTests.m */; };
 		1F67F89D19AF4147000D3BC1 /* DBSolver+Bindings.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F67F89B19AF4147000D3BC1 /* DBSolver+Bindings.h */; };
 		1F67F89E19AF4147000D3BC1 /* DBSolver+Bindings.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F67F89C19AF4147000D3BC1 /* DBSolver+Bindings.m */; };
 		1F73B7F6199BB6700065F690 /* Constraints.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F73B7F2199BB6700065F690 /* Constraints.m */; };
@@ -48,6 +50,8 @@
 		1F427BC108550B40006D9616 /* MPWConstraintFormula.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPWConstraintFormula.h; sourceTree = "<group>"; };
 		1F427BC208550B40006D9616 /* MPWConstraintFormula.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPWConstraintFormula.m; sourceTree = "<group>"; };
 		1F5243AA19501D7600BE7469 /* ObjectiveSmalltalk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectiveSmalltalk.framework; path = ../../Build/Release/ObjectiveSmalltalk.framework; sourceTree = "<group>"; };
+		1F5884181EA8DA9100074A1D /* DeltaBlueTemperatureConverterTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeltaBlueTemperatureConverterTests.h; sourceTree = "<group>"; };
+		1F5884191EA8DA9100074A1D /* DeltaBlueTemperatureConverterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeltaBlueTemperatureConverterTests.m; sourceTree = "<group>"; };
 		1F67F89B19AF4147000D3BC1 /* DBSolver+Bindings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DBSolver+Bindings.h"; sourceTree = "<group>"; };
 		1F67F89C19AF4147000D3BC1 /* DBSolver+Bindings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DBSolver+Bindings.m"; sourceTree = "<group>"; };
 		1F73B7F2199BB6700065F690 /* Constraints.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constraints.m; sourceTree = "<group>"; };
@@ -137,6 +141,8 @@
 				1F73B80F199C0C580065F690 /* DBSolver.m */,
 				1F73B7FA199BB79D0065F690 /* DeltaBlueTests.h */,
 				1F73B7FB199BB79D0065F690 /* DeltaBlueTests.m */,
+				1F5884181EA8DA9100074A1D /* DeltaBlueTemperatureConverterTests.h */,
+				1F5884191EA8DA9100074A1D /* DeltaBlueTemperatureConverterTests.m */,
 				1F0257F808513593009B864E /* MPWConstraintVariable.h */,
 				1F0257F908513593009B864E /* MPWConstraintVariable.m */,
 				1F0259780851392A009B864E /* MPWConstraintSet.h */,
@@ -213,6 +219,7 @@
 				1F73B808199BE1D40065F690 /* DBVariable.h in Headers */,
 				1F73B805199BBAF00065F690 /* UsefulConstraints.h in Headers */,
 				1F73B80C199BE5EF0065F690 /* DBConstraint.h in Headers */,
+				1F58841A1EA8DA9100074A1D /* DeltaBlueTemperatureConverterTests.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,6 +308,7 @@
 				1FFC563F1B1C693800BE3884 /* MPWDataflowConstraintExpression+SolverIntegration.m in Sources */,
 				1F73B7FD199BB79D0065F690 /* DeltaBlueTests.m in Sources */,
 				1F73B811199C0C580065F690 /* DBSolver.m in Sources */,
+				1F58841B1EA8DA9100074A1D /* DeltaBlueTemperatureConverterTests.m in Sources */,
 				1F73B7F6199BB6700065F690 /* Constraints.m in Sources */,
 				1F67F89E19AF4147000D3BC1 /* DBSolver+Bindings.m in Sources */,
 				1F73B809199BE1D40065F690 /* DBVariable.m in Sources */,

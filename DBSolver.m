@@ -395,6 +395,11 @@ static void Error(char *s)
     return nil;
 }
 
+-(NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@:%p:  consraints: %@ bindings: %@ variables: %@>",[self class],self,[self allConstraints],[self bindings],allVariables];
+}
+
 
 -(void)dealloc
 {

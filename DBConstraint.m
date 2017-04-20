@@ -149,10 +149,12 @@ typedef struct {
     int whichMethod = constraint->whichMethod;
     if ( whichMethod < [[self methodBlocks] count]) {
         ConstraintBlock block = [[self methodBlocks] objectAtIndex:whichMethod];
+        NSLog(@"Execute block of constraint: %@ %p",self,block);
         if ( block ) {
             block( self );
         }
     } else {
+        NSLog(@"execute proc of constraint %@ %p",self,constraint->execute);
         if ( constraint->execute) {
             constraint->execute( constraint);
         }
