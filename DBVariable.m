@@ -136,10 +136,11 @@ objectAccessor(NSString, name, setName)
             [solver setSolving:YES];
             ExecutePlan(plan);
         }
+        NSLog(@"will destroy temp constraint, number of constraints: %d",[solver allConstraints].count);
         [solver destroyConstraint:c];
+        NSLog(@"did destroy temp constraint, number of constraints: %d",[solver allConstraints].count);
         [solver setSolving:NO];
     } else {
-//        NSLog(@"=========== solver was solving, do not resatisfy");
     }
 }
 

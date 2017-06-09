@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class MPWStCompiler;
+@class MPWStCompiler,DBSolver;
 
 @interface DeltaBlueTemperatureConverterTests : NSObject
 

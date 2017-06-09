@@ -38,7 +38,7 @@ objectAccessor(DBConstraint, lastAdded, setLastAdded)
 objectAccessor(NSMutableOrderedSet, allConstraints, setAllConstraints)
 boolAccessor(solving, setSolving)
 
-+(instancetype)solver
++(instancetype)sharedSolver
 {
     static DBSolver *solver=nil;
     if ( !solver ) {
@@ -47,6 +47,10 @@ boolAccessor(solving, setSolving)
     return solver;
 }
 
++(instancetype)solver
+{
+    return [[self new] autorelease];
+}
 
 -(void)initDeltaBlue
 {
@@ -97,9 +101,10 @@ boolAccessor(solving, setSolving)
 
 -(void)destroyConstraint:(DBConstraint*)c
 {
-    if ( [c isSatisfied]) {
+//    if ( [c isSatisfied]) {
         [self incrementalRemoveObj:c];
-    }
+//    }
+    [[self allConstraints] removeObject:c];
     [c destroy];
 }
 
@@ -400,6 +405,11 @@ static void Error(char *s)
     return [NSString stringWithFormat:@"<%@:%p:  consraints: %@ bindings: %@ variables: %@>",[self class],self,[self allConstraints],[self bindings],allVariables];
 }
 
+
+-(void)debugDump
+{
+    NSLog(@"solver: %@",self);
+}
 
 -(void)dealloc
 {

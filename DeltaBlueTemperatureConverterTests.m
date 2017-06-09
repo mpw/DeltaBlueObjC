@@ -8,6 +8,7 @@
 
 #import "DeltaBlueTemperatureConverterTests.h"
 #import "DBSolver.h"
+#import "DBConstraint.h"
 #import <ObjectiveSmalltalk/MPWStCompiler.h>
 
 @implementation DeltaBlueTemperatureConverterTests
@@ -35,6 +36,11 @@
     [self setK:273];
 
     return self;
+}
+
+-(DBSolver*)solver
+{
+    return self.compiler.solver;
 }
 
 -(void)addC2FConstraint
@@ -92,23 +98,49 @@
 {
     [self addC2FConstraint];                    // this order works
     [self addF2CConstraint];
-    [self setC:100];
-    INTEXPECT(self.f, 212, @"F at C 100");
+    INTEXPECT([[[self solver] allConstraints] count],1,@"should have 1 constraint (bi-directional)");
+    [self setC:[self c]];
+    [self setF:[self f]];
+//    INTEXPECT([[[self solver] allConstraints] count],1,@"should have 1 constraint (bi-directional)");
 
     [self setF:-40];
     INTEXPECT(self.c, -40, @"C at F -40");
+    
+    [self setF:32];
+    INTEXPECT(self.c, 0, @"C at F 32");
 
+    [self setC:100];
+    INTEXPECT(self.f, 212, @"F at C 100");
+    
+    [self setC:0];
+    INTEXPECT(self.f, 32, @"F at C 0");
+    
+    
 }
 
 -(void)testF2CBidirectional
 {
     [self addF2CConstraint];
     [self addC2FConstraint];                    // this order does not work
+    INTEXPECT([[[self solver] allConstraints] count],1,@"should have 1 constraint (bi-directional)");
+    DBConstraint *constraint=[[[self solver] allConstraints] firstObject];
+    INTEXPECT( [constraint numVars],2,@"number of variables");
+    DBVariable *v1=[constraint variableAtIndex:0];
+    DBVariable *v2=[constraint variableAtIndex:1];
+    NSLog(@"v1: %@",v1);
+    NSLog(@"v2: %@",v2);
+    
+    [self setF:[self f]];
+
     [self setC:100];
     INTEXPECT(self.f, 212, @"F at C 100");
-    
+
     [self setF:-40];
     INTEXPECT(self.c, -40, @"C at F -40");
+    
+    [self setF:32];
+    INTEXPECT(self.c, 0, @"C at F 32");
+    
     
 }
 

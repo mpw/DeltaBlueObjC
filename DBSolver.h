@@ -43,5 +43,8 @@ boolAccessor_h(solving, setSolving)
 
 objectAccessor_h(DBConstraint, lastAdded, setLastAdded)
 
+-(NSMutableOrderedSet*)allConstraints;
+
+-(void)destroyConstraint:(DBConstraint*)c;
 
 @end
