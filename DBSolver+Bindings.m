@@ -37,6 +37,7 @@
     if (!var && ![[aBinding name] isEqualTo:@"self"]) {
         var=[self variableWithName:[aBinding name] intValue:0];
         [var setExternalReference:aBinding];
+        [var setWalkStrength:3];
     }
     return var;
 }
@@ -78,9 +79,10 @@
 {
     NSMutableArray *constraintVars=[NSMutableArray array];
     for ( MPWBinding *binding in thisConstraintBindings) {
-        id cvar=[self constraintVarWithBinding:binding];
+        DBVariable* cvar=[self constraintVarWithBinding:binding];
         if ( cvar) {
             [constraintVars addObject:cvar];
+            [cvar setWalkStrength:3];
             [binding startObserving];
         }
     }

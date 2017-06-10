@@ -40,6 +40,8 @@
 -(DBConstraint*)constraintWithVariables:(NSArray*)vars strength:(int)newStrength;
 
 boolAccessor_h(solving, setSolving)
+intAccessor_h( strength, setStrength )
+intAccessor_h( currentMark, setCurrentMark )
 
 objectAccessor_h(DBConstraint, lastAdded, setLastAdded)
 

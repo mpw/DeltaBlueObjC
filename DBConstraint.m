@@ -170,7 +170,7 @@ typedef struct {
 {
     NSMutableString *description=[NSMutableString stringWithFormat:@"<%@:%p: %d vars: ",[self class],self,constraint->varCount];
     for (int i=0;i<constraint->varCount;i++) {
-        [description appendFormat:@"%@ ",constraint->variables[i]];
+        [description appendFormat:@"%p ",constraint->variables[i]];
     }
     [description appendFormat:@"%d methods whichMethod: %d outs: ",constraint->methodCount,constraint->whichMethod];
     for (int i=0;i<constraint->methodCount;i++) {

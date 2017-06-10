@@ -123,7 +123,7 @@ objectAccessor(NSString, name, setName)
 -(void)resatisfy
 {
     if ( solver && ![solver solving]) {
-        NSLog(@"resatisfy, solver %@ is not solving (%d)",solver,[solver solving]);
+//        NSLog(@"resatisfy, solver %@ is not solving (%d)",solver,[solver solving]);
         [solver setSolving:YES];
         Constraint	editC;
         NSArray*	plan;
@@ -152,7 +152,7 @@ objectAccessor(NSString, name, setName)
 
 -(NSString*)description
 {
-    return [NSString stringWithFormat:@"%@ = %@",name,[self value]];
+    return [NSString stringWithFormat:@"<%@ %p:%@ = %@, determinedBy: %p mark: %ld walkStrength: %d",[self class],self,name,[self value],determinedBy,variable->mark,variable->walkStrength];
 }
 
 -(DBConstraint*)multiplyBy:(DBVariable*)other into:(DBVariable*)result strength:(int)strength

@@ -36,7 +36,10 @@
 objectAccessor(NSMutableSet, bindings, setBindings)
 objectAccessor(DBConstraint, lastAdded, setLastAdded)
 objectAccessor(NSMutableOrderedSet, allConstraints, setAllConstraints)
+objectAccessor(NSMutableArray, unsatisfied, setUnsatisfied)
 boolAccessor(solving, setSolving)
+intAccessor( strength, setStrength )
+intAccessor( currentMark, setCurrentMark )
 
 +(instancetype)sharedSolver
 {
@@ -293,12 +296,14 @@ boolAccessor(solving, setSolving)
         
         [objConstraint destroy];
         
-        unsatisfied = [NSMutableArray array];
+        [self setUnsatisfied:[NSMutableArray array]];
         [self removePropagateFrom:outputVar];
         for (strength = S_required; strength <= S_weakest; strength++) {
             [self withArray:unsatisfied do:@selector(addConstraintAtStrength:)];
             
         }
+        [self setUnsatisfied:nil];
+        
     }
 //    Variable out;
 }
@@ -379,6 +384,7 @@ static void Error(char *s)
 -(DBVariable*)variableWithName:(NSString*)name intValue:(long)value
 {
     DBVariable *v=[DBVariable variableWithName:name intValue:value];
+    [v setWalkStrength:3];
     [self addVariable:v];
     return v;
 }
@@ -386,6 +392,7 @@ static void Error(char *s)
 -(DBVariable*)constantWithName:(NSString*)name intValue:(long)value
 {
     DBVariable *v=[[[DBVariable alloc]  initConstantWithName:name intValue:value] autorelease];
+//    [v setWalkStrength:3];
     [self addVariable:v];
     return v;
 }
@@ -402,7 +409,13 @@ static void Error(char *s)
 
 -(NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@:%p:  consraints: %@ bindings: %@ variables: %@>",[self class],self,[self allConstraints],[self bindings],allVariables];
+    return [NSString stringWithFormat:@"<%@:%p: strength: %d number unsatisfied: %d solving: %d hot: %d todo1: %d todo2: %d             \n\nconstraints: %@\n\nbindings: %@\n\nvariables: %@\ncurrentMark: %ld >",[self class],self,
+            strength,
+            (int)[unsatisfied count],solving,
+            (int)[hot count],(int)[todo1 count],(int)[todo2 count],
+            [self allConstraints],[self bindings],allVariables,
+            currentMark
+            ];
 }
 
 
