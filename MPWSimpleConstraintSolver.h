@@ -8,12 +8,12 @@
 
 #import <MPWFoundation/MPWFoundation.h>
 
-@class MPWStCompiler;
+@class STCompiler;
 
 @interface MPWSimpleConstraintSolver : NSObject {
 	NSMutableArray* formulae;
 	NSMutableSet *changedVariables;
-    MPWStCompiler *compiler;
+    STCompiler *compiler;
 }
 
 +solver;

@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@class MPWStCompiler,DBSolver;
+@class STCompiler,DBSolver;
 
 @interface DeltaBlueTemperatureConverterTests : NSObject
 
-@property (nonatomic, strong) MPWStCompiler *compiler;
+@property (nonatomic, strong) STCompiler *compiler;
 @property (nonatomic, assign) int c,f,k;
 
 @end

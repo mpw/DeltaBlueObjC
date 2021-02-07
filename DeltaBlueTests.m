@@ -19,7 +19,7 @@
 #include "DeltaBlue.h"
 #include "UsefulConstraints.h"
 
-#import <ObjectiveSmalltalk/MPWStCompiler.h>
+#import <ObjectiveSmalltalk/STCompiler.h>
 #import <ObjectiveSmalltalk/MPWBinding.h>
 #import "MPWDataflowConstraintExpression+SolverIntegration.h"
 
@@ -77,7 +77,7 @@ static DBConstraint* create_Concat(DBVariable * prefix, DBVariable * suffix, DBV
 {
     DBConstraint *dbConstraint = [DBConstraint constraintWithVariables:@[ combined, prefix, suffix] strength:strength];
     [dbConstraint addMethodBlock:^(DBConstraint *c) {
-        [dbvar(0) _setValue:[[dbvar(1) value  ]stringByAppendingString:[dbvar(2) value]]];
+        [dbvar(0) _setValue:[[dbvar(1) value] stringByAppendingString:[dbvar(2) value]]];
     }];
     [solver addConstraint:dbConstraint];
     return dbConstraint;
@@ -121,7 +121,7 @@ static DBConstraint* create_Concat(DBVariable * prefix, DBVariable * suffix, DBV
 +(void)testSimpleObjSTConstraint
 {
     DBSolver *solver=[DBSolver solver];
-    MPWStCompiler *compiler=[MPWStCompiler compiler];
+    STCompiler *compiler=[STCompiler compiler];
     [compiler evaluateScriptString:@"a := 2."];
     [compiler evaluateScriptString:@"b := 10."];
     
@@ -137,7 +137,7 @@ static DBConstraint* create_Concat(DBVariable * prefix, DBVariable * suffix, DBV
 +(void)testTemperatureConverterObjST
 {
     DBSolver *solver=[DBSolver solver];
-    MPWStCompiler *compiler=[MPWStCompiler compiler];
+    STCompiler *compiler=[STCompiler compiler];
     [compiler evaluateScriptString:@"c := 0."];
     [compiler evaluateScriptString:@"f := 32."];
     [compiler evaluateScriptString:@"k := 100."];
@@ -169,17 +169,17 @@ static DBConstraint* create_Concat(DBVariable * prefix, DBVariable * suffix, DBV
     IDEXPECT([k value], @(372), @"212 degrees F as K");
 }
 
-+(MPWStCompiler*)compilerWithSolver
++(STCompiler*)compilerWithSolver
 {
     DBSolver *solver=[DBSolver solver];
-    MPWStCompiler *compiler=[MPWStCompiler compiler];
+    STCompiler *compiler=[STCompiler compiler];
     [compiler setSolver:solver];
     return compiler;
 }
 
 +(void)testTwoArgBlock
 {
-    MPWStCompiler *compiler=[self compilerWithSolver];
+    STCompiler *compiler=[self compilerWithSolver];
 
     [compiler evaluateScriptString:@"a := 5."];
     [compiler evaluateScriptString:@"b := 15."];
@@ -197,7 +197,7 @@ static DBConstraint* create_Concat(DBVariable * prefix, DBVariable * suffix, DBV
 
 +(void)testDataflowConstraintConnector
 {
-    MPWStCompiler *compiler=[self compilerWithSolver];
+    STCompiler *compiler=[self compilerWithSolver];
 
     [compiler evaluateScriptString:@"a := 5."];
     [compiler evaluateScriptString:@"b := 15."];
@@ -212,7 +212,7 @@ static DBConstraint* create_Concat(DBVariable * prefix, DBVariable * suffix, DBV
 
 +(void)testBidirectionalDataflowConstraintConnector
 {
-    MPWStCompiler *compiler=[self compilerWithSolver];
+    STCompiler *compiler=[self compilerWithSolver];
 
     [compiler evaluateScriptString:@"a := 15."];
     [compiler evaluateScriptString:@"b := 15."];
@@ -231,7 +231,7 @@ static DBConstraint* create_Concat(DBVariable * prefix, DBVariable * suffix, DBV
 
 +(void)testConstraintWithMultipleFormuaeWithoutSpecialBlock
 {
-    MPWStCompiler *compiler=[self compilerWithSolver];
+    STCompiler *compiler=[self compilerWithSolver];
 
     [compiler evaluateScriptString:@"a := 5."];
     [compiler evaluateScriptString:@"b := 15."];
@@ -248,7 +248,7 @@ static DBConstraint* create_Concat(DBVariable * prefix, DBVariable * suffix, DBV
 
 +(void)testFormulaOfSameConstraintCanBeIDentified
 {
-    MPWStCompiler *compiler=[self compilerWithSolver];
+    STCompiler *compiler=[self compilerWithSolver];
 
     [compiler evaluateScriptString:@"a := 5. b:=15. c:=45. "];
     DBConstraint *c1 = [compiler evaluateScriptString:@"b |= a + 10."];
@@ -264,7 +264,7 @@ static DBConstraint* create_Concat(DBVariable * prefix, DBVariable * suffix, DBV
 
 +(void)testGetConstraintWithSameVariablesAsLastAdded
 {
-    MPWStCompiler *compiler=[self compilerWithSolver];
+    STCompiler *compiler=[self compilerWithSolver];
     [compiler evaluateScriptString:@"a := 5. b:=15."];
     DBConstraint *c1 = [compiler evaluateScriptString:@"b |= a + 10."];
     MPWDataflowConstraintExpression *expr=[compiler compile:@"a |= b - 10"];

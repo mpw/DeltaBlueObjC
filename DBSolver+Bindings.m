@@ -19,12 +19,12 @@
 
 -(DBVariable*)lookupDBVariableWithBinding:(MPWBinding*)binding
 {
-    for ( DBVariable *var in allVariables) {
-        id other=[var externalReference];
+    for ( DBVariable *theVar in allVariables) {
+        id other=[theVar externalReference];
         BOOL isSame = other == binding;
         BOOL isEqual = [other isEqual: binding];
         if (  isSame  ) {
-            return var;
+            return theVar;
         }
     }
     return nil;
@@ -33,13 +33,13 @@
 
 -(DBVariable*)constraintVarWithBinding:(MPWBinding*)aBinding
 {
-    DBVariable *var=[self lookupDBVariableWithBinding:aBinding];
-    if (!var && ![[aBinding name] isEqualTo:@"self"]) {
-        var=[self variableWithName:[aBinding name] intValue:0];
-        [var setExternalReference:aBinding];
-        [var setWalkStrength:3];
+    DBVariable *theVar=[self lookupDBVariableWithBinding:aBinding];
+    if (!theVar && ![[aBinding name] isEqualTo:@"self"]) {
+        theVar=[self variableWithName:[aBinding name] intValue:0];
+        [theVar setExternalReference:aBinding];
+        [theVar setWalkStrength:3];
     }
-    return var;
+    return theVar;
 }
 
 

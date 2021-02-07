@@ -84,11 +84,11 @@ intAccessor( currentMark, setCurrentMark )
 }
 
 
--(void)destroyVariable:(DBVariable*)var
+-(void)destroyVariable:(DBVariable*)theVar
 {
 
-    [self withArray:[var constraints] do:@selector(destroyConstraint:)];
-    [allVariables removeObject:var];
+    [self withArray:[theVar constraints] do:@selector(destroyConstraint:)];
+    [allVariables removeObject:theVar];
 }
 
 -(void)addConstraint:(DBConstraint*)c
@@ -131,9 +131,9 @@ intAccessor( currentMark, setCurrentMark )
 
 
 
--(void)collectSatisfiedInputs:(DBVariable*)var
+-(void)collectSatisfiedInputs:(DBVariable*)theVar
 {
-    [self withArray:[var constraints] do:@selector(addIfSatisfiedInputObj:)];
+    [self withArray:[theVar constraints] do:@selector(addIfSatisfiedInputObj:)];
 }
 
 -(NSArray*)extractPlan

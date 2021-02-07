@@ -9,15 +9,15 @@
 #import "DeltaBlueTemperatureConverterTests.h"
 #import "DBSolver.h"
 #import "DBConstraint.h"
-#import <ObjectiveSmalltalk/MPWStCompiler.h>
+#import <ObjectiveSmalltalk/STCompiler.h>
 
 @implementation DeltaBlueTemperatureConverterTests
 
 
--(MPWStCompiler*)compilerWithSolver
+-(STCompiler*)compilerWithSolver
 {
     DBSolver *solver=[DBSolver solver];
-    MPWStCompiler *compiler=[MPWStCompiler compiler];
+    STCompiler *compiler=[STCompiler compiler];
     [compiler setSolver:solver];
     [compiler bindValue:self toVariableNamed:@"tester"];
     [compiler evaluateScriptString:@"scheme:ivar := ref:var:tester asScheme."];

@@ -10,19 +10,19 @@
 #import "MPWConstraintFormula.h"
 #import <ObjectiveSmalltalk/MPWExpression.h>
 #import <MPWFoundation/AccessorMacros.h>
-#import <ObjectiveSmalltalk/MPWStCompiler.h>
+#import <ObjectiveSmalltalk/STCompiler.h>
 
 
 @implementation MPWSimpleConstraintSolver
 
-objectAccessor( MPWStCompiler, compiler, setCompiler)
+objectAccessor( STCompiler, compiler, setCompiler)
 objectAccessor( NSMutableArray, formulae, setFormulae )
 objectAccessor( NSMutableSet, changedVariables, setChangedVariables )
 
 -(instancetype)init
 {
     self=[super init];
-    [self setCompiler:[MPWStCompiler compiler]];
+    [self setCompiler:[STCompiler compiler]];
     [self setFormulae:[NSMutableArray array]];
     [self setChangedVariables:[NSMutableSet set]];
     return self;
